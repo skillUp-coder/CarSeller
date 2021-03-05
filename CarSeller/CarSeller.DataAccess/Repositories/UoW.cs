@@ -11,6 +11,8 @@ namespace CarSeller.DataAccess.Repositories
 
         public ICarRepository Car { get; }
 
+        public ISellerRepository Seller { get; }
+
         public UoW(DataContext database)
         {
             this._database = database;
@@ -18,6 +20,8 @@ namespace CarSeller.DataAccess.Repositories
             this.User = new UserRepository(this._database);
 
             this.Car = new CarRepository(this._database);
+
+            this.Seller = new SellerRepository(this._database);
         }
 
 

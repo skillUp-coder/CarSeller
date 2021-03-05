@@ -28,7 +28,7 @@ namespace CarSeller.API.Controllers
             this._mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterViewModel model) 
         {

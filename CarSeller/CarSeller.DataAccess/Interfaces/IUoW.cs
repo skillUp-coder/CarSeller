@@ -6,5 +6,6 @@
 
         ICarRepository Car { get; }
 
+        ISellerRepository Seller { get; }
     }
 }

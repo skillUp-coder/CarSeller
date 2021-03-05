@@ -12,9 +12,12 @@ namespace CarSeller.API.Config
         {
             services.AddScoped<ICarRepository, CarRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ISellerRepository, SellerRepository>();
             services.AddScoped<IUoW, UoW>();
             services.AddScoped<ICarService, CarService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ISellerService, SellerService>();
+            
         }
     }
 }
