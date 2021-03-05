@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using CarSeller.BusinessLogic.Dto;
 using CarSeller.BusinessLogic.Interfaces;
-using CarSeller.DataAccess.Entities;
 using CarSeller.DataAccess.Interfaces;
+using CarSeller.Entities.Models;
+using CarSeller.Entities.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -25,7 +25,7 @@ namespace CarSeller.BusinessLogic.Services
             return await this._database.Car.GetCarsAsync();
         }
 
-        public async Task CreateCar(CarDto entity) 
+        public async Task CreateCar(CarViewModel entity) 
         {
             var carMapper = this._mapper.Map<Car>(entity);
             await this._database.Car.CreateCarAsync(carMapper);

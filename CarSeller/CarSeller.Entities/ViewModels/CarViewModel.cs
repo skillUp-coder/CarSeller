@@ -1,6 +1,6 @@
-﻿namespace CarSeller.BusinessLogic.Dto
+﻿namespace CarSeller.Entities.ViewModels
 {
-    public class CarDto
+    public class CarViewModel
     {
         public string Name { get; set; }
 

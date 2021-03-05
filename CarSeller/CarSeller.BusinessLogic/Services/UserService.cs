@@ -1,6 +1,6 @@
 ﻿using CarSeller.BusinessLogic.Interfaces;
-using CarSeller.DataAccess.Entities;
 using CarSeller.DataAccess.Interfaces;
+using CarSeller.Entities.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

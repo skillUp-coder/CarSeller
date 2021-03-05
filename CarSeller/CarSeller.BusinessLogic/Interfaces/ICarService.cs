@@ -1,5 +1,5 @@
-﻿using CarSeller.BusinessLogic.Dto;
-using CarSeller.DataAccess.Entities;
+﻿using CarSeller.Entities.Models;
+using CarSeller.Entities.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,6 +9,6 @@ namespace CarSeller.BusinessLogic.Interfaces
     {
         Task<ICollection<Car>> GetCarAsync();
 
-        Task CreateCar(CarDto entity);
+        Task CreateCar(CarViewModel entity);
     }
 }

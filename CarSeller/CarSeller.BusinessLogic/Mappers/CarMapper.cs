@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using CarSeller.BusinessLogic.Dto;
-using CarSeller.DataAccess.Entities;
+using CarSeller.Entities.Models;
+using CarSeller.Entities.ViewModels;
 
 namespace CarSeller.BusinessLogic.Mappers
 {
@@ -8,8 +8,8 @@ namespace CarSeller.BusinessLogic.Mappers
     {
         public CarMapper()
         {
-            this.CreateMap<Car, CarDto>();
-            this.CreateMap<CarDto, Car>();
+            this.CreateMap<Car, CarViewModel>();
+            this.CreateMap<CarViewModel, Car>();
         }
     }
 }

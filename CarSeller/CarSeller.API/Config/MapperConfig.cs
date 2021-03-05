@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CarSeller.API.Mappers;
 using CarSeller.BusinessLogic.Mappers;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,6 +11,7 @@ namespace CarSeller.API.Config
         {
             var config = new MapperConfiguration(map => {
                 map.AddProfile(new CarMapper());
+                map.AddProfile(new UserMapper());
             });
 
             var mapper = config.CreateMapper();

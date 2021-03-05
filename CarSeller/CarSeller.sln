@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarSeller.BusinessLogic", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarSeller.DataAccess", "CarSeller.DataAccess\CarSeller.DataAccess.csproj", "{83F9302B-A105-4183-93A1-9AEE5116ACAB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarSeller.Entities", "CarSeller.Entities\CarSeller.Entities.csproj", "{D8B2051C-ED55-4A72-A2E2-64376F39EE2C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{83F9302B-A105-4183-93A1-9AEE5116ACAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83F9302B-A105-4183-93A1-9AEE5116ACAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83F9302B-A105-4183-93A1-9AEE5116ACAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8B2051C-ED55-4A72-A2E2-64376F39EE2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8B2051C-ED55-4A72-A2E2-64376F39EE2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8B2051C-ED55-4A72-A2E2-64376F39EE2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8B2051C-ED55-4A72-A2E2-64376F39EE2C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

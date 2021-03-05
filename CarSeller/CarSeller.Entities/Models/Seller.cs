@@ -1,18 +1,16 @@
 ﻿using System.Collections.Generic;
 
-namespace CarSeller.DataAccess.Entities
+namespace CarSeller.Entities.Models
 {
-    public class Seller
+    public class Seller : Base
     {
-        public int SellerId { get; set; }
-
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
 
-        public ICollection<Car> Cars { get; set; }
+        public virtual ICollection<Car> Cars { get; set; }
 
-        public ICollection<Purchase> Purchases { get; set; }
+        public virtual ICollection<Purchase> Purchases { get; set; }
 
         public Seller()
         {
