@@ -2,7 +2,7 @@
 using CarSeller.BusinessLogic.Interfaces;
 using CarSeller.DataAccess.Interfaces;
 using CarSeller.Entities.Models;
-using CarSeller.Entities.ViewModels;
+using CarSeller.ViewModels.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,25 +10,27 @@ namespace CarSeller.BusinessLogic.Services
 {
     public class CarService : ICarService
     {
-        private readonly IUoW _database;
-        private readonly IMapper _mapper;
+        private readonly IUnitOfWork database;
+        private readonly IMapper mapper;
 
-        public CarService(IUoW database, 
+        public CarService(IUnitOfWork database, 
                           IMapper mapper)
         {
-            this._database = database;
-            this._mapper = mapper;
+            this.database = database;
+            this.mapper = mapper;
         }
 
-        public async Task<ICollection<Car>> GetCarAsync() 
+        public async Task<ICollection<CarInfoViewModel>> GetAllAsync() 
         {
-            return await this._database.Car.GetCarsAsync();
+            var cars = await this.database.Car.GetAllAsync();
+            return this.mapper.Map<ICollection<CarInfoViewModel>>(cars);
         }
 
-        public async Task CreateCar(Car entity) 
+        public async Task CreateAsync(CarViewModel entity) 
         {
-            var carMapper = this._mapper.Map<Car>(entity);
-            await this._database.Car.CreateCarAsync(carMapper);
+            var carMapper = this.mapper.Map<Car>(entity);
+            await this.database.Car.CreateAsync(carMapper);
+            await this.database.Save();
         }
     }
 }

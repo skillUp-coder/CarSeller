@@ -1,10 +1,10 @@
-﻿using CarSeller.Entities.Models;
+﻿using CarSeller.ViewModels.ViewModels;
 using System.Threading.Tasks;
 
 namespace CarSeller.BusinessLogic.Interfaces
 {
     public interface ISellerService
     {
-        Task CreateSeller(Seller entity);
+        Task CreateAsync(SellerViewModel entity);
     }
 }

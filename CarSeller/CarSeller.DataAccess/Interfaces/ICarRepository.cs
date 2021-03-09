@@ -6,8 +6,8 @@ namespace CarSeller.DataAccess.Interfaces
 {
     public interface ICarRepository
     {
-        Task CreateCarAsync(Car entity);
+        Task CreateAsync(Car entity);
 
-        Task<ICollection<Car>> GetCarsAsync();
+        Task<ICollection<Car>> GetAllAsync();
     }
 }

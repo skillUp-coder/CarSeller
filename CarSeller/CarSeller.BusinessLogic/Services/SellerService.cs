@@ -1,22 +1,29 @@
-﻿using CarSeller.BusinessLogic.Interfaces;
+﻿using AutoMapper;
+using CarSeller.BusinessLogic.Interfaces;
 using CarSeller.DataAccess.Interfaces;
 using CarSeller.Entities.Models;
+using CarSeller.ViewModels.ViewModels;
 using System.Threading.Tasks;
 
 namespace CarSeller.BusinessLogic.Services
 {
     public class SellerService : ISellerService
     {
-        private readonly IUoW _database;
+        private readonly IUnitOfWork database;
+        private readonly IMapper mapper;
 
-        public SellerService(IUoW database)
+        public SellerService(IUnitOfWork database,
+                             IMapper mapper)
         {
-            this._database = database;
+            this.database = database;
+            this.mapper = mapper;
         }
 
-        public async Task CreateSeller(Seller entity)
+        public async Task CreateAsync(SellerViewModel entity)
         {
-            await this._database.Seller.CreateSeller(entity);
+            var sellerMapper = this.mapper.Map<Seller>(entity);
+            await this.database.Seller.CreateAsync(sellerMapper);
+            await this.database.Save();
         }
     }
 }

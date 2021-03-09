@@ -21,6 +21,7 @@
     <ProjectReference Include="..\CarSeller.BusinessLogic\CarSeller.BusinessLogic.csproj" />
     <ProjectReference Include="..\CarSeller.DataAccess\CarSeller.DataAccess.csproj" />
     <ProjectReference Include="..\CarSeller.Entities\CarSeller.Entities.csproj" />
+    <ProjectReference Include="..\CarSeller.ViewModels\CarSeller.ViewModels.csproj" />
   </ItemGroup>
 
 

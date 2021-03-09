@@ -5,6 +5,6 @@ namespace CarSeller.DataAccess.Interfaces
 {
     public interface ISellerRepository
     {
-        Task CreateSeller(Seller entity);
+        Task CreateAsync(Seller entity);
     }
 }

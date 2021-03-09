@@ -7,24 +7,23 @@ using System.Threading.Tasks;
 
 namespace CarSeller.DataAccess.Repositories
 {
-    public class CarRepository : ICarRepository
+    public class CarRepository : BaseRepository<Car>, ICarRepository
     {
-        private readonly DataContext _database;
+        private readonly DataContext database;
 
-        public CarRepository(DataContext database)
+        public CarRepository(DataContext database) : base(database)
         {
-            this._database = database;
+            this.database = database;
         }
 
-        public async Task CreateCarAsync(Car entity) 
+        public async Task CreateAsync(Car entity) 
         {
-            await this._database.Cars.AddAsync(entity);
-            await this._database.SaveChangesAsync();
+            await base.CreateAsync(entity);
         }
 
-        public async Task<ICollection<Car>> GetCarsAsync() 
+        public async Task<ICollection<Car>> GetAllAsync() 
         {
-            return await this._database.Cars.Include(opt => opt.Saller).ToListAsync();
+            return await this.database.Cars.Include(opt => opt.Saller).ToListAsync();
         }
     }
 }

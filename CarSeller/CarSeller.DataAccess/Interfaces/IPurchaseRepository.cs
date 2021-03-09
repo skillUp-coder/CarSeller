@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 
 namespace CarSeller.DataAccess.Interfaces
 {
-    public interface IUserRepository
+    public interface IPurchaseRepository
     {
-        Task CreateAsync(User entity);
+        Task CreateAsync(Purchase entity);
 
-        Task<ICollection<User>> GetAllAsync();
+        Task<ICollection<Purchase>> GetAllAsync();
     }
 }

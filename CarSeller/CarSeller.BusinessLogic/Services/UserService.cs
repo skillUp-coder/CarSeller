@@ -8,17 +8,17 @@ namespace CarSeller.BusinessLogic.Services
 {
     public class UserService : IUserService
     {
-        private readonly IUoW _database;
+        private readonly IUnitOfWork database;
 
 
-        public UserService(IUoW database)
+        public UserService(IUnitOfWork database)
         {
-            this._database = database;
+            this.database = database;
         }
 
-        public async Task<ICollection<User>> GetUsersAsync() 
+        public async Task<ICollection<User>> GetAllAsync() 
         {
-            return await this._database.User.GetUsersAsync();
+            return await this.database.User.GetAllAsync();
         }
     }
 }

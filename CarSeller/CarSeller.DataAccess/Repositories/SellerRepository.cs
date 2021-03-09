@@ -5,19 +5,18 @@ using System.Threading.Tasks;
 
 namespace CarSeller.DataAccess.Repositories
 {
-    public class SellerRepository : ISellerRepository
+    public class SellerRepository : BaseRepository<Seller>, ISellerRepository
     {
-        private readonly DataContext _database;
+        private readonly DataContext database;
 
-        public SellerRepository(DataContext database)
+        public SellerRepository(DataContext database) : base(database)
         {
-            this._database = database;
+            this.database = database;
         }
 
-        public async Task CreateSeller(Seller entity) 
+        public async Task CreateAsync(Seller entity) 
         {
-            await this._database.Sellers.AddAsync(entity);
-            await this._database.SaveChangesAsync();
+            await base.CreateAsync(entity);
         }
     }
 }

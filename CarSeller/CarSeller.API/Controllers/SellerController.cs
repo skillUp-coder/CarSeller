@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using CarSeller.BusinessLogic.Interfaces;
 using CarSeller.Entities.Models;
-using CarSeller.Entities.ViewModels;
+using CarSeller.ViewModels.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -12,14 +12,14 @@ namespace CarSeller.API.Controllers
     public class SellerController : ControllerBase
     {
 
-        private readonly IMapper _mapper;
-        private readonly ISellerService _sellerService;
+        private readonly IMapper mapper;
+        private readonly ISellerService sellerService;
 
         public SellerController(IMapper mapper, 
                                 ISellerService sellerService)
         {
-            this._mapper = mapper;
-            this._sellerService = sellerService;
+            this.mapper = mapper;
+            this.sellerService = sellerService;
         }
 
 
@@ -32,9 +32,7 @@ namespace CarSeller.API.Controllers
                 return this.BadRequest(this.ModelState);
             }
 
-            var sellerMapper = this._mapper.Map<Seller>(model);
-
-            await this._sellerService.CreateSeller(sellerMapper);
+            await this.sellerService.CreateAsync(model);
             return this.Ok();
         } 
     }

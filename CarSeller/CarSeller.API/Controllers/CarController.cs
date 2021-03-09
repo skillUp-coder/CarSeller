@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using CarSeller.BusinessLogic.Interfaces;
 using CarSeller.Entities.Models;
-using CarSeller.Entities.ViewModels;
+using CarSeller.ViewModels.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -11,14 +11,14 @@ namespace CarSeller.API.Controllers
     [ApiController]
     public class CarController : ControllerBase
     {
-        private readonly IMapper _mapper;
-        private readonly ICarService _carService;
+        private readonly IMapper mapper;
+        private readonly ICarService carService;
 
         public CarController(ICarService carService, 
                              IMapper mapper)
         {
-            this._carService = carService;
-            this._mapper = mapper;
+            this.carService = carService;
+            this.mapper = mapper;
         }
 
         [HttpPost]
@@ -30,9 +30,7 @@ namespace CarSeller.API.Controllers
                 return this.BadRequest();
             }
 
-            var carMapper = this._mapper.Map<Car>(model);
-
-            await this._carService.CreateCar(carMapper);
+            await this.carService.CreateAsync(model);
             return this.Ok();
         }
 
@@ -40,7 +38,7 @@ namespace CarSeller.API.Controllers
         [Route("get-cars")]
         public async Task<IActionResult> GetCars() 
         {
-            var cars = await this._carService.GetCarAsync();
+            var cars = await this.carService.GetAllAsync();
 
             if (cars == null) 
             {

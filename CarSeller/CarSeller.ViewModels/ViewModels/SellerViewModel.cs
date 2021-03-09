@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CarSeller.Entities.ViewModels
+namespace CarSeller.ViewModels.ViewModels
 {
     public class SellerViewModel
     {

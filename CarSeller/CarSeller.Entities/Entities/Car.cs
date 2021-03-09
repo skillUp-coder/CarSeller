@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CarSeller.Entities.Models
 {
-    public class Car : Base
+    public class Car : BaseEntity
     {
         public string Name { get; set; }
 
@@ -12,6 +13,7 @@ namespace CarSeller.Entities.Models
 
         public int SellerId { get; set; }
 
+        [ForeignKey("SellerId")]
         public virtual Seller Saller { get; set; }
 
         public virtual ICollection<Purchase> Purchases { get; set; }

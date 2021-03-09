@@ -2,7 +2,7 @@
 
 namespace CarSeller.Entities.Models
 {
-    public class Seller : Base
+    public class Seller : BaseEntity
     {
         public string FirstName { get; set; }
 

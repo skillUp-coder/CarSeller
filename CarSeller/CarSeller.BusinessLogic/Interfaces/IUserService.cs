@@ -6,6 +6,6 @@ namespace CarSeller.BusinessLogic.Interfaces
 {
     public interface IUserService
     {
-        Task<ICollection<User>> GetUsersAsync();
+        Task<ICollection<User>> GetAllAsync();
     }
 }

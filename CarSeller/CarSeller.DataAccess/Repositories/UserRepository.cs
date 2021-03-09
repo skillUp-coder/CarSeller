@@ -7,23 +7,23 @@ using System.Threading.Tasks;
 
 namespace CarSeller.DataAccess.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : BaseRepository<User>, IUserRepository
     {
-        private readonly DataContext _database;
+        private readonly DataContext database;
 
-        public UserRepository(DataContext database)
+        public UserRepository(DataContext database) : base(database)
         {
-            this._database = database;
+            this.database = database;
         }
 
-        public async Task UserCreateAsync(User entity)
+        public async Task CreateAsync(User entity)
         {
-            await this._database.Users.AddAsync(entity);
+            await base.CreateAsync(entity);
         }
 
-        public async Task<ICollection<User>> GetUsersAsync() 
+        public async Task<ICollection<User>> GetAllAsync() 
         {
-            return await this._database.Users.ToListAsync();
+            return await this.database.Users.ToListAsync();
         }
     }
 }
