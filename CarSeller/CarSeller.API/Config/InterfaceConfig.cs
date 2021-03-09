@@ -16,6 +16,7 @@ namespace CarSeller.API.Config
             services.AddScoped<ISellerRepository, SellerRepository>();
             services.AddScoped<IPurchaseRepository, PurchaseRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
             services.AddScoped<ICarService, CarService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ISellerService, SellerService>();

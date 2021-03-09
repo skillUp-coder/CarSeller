@@ -8,22 +8,25 @@ using System.Threading.Tasks;
 
 namespace CarSeller.BusinessLogic.Services
 {
-    public class PurchaseService : IPurchaseService
+    public class PurchaseService : BaseService<Purchase>, IPurchaseService
     {
         private readonly IUnitOfWork database;
         private readonly IMapper mapper;
+        private readonly IBaseRepository<Purchase> baseRepository;
 
         public PurchaseService(IUnitOfWork database, 
-                               IMapper mapper)
+                               IMapper mapper, 
+                               IBaseRepository<Purchase> baseRepository) : base(baseRepository)
         {
             this.database = database;
             this.mapper = mapper;
+            this.baseRepository = baseRepository;
         }
 
         public async Task CreateAsync(PurchaseViewModel entity) 
         {
             var purchaseMapper = this.mapper.Map<Purchase>(entity);
-            await this.database.Purchase.CreateAsync(purchaseMapper);
+            await base.CreateAsync(purchaseMapper);
             await this.database.Save();
         }
 

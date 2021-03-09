@@ -8,16 +8,19 @@ using System.Threading.Tasks;
 
 namespace CarSeller.BusinessLogic.Services
 {
-    public class CarService : ICarService
+    public class CarService : BaseService<Car>, ICarService
     {
         private readonly IUnitOfWork database;
+        private readonly IBaseRepository<Car> baseRepository;
         private readonly IMapper mapper;
 
         public CarService(IUnitOfWork database, 
-                          IMapper mapper)
+                          IMapper mapper,
+                          IBaseRepository<Car> baseRepository) : base(baseRepository)
         {
             this.database = database;
             this.mapper = mapper;
+            this.baseRepository = baseRepository;
         }
 
         public async Task<ICollection<CarInfoViewModel>> GetAllAsync() 
@@ -29,7 +32,7 @@ namespace CarSeller.BusinessLogic.Services
         public async Task CreateAsync(CarViewModel entity) 
         {
             var carMapper = this.mapper.Map<Car>(entity);
-            await this.database.Car.CreateAsync(carMapper);
+            await base.CreateAsync(carMapper);
             await this.database.Save();
         }
     }
