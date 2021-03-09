@@ -19,11 +19,12 @@ namespace CarSeller.DataAccess.Repositories
         public async Task CreateCarAsync(Car entity) 
         {
             await this._database.Cars.AddAsync(entity);
+            await this._database.SaveChangesAsync();
         }
 
         public async Task<ICollection<Car>> GetCarsAsync() 
         {
-            return await this._database.Cars.ToListAsync();
+            return await this._database.Cars.Include(opt => opt.Saller).ToListAsync();
         }
     }
 }

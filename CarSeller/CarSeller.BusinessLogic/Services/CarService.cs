@@ -25,7 +25,7 @@ namespace CarSeller.BusinessLogic.Services
             return await this._database.Car.GetCarsAsync();
         }
 
-        public async Task CreateCar(CarViewModel entity) 
+        public async Task CreateCar(Car entity) 
         {
             var carMapper = this._mapper.Map<Car>(entity);
             await this._database.Car.CreateCarAsync(carMapper);

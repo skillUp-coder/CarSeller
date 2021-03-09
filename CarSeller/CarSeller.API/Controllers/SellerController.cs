@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CarSeller.BusinessLogic.Interfaces;
 using CarSeller.Entities.Models;
+using CarSeller.Entities.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -24,9 +25,16 @@ namespace CarSeller.API.Controllers
 
         [HttpPost]
         [Route("create-seller")]
-        public async Task<IActionResult> CreateSeller([FromBody] Seller model) 
+        public async Task<IActionResult> CreateSeller([FromBody] SellerViewModel model) 
         {
-            await this._sellerService.CreateSeller(model);
+            if (!this.ModelState.IsValid) 
+            {
+                return this.BadRequest(this.ModelState);
+            }
+
+            var sellerMapper = this._mapper.Map<Seller>(model);
+
+            await this._sellerService.CreateSeller(sellerMapper);
             return this.Ok();
         } 
     }

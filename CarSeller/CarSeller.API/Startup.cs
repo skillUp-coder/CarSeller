@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Linq;
 
 namespace CarSeller.API
 {
@@ -26,9 +27,16 @@ namespace CarSeller.API
                 options.UseSqlServer(this._configuration["ConnectionStrings:DefaultConnection"]));
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<DataContext>();
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options =>
+                                      options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            
             services.SetInterfaceDI();
             services.SetMapperDI();
+
+            services.AddSwaggerGen(opt => 
+            {
+                opt.ResolveConflictingActions(apiDesc => apiDesc.First());
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -37,6 +45,8 @@ namespace CarSeller.API
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.SetSwagger(this._configuration);
 
             app.UseHttpsRedirection();
 

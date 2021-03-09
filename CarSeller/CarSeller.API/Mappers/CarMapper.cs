@@ -2,7 +2,7 @@
 using CarSeller.Entities.Models;
 using CarSeller.Entities.ViewModels;
 
-namespace CarSeller.BusinessLogic.Mappers
+namespace CarSeller.API.Mappers
 {
     public class CarMapper : Profile
     {

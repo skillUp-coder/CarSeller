@@ -9,6 +9,6 @@ namespace CarSeller.BusinessLogic.Interfaces
     {
         Task<ICollection<Car>> GetCarAsync();
 
-        Task CreateCar(CarViewModel entity);
+        Task CreateCar(Car entity);
     }
 }

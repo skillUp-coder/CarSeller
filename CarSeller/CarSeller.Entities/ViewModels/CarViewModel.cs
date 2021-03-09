@@ -1,13 +1,15 @@
-﻿namespace CarSeller.Entities.ViewModels
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace CarSeller.Entities.ViewModels
 {
     public class CarViewModel
     {
-        public string Name { get; set; }
+        [Required] public string Name { get; set; }
 
-        public string Brand { get; set; }
+        [Required] public string Brand { get; set; }
 
-        public string State { get; set; }
+        [Required] public string State { get; set; }
 
-        public int SellerId { get; set; }
+        [Required] public int SellerId { get; set; }
     }
 }
