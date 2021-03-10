@@ -7,5 +7,8 @@ namespace CarSeller.DataAccess.Interfaces
     {
         Task CreateAsync(TEntity entity);
         Task<ICollection<TEntity>> GetAllAsync();
+        Task<TEntity> GetById(int id);
+        void Update(TEntity entity);
+        void Remove(TEntity entity);
     }
 }

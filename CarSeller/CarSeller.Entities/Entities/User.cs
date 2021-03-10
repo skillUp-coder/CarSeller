@@ -6,10 +6,5 @@ namespace CarSeller.Entities.Models
     public class User : IdentityUser
     {
         public virtual ICollection<Purchase> Purchases { get; set; }
-
-        public User()
-        {
-            this.Purchases = new List<Purchase>();
-        }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using CarSeller.BusinessLogic.Interfaces;
-using CarSeller.Entities.Models;
 using CarSeller.ViewModels.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -24,8 +23,8 @@ namespace CarSeller.API.Controllers
 
 
         [HttpPost]
-        [Route("create-seller")]
-        public async Task<IActionResult> CreateSeller([FromBody] SellerViewModel model) 
+        [Route("create")]
+        public async Task<IActionResult> Create([FromBody] SellerViewModel model) 
         {
             if (!this.ModelState.IsValid) 
             {
@@ -34,6 +33,53 @@ namespace CarSeller.API.Controllers
 
             await this.sellerService.CreateAsync(model);
             return this.Ok();
-        } 
+        }
+
+        [HttpGet]
+        [Route("get-all")]
+        public async Task<IActionResult> GetAll() 
+        {
+            var sellers = await this.sellerService.GetAllAsync();
+            return this.Ok(sellers);
+        }
+
+        [HttpGet]
+        [Route("get-by-id")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            if (id == 0)
+            {
+                return this.BadRequest();
+            }
+
+            var seller = await this.sellerService.GetById(id);
+            return this.Ok(seller);
+        }
+
+        [HttpDelete]
+        [Route("delete")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (id == 0)
+            {
+                return this.BadRequest();
+            }
+
+            await this.sellerService.Remove(id);
+            return this.Ok();
+        }
+
+        [HttpPut]
+        [Route("update")]
+        public async Task<IActionResult> Update([FromBody] SellerUpdateViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return this.BadRequest();
+            }
+
+            await this.sellerService.Update(model);
+            return this.Ok();
+        }
     }
 }

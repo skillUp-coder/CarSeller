@@ -1,13 +1,10 @@
 ﻿using CarSeller.Entities.Models;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace CarSeller.DataAccess.Interfaces
 {
-    public interface IUserRepository
+    public interface IUserRepository : IBaseRepository<User>
     {
-        Task CreateAsync(User entity);
-
-        Task<ICollection<User>> GetAllAsync();
-    }
+        Task<User> GetById(string id);
+    }   
 }

@@ -9,7 +9,7 @@ namespace CarSeller.API.Config
         public static void SetMapperDI(this IServiceCollection services) 
         {
             var config = new MapperConfiguration(map => {
-                map.AddProfile(new Profiles());
+                map.AddProfile(new BusinessLogic.MapperProfiles.MappingProfile());
             });
 
             var mapper = config.CreateMapper();

@@ -28,5 +28,20 @@ namespace CarSeller.DataAccess.Repositories
                                       .Include(opt => opt.Car)
                                       .ToListAsync();
         }
+
+        public async Task<Purchase> GetById(int id) 
+        {
+            return await this.database.Purchases.Include(opt => opt.Car).Include(opt => opt.User).FirstOrDefaultAsync(opt => opt.Id == id);
+        }
+
+        public void Remove(Purchase entity) 
+        {
+            base.Remove(entity);
+        }
+
+        public void Update(Purchase entity)
+        {
+            base.Update(entity);
+        }
     }
 }

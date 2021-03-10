@@ -27,5 +27,21 @@ namespace CarSeller.DataAccess.Repositories
         {
             return await this.dbSet.AsNoTracking().ToListAsync();
         }
+
+        public async Task<TEntity> GetById(int id)
+        {
+            //return await this.dbSet.FindAsync(id);
+            return await this.database.FindAsync<TEntity>(id);
+        }
+
+        public void Remove(TEntity entity)
+        {
+            this.dbSet.Remove(entity);
+        }
+
+        public void Update(TEntity entity)
+        {
+            this.database.Entry(entity).State = EntityState.Modified;
+        }
     }
 }

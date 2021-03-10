@@ -11,16 +11,13 @@ namespace CarSeller.BusinessLogic.Services
     public class CarService : BaseService<Car>, ICarService
     {
         private readonly IUnitOfWork database;
-        private readonly IBaseRepository<Car> baseRepository;
         private readonly IMapper mapper;
 
         public CarService(IUnitOfWork database, 
-                          IMapper mapper,
-                          IBaseRepository<Car> baseRepository) : base(baseRepository)
+                          IMapper mapper) : base(database, mapper)
         {
             this.database = database;
             this.mapper = mapper;
-            this.baseRepository = baseRepository;
         }
 
         public async Task<ICollection<CarInfoViewModel>> GetAllAsync() 
@@ -32,7 +29,27 @@ namespace CarSeller.BusinessLogic.Services
         public async Task CreateAsync(CarViewModel entity) 
         {
             var carMapper = this.mapper.Map<Car>(entity);
-            await base.CreateAsync(carMapper);
+            await this.database.Car.CreateAsync(carMapper);
+            await this.database.Save();
+        }
+
+        public async Task<CarInfoViewModel> GetById(int id)
+        {
+            var car = await this.database.Car.GetById(id);
+            return this.mapper.Map<CarInfoViewModel>(car);
+        }
+
+        public async Task Remove(int id) 
+        {
+            var car = await this.database.Car.GetById(id);
+            this.database.Car.Remove(car);
+            await this.database.Save();
+        }
+
+        public async Task Update(CarUpdateViewModel entity) 
+        {
+            var carMapper = this.mapper.Map<Car>(entity);
+            this.database.Car.Update(carMapper);
             await this.database.Save();
         }
     }

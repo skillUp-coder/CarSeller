@@ -9,5 +9,11 @@ namespace CarSeller.BusinessLogic.Interfaces
         Task CreateAsync(PurchaseViewModel entity);
 
         Task<ICollection<PurchaseInfoViewModel>> GetAllAsync();
+
+        Task<PurchaseInfoViewModel> GetById(int id);
+
+        Task Remove(int id);
+
+        Task Update(PurchaseUpdateViewModel entity);
     }
 }

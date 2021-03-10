@@ -23,7 +23,24 @@ namespace CarSeller.DataAccess.Repositories
 
         public async Task<ICollection<Car>> GetAllAsync() 
         {
-            return await this.database.Cars.Include(opt => opt.Saller).ToListAsync();
+            return await this.database.Cars
+                                      .Include(opt => opt.Seller)
+                                      .ToListAsync();
+        }
+
+        public async Task<Car> GetById(int id) 
+        {
+            return await base.GetById(id);
+        }
+
+        public void Remove(Car entity) 
+        {
+            base.Remove(entity);
+        }
+
+        public void Update(Car entity) 
+        {
+            base.Update(entity);
         }
     }
 }

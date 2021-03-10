@@ -1,6 +1,4 @@
-﻿using CarSeller.Entities.Models;
-
-namespace CarSeller.ViewModels.ViewModels
+﻿namespace CarSeller.ViewModels.ViewModels
 {
     public class CarInfoViewModel
     {
@@ -9,7 +7,5 @@ namespace CarSeller.ViewModels.ViewModels
         public string Brand { get; set; }
 
         public string State { get; set; }
-
-        public Seller Saller { get; set; }
     }
 }

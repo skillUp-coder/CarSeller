@@ -14,13 +14,8 @@ namespace CarSeller.Entities.Models
         public int SellerId { get; set; }
 
         [ForeignKey("SellerId")]
-        public virtual Seller Saller { get; set; }
+        public virtual Seller Seller { get; set; }
 
         public virtual ICollection<Purchase> Purchases { get; set; }
-
-        public Car()
-        {
-            this.Purchases = new List<Purchase>();
-        }
     }
 }
