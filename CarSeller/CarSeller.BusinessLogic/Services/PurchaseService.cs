@@ -2,6 +2,7 @@
 using CarSeller.BusinessLogic.Interfaces;
 using CarSeller.DataAccess.Interfaces;
 using CarSeller.Entities.Models;
+using CarSeller.ViewModels.PurchaseViewModels;
 using CarSeller.ViewModels.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -20,23 +21,25 @@ namespace CarSeller.BusinessLogic.Services
             this.mapper = mapper;
         }
 
-        public async Task CreateAsync(PurchaseViewModel entity) 
+        public async Task CreateAsync(CreatePurchaseViewModel entity) 
         {
             var purchaseMapper = this.mapper.Map<Purchase>(entity);
             await this.database.Purchase.CreateAsync(purchaseMapper);
             await this.database.Save();
         }
 
-        public async Task<ICollection<PurchaseInfoViewModel>> GetAllAsync() 
+        public async Task<GetAllPurchaseViewModel> GetAllAsync() 
         {
+            var purchaseViewModel = new GetAllPurchaseViewModel();
             var purchases = await this.database.Purchase.GetAllAsync();
-            return this.mapper.Map<ICollection<PurchaseInfoViewModel>>(purchases);
+            purchaseViewModel.Purchases = this.mapper.Map<ICollection<GetAllPurchaseViewModelItem>>(purchases);
+            return purchaseViewModel;
         }
 
-        public async Task<PurchaseInfoViewModel> GetById(int id)
+        public async Task<GetByIdPurchaseViewModel> GetById(int id)
         {
             var purchase = await this.database.Purchase.GetById(id);
-            return this.mapper.Map<PurchaseInfoViewModel>(purchase);
+            return this.mapper.Map<GetByIdPurchaseViewModel>(purchase);
         }
 
         public async Task Remove(int id)
@@ -46,7 +49,7 @@ namespace CarSeller.BusinessLogic.Services
             await this.database.Save();
         }
 
-        public async Task Update(PurchaseUpdateViewModel entity)
+        public async Task Update(UpdatePurchaseViewModel entity)
         {
             var purchaseMapper = this.mapper.Map<Purchase>(entity);
             this.database.Purchase.Update(purchaseMapper);

@@ -44,9 +44,9 @@ namespace CarSeller.Test.Tests
         }
 
 
-        private PurchaseViewModel CreatePurchaseViewModelTest()
+        private CreatePurchaseViewModel CreatePurchaseViewModelTest()
         {
-            return new PurchaseViewModel { CarId = 1, UserId = "83bcac58-f6fa-490b-b996-8680f6baecbe" };
+            return new CreatePurchaseViewModel { CarId = 1, UserId = "83bcac58-f6fa-490b-b996-8680f6baecbe" };
         }
 
         private Purchase CreatePurchaseTest()

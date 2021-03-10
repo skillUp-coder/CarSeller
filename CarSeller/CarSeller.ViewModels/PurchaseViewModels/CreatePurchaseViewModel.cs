@@ -2,7 +2,7 @@
 
 namespace CarSeller.ViewModels.ViewModels
 {
-    public class PurchaseViewModel
+    public class CreatePurchaseViewModel
     {
         [Required] public string UserId { get; set; }
 

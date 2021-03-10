@@ -22,7 +22,7 @@ namespace CarSeller.API.Controllers
 
         [HttpPost]
         [Route("create")]
-        public async Task<IActionResult> Create([FromBody] PurchaseViewModel model) 
+        public async Task<IActionResult> Create([FromBody] CreatePurchaseViewModel model) 
         {
             if (!this.ModelState.IsValid) 
             {
@@ -70,7 +70,7 @@ namespace CarSeller.API.Controllers
 
         [HttpPut]
         [Route("update")]
-        public async Task<IActionResult> Update([FromBody] PurchaseUpdateViewModel model)
+        public async Task<IActionResult> Update([FromBody] UpdatePurchaseViewModel model)
         {
             if (!ModelState.IsValid)
             {

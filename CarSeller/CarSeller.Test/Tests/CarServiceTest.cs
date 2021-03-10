@@ -44,9 +44,9 @@ namespace CarSeller.Test.Tests
         }
 
 
-        private CarViewModel CreateCarViewModelTest() 
+        private CreateCarViewModel CreateCarViewModelTest() 
         {
-            return new CarViewModel { Brand = "Tesla", Name = "X", State = "New" };
+            return new CreateCarViewModel { Brand = "Tesla", Name = "X", State = "New" };
         }
 
         private Car CreateCarTest()

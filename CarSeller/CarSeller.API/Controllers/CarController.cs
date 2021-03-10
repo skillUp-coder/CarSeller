@@ -20,9 +20,14 @@ namespace CarSeller.API.Controllers
             this.mapper = mapper;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("create")]
-        public async Task<IActionResult> Create([FromBody] CarViewModel model) 
+        public async Task<IActionResult> Create([FromBody] CreateCarViewModel model) 
         {
             if (!this.ModelState.IsValid) 
             {
@@ -75,7 +80,7 @@ namespace CarSeller.API.Controllers
 
         [HttpPut]
         [Route("update")]
-        public async Task<IActionResult> Update([FromBody] CarUpdateViewModel model) 
+        public async Task<IActionResult> Update([FromBody] UpdateCarViewModel model) 
         {
             if (!ModelState.IsValid) 
             {

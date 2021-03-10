@@ -1,17 +1,17 @@
-﻿using CarSeller.ViewModels.ViewModels;
-using System.Collections.Generic;
+﻿using CarSeller.ViewModels.UserViewModels;
+using CarSeller.ViewModels.ViewModels;
 using System.Threading.Tasks;
 
 namespace CarSeller.BusinessLogic.Interfaces
 {
     public interface IUserService
     {
-        Task<ICollection<UserInfoViewModel>> GetAllAsync();
+        Task<GetAllUserViewModel> GetAllAsync();
 
-        Task<UserInfoViewModel> GetById(string id);
+        Task<GetByIdUserViewModel> GetById(string id);
 
         Task Remove(string id);
 
-        Task Update(UserUpdateViewModel entity);
+        Task Update(UpdateUserViewModel entity);
     }
 }

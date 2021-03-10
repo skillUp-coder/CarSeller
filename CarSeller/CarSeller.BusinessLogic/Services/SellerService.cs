@@ -2,6 +2,7 @@
 using CarSeller.BusinessLogic.Interfaces;
 using CarSeller.DataAccess.Interfaces;
 using CarSeller.Entities.Models;
+using CarSeller.ViewModels.SellerViewModels;
 using CarSeller.ViewModels.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -20,23 +21,25 @@ namespace CarSeller.BusinessLogic.Services
             this.mapper = mapper;
         }
 
-        public async Task CreateAsync(SellerViewModel entity)
+        public async Task CreateAsync(CreateSellerViewModel entity)
         {
             var sellerMapper = this.mapper.Map<Seller>(entity);
             await this.database.Seller.CreateAsync(sellerMapper);
             await this.database.Save();
         }
 
-        public async Task<ICollection<SellerInfoViewModel>> GetAllAsync() 
+        public async Task<GetAllSellerViewModel> GetAllAsync() 
         {
+            var sellerViewModel = new GetAllSellerViewModel();
             var sellerMapper = await this.database.Seller.GetAllAsync();
-            return this.mapper.Map<ICollection<SellerInfoViewModel>>(sellerMapper);
+            sellerViewModel.Sellers = this.mapper.Map<ICollection<GetAllSellerViewModelItem>>(sellerMapper);
+            return sellerViewModel;
         }
 
-        public async Task<SellerInfoViewModel> GetById(int id)
+        public async Task<GetByIdSellerViewModel> GetById(int id)
         {
             var seller = await this.database.Seller.GetById(id);
-            return this.mapper.Map<SellerInfoViewModel>(seller);
+            return this.mapper.Map<GetByIdSellerViewModel>(seller);
         }
 
         public async Task Remove(int id)
@@ -46,7 +49,7 @@ namespace CarSeller.BusinessLogic.Services
             await this.database.Save();
         }
 
-        public async Task Update(SellerUpdateViewModel entity)
+        public async Task Update(UpdateSellerViewModel entity)
         {
             var sellerMapper = this.mapper.Map<Seller>(entity);
             this.database.Seller.Update(sellerMapper);

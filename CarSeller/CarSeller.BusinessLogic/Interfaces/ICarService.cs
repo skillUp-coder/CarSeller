@@ -1,19 +1,19 @@
-﻿using CarSeller.ViewModels.ViewModels;
-using System.Collections.Generic;
+﻿using CarSeller.ViewModels.CarViewModels;
+using CarSeller.ViewModels.ViewModels;
 using System.Threading.Tasks;
 
 namespace CarSeller.BusinessLogic.Interfaces
 {
     public interface ICarService
     {
-        Task<ICollection<CarInfoViewModel>> GetAllAsync();
+        Task<GetAllCarViewModel> GetAllAsync();
 
-        Task CreateAsync(CarViewModel entity);
+        Task CreateAsync(CreateCarViewModel entity);
 
-        Task<CarInfoViewModel> GetById(int id);
+        Task<GetByIdCarViewModel> GetById(int id);
 
         Task Remove(int id);
 
-        Task Update(CarUpdateViewModel entity);
+        Task Update(UpdateCarViewModel entity);
     }
 }

@@ -2,6 +2,9 @@
 
 namespace CarSeller.Entities.Models
 {
+    /// <summary>
+    /// A seller object exists to store the properties of this entity.
+    /// </summary>
     public class Seller : BaseEntity
     {
         public string FirstName { get; set; }
@@ -11,11 +14,5 @@ namespace CarSeller.Entities.Models
         public virtual ICollection<Car> Cars { get; set; }
 
         public virtual ICollection<Purchase> Purchases { get; set; }
-
-        public Seller()
-        {
-            this.Cars = new List<Car>();
-            this.Purchases = new List<Purchase>();
-        }
     }
 }

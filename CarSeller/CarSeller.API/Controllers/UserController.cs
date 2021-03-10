@@ -30,7 +30,7 @@ namespace CarSeller.API.Controllers
 
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterViewModel model) 
+        public async Task<IActionResult> Register([FromBody] RegisterUserViewModel model) 
         {
             if (!this.ModelState.IsValid) 
             {
@@ -87,7 +87,7 @@ namespace CarSeller.API.Controllers
 
         [HttpPut]
         [Route("update")]
-        public async Task<IActionResult> Update([FromBody] UserUpdateViewModel model)
+        public async Task<IActionResult> Update([FromBody] UpdateUserViewModel model)
         {
             if (!ModelState.IsValid)
             {

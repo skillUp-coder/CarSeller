@@ -2,6 +2,7 @@
 using CarSeller.BusinessLogic.Interfaces;
 using CarSeller.DataAccess.Interfaces;
 using CarSeller.Entities.Models;
+using CarSeller.ViewModels.UserViewModels;
 using CarSeller.ViewModels.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -20,16 +21,18 @@ namespace CarSeller.BusinessLogic.Services
             this.mapper = mapper;
         }
 
-        public async Task<ICollection<UserInfoViewModel>> GetAllAsync() 
+        public async Task<GetAllUserViewModel> GetAllAsync() 
         {
+            var userViewModel = new GetAllUserViewModel();
             var users = await this.database.User.GetAllAsync();
-            return this.mapper.Map<ICollection<UserInfoViewModel>>(users);
+            userViewModel.Users = this.mapper.Map<ICollection<GetAllUserViewModelItem>>(users);
+            return userViewModel;
         }
 
-        public async Task<UserInfoViewModel> GetById(string id)
+        public async Task<GetByIdUserViewModel> GetById(string id)
         {
             var user = await this.database.User.GetById(id);
-            return this.mapper.Map<UserInfoViewModel>(user);
+            return this.mapper.Map<GetByIdUserViewModel>(user);
         }
 
         public async Task Remove(string id)
@@ -39,7 +42,7 @@ namespace CarSeller.BusinessLogic.Services
             await this.database.Save();
         }
 
-        public async Task Update(UserUpdateViewModel entity)
+        public async Task Update(UpdateUserViewModel entity)
         {
             var user = await this.database.User.GetById(entity.Id);
             user.UserName = entity.UserName;

@@ -1,5 +1,9 @@
 ﻿using AutoMapper;
 using CarSeller.Entities.Models;
+using CarSeller.ViewModels.CarViewModels;
+using CarSeller.ViewModels.PurchaseViewModels;
+using CarSeller.ViewModels.SellerViewModels;
+using CarSeller.ViewModels.UserViewModels;
 using CarSeller.ViewModels.ViewModels;
 
 namespace CarSeller.BusinessLogic.MapperProfiles
@@ -9,32 +13,46 @@ namespace CarSeller.BusinessLogic.MapperProfiles
         public MappingProfile()
         {
             #region Car Profile
-                this.CreateMap<Car, CarViewModel>();
-                this.CreateMap<CarViewModel, Car>();
-                this.CreateMap<Car, CarInfoViewModel>();
-                this.CreateMap<CarUpdateViewModel, Car>();
+                this.CreateMap<Car, CreateCarViewModel>();
+                this.CreateMap<CreateCarViewModel, Car>();
+                this.CreateMap<Car, GetAllCarViewModel>();
+                this.CreateMap<UpdateCarViewModel, Car>();
+                this.CreateMap<Car, GetAllCarViewModelItem>();
+                this.CreateMap<Car, GetByIdCarViewModel>()
+                    .ForMember(q => q.Seller, w => w.MapFrom(e => e.Seller));
+                this.CreateMap<Car, CarGetByIdPurchaseViewModelItem>();
             #endregion
 
             #region Purchase Profile
-                this.CreateMap<PurchaseViewModel, Purchase>();
-                this.CreateMap<Purchase, PurchaseViewModel>();
-                this.CreateMap<Purchase, PurchaseInfoViewModel>();
-                this.CreateMap<PurchaseUpdateViewModel, Purchase>();
+                this.CreateMap<CreatePurchaseViewModel, Purchase>();
+                this.CreateMap<Purchase, CreatePurchaseViewModel>();
+                this.CreateMap<Purchase, GetAllPurchaseViewModel>();
+                this.CreateMap<UpdatePurchaseViewModel, Purchase>();
+                this.CreateMap<Purchase, GetAllPurchaseViewModelItem>();
+                this.CreateMap<GetAllPurchaseViewModelItem, Purchase>();
+                this.CreateMap<Purchase, GetByIdPurchaseViewModel>();
+                this.CreateMap<GetByIdPurchaseViewModel, Purchase>();
             #endregion
 
             #region Seller Profile
-                this.CreateMap<Seller, SellerViewModel>();
-                this.CreateMap<SellerViewModel, Seller>();
-                this.CreateMap<SellerInfoViewModel, Seller>();
-                this.CreateMap<Seller, SellerInfoViewModel>();
-                this.CreateMap<SellerUpdateViewModel, Seller>();
+            this.CreateMap<Seller, CreateSellerViewModel>();
+                this.CreateMap<CreateSellerViewModel, Seller>();
+                this.CreateMap<GetAllSellerViewModel, Seller>();
+                this.CreateMap<Seller, GetAllSellerViewModel>();
+                this.CreateMap<UpdateSellerViewModel, Seller>();
+                this.CreateMap<Seller, SellerGetByIdCarViewModelItem>();
+                this.CreateMap<Seller, GetAllSellerViewModelItem>();
+                this.CreateMap<Seller, GetByIdSellerViewModel>();
             #endregion
 
             #region User Profile
-                this.CreateMap<RegisterViewModel, User>();
-                this.CreateMap<User, RegisterViewModel>();
-                this.CreateMap<User, UserInfoViewModel>();
-                this.CreateMap<UserUpdateViewModel, User>();
+                this.CreateMap<RegisterUserViewModel, User>();
+                this.CreateMap<User, RegisterUserViewModel>();
+                this.CreateMap<User, GetAllUserViewModel>();
+                this.CreateMap<UpdateUserViewModel, User>();
+                this.CreateMap<User, UserGetByIdPurchaseViewModelItem>();
+                this.CreateMap<User, GetAllUserViewModelItem>();
+                this.CreateMap<User, GetByIdUserViewModel>();
             #endregion
 
         }

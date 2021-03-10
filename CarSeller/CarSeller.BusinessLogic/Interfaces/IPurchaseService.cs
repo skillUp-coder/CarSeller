@@ -1,4 +1,5 @@
-﻿using CarSeller.ViewModels.ViewModels;
+﻿using CarSeller.ViewModels.PurchaseViewModels;
+using CarSeller.ViewModels.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,14 +7,14 @@ namespace CarSeller.BusinessLogic.Interfaces
 {
     public interface IPurchaseService
     {
-        Task CreateAsync(PurchaseViewModel entity);
+        Task CreateAsync(CreatePurchaseViewModel entity);
 
-        Task<ICollection<PurchaseInfoViewModel>> GetAllAsync();
+        Task<GetAllPurchaseViewModel> GetAllAsync();
 
-        Task<PurchaseInfoViewModel> GetById(int id);
+        Task<GetByIdPurchaseViewModel> GetById(int id);
 
         Task Remove(int id);
 
-        Task Update(PurchaseUpdateViewModel entity);
+        Task Update(UpdatePurchaseViewModel entity);
     }
 }

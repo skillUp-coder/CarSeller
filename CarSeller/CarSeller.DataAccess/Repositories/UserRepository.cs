@@ -16,29 +16,18 @@ namespace CarSeller.DataAccess.Repositories
             this.database = database;
         }
 
-        public async Task CreateAsync(User entity)
+        public override async Task<ICollection<User>> GetAllAsync() 
         {
-            await base.CreateAsync(entity);
-        }
-
-        public async Task<ICollection<User>> GetAllAsync() 
-        {
-            return await this.database.Users.ToListAsync();
+            return await this.database
+                             .Users
+                             .ToListAsync();
         }
 
         public async Task<User> GetById(string id)
         {
-            return await this.database.Users.FirstOrDefaultAsync(opt => opt.Id == id);
-        }
-
-        public void Remove(User entity)
-        {
-            base.Remove(entity);
-        }
-
-        public void Update(User entity)
-        {
-            base.Update(entity);
+            return await this.database
+                             .Users
+                             .FirstOrDefaultAsync(opt => opt.Id == id);
         }
     }
 }

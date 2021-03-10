@@ -29,9 +29,9 @@ namespace CarSeller.Test.Tests
             //await result.ConfigureAwait(false);
         }
 
-        private SellerViewModel CreateSellerViewModelTest()
+        private CreateSellerViewModel CreateSellerViewModelTest()
         {
-            return new SellerViewModel { FirstName = "Elon", LastName = "Musk" };
+            return new CreateSellerViewModel { FirstName = "Elon", LastName = "Musk" };
         }
 
         private Seller CreateSellerTest()

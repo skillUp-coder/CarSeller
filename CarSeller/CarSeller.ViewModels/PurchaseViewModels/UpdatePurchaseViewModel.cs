@@ -2,12 +2,12 @@
 
 namespace CarSeller.ViewModels.ViewModels
 {
-    public class SellerUpdateViewModel
+    public class UpdatePurchaseViewModel
     {
         [Required] public int Id { get; set; }
 
-        [Required] public string FirstName { get; set; }
+        [Required] public string UserId { get; set; }
 
-        [Required] public string LastName { get; set; }
+        [Required] public int CarId { get; set; }
     }
 }

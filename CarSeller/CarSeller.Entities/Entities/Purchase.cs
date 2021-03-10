@@ -2,6 +2,9 @@
 
 namespace CarSeller.Entities.Models
 {
+    /// <summary>
+    /// A purchase object exists to store the properties of this entity.
+    /// </summary>
     public class Purchase : BaseEntity
     {
         public string UserId { get; set; }
