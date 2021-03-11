@@ -23,6 +23,7 @@ namespace CarSeller.API
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.SetJwtBearer(this._configuration);
             services.AddDbContext<DataContext>(options =>
                 options.UseSqlServer(this._configuration["ConnectionStrings:DefaultConnection"]));
             services.AddIdentity<User, IdentityRole>()

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using CarSeller.BusinessLogic.MapperProfiles;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CarSeller.API.Config

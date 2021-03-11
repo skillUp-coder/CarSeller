@@ -53,6 +53,9 @@ namespace CarSeller.BusinessLogic.MapperProfiles
                 this.CreateMap<User, UserGetByIdPurchaseViewModelItem>();
                 this.CreateMap<User, GetAllUserViewModelItem>();
                 this.CreateMap<User, GetByIdUserViewModel>();
+                this.CreateMap<User, LoginUserViewModel>();
+                this.CreateMap<RegisterUserViewModel, GenerateJwtTokenUserViewModel>();
+                this.CreateMap<LoginUserViewModel, GenerateJwtTokenUserViewModel>();
             #endregion
 
         }

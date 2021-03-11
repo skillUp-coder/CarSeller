@@ -11,9 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarSeller.DataAccess", "Car
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarSeller.Entities", "CarSeller.Entities\CarSeller.Entities.csproj", "{D8B2051C-ED55-4A72-A2E2-64376F39EE2C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarSeller.ViewModels", "CarSeller.ViewModels\CarSeller.ViewModels.csproj", "{E2FB609C-E408-4AF5-BE9C-6019B856EAA4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarSeller.ViewModels", "CarSeller.ViewModels\CarSeller.ViewModels.csproj", "{E2FB609C-E408-4AF5-BE9C-6019B856EAA4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarSeller.Test", "CarSeller.Test\CarSeller.Test.csproj", "{CCD2D761-99BD-415F-AE67-6546554D55D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarSeller.Tests", "CarSeller.Test\CarSeller.Tests.csproj", "{CCD2D761-99BD-415F-AE67-6546554D55D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

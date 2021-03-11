@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
+using CarSeller.API.Configs;
 using CarSeller.BusinessLogic.Interfaces;
-using CarSeller.Entities.Models;
+using CarSeller.ViewModels.UserViewModels;
 using CarSeller.ViewModels.ViewModels;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
 
 namespace CarSeller.API.Controllers
@@ -13,42 +14,62 @@ namespace CarSeller.API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService userService;
-        private readonly UserManager<User> userManager;
-        private readonly SignInManager<User> signInManager;
         private readonly IMapper mapper;
+        private readonly IConfiguration configuration;
 
-        public UserController(IUserService userService, 
-                              UserManager<User> userManager, 
-                              SignInManager<User> signInManager, 
-                              IMapper mapper)
+        public UserController(IUserService userService,
+                              IMapper mapper,
+                              IConfiguration configuration)
         {
             this.userService = userService;
-            this.userManager = userManager;
-            this.signInManager = signInManager;
             this.mapper = mapper;
+            this.configuration = configuration;
         }
 
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterUserViewModel model) 
+        public async Task<IActionResult> Register([FromBody] RegisterUserViewModel model)
         {
-            if (!this.ModelState.IsValid) 
+            if (!this.ModelState.IsValid)
             {
                 return this.BadRequest(this.ModelState);
             }
 
-            var userMapper = this.mapper.Map<User>(model);
-            var result = await this.userManager.CreateAsync(userMapper, model.Password);
+            var result = await this.userService.Register(model);
+
             if (result.Succeeded)
             {
-                await this.signInManager.SignInAsync(userMapper, false);
-                return this.Ok();
+                var userMapper = this.mapper.Map<GenerateJwtTokenUserViewModel>(model);
+                var tokenString = JwtTokenFactory.GenerateJwtToken(userMapper, this.configuration);
+                return this.Ok(tokenString);
+            }
+            else
+            {
+                return this.BadRequest();
+            }
+        }
+
+        [HttpPost]
+        [Route("login")]
+        public async Task<IActionResult> Login([FromBody] LoginUserViewModel model) 
+        {
+            if (!this.ModelState.IsValid) 
+            {
+                return this.BadRequest();
+            }
+
+            var user = await this.userService.Login(model);
+            if (user != null)
+            {
+                var userMapper = this.mapper.Map<GenerateJwtTokenUserViewModel>(model);
+                var tokenString = JwtTokenFactory.GenerateJwtToken(userMapper, this.configuration);
+                return this.Ok(tokenString);
             }
             else 
             {
                 return this.BadRequest();
             }
-
+            
         }
 
         [HttpGet]
