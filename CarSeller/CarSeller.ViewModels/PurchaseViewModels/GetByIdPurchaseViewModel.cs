@@ -1,7 +1,8 @@
-﻿using CarSeller.Entities.Models;
-
-namespace CarSeller.ViewModels.PurchaseViewModels
+﻿namespace CarSeller.ViewModels.PurchaseViewModels
 {
+    /// <summary>
+    /// GetByIdPurchaseViewModel object exists for getting an object by Id.
+    /// </summary>
     public class GetByIdPurchaseViewModel
     {
         public int Id { get; set; }
@@ -11,6 +12,9 @@ namespace CarSeller.ViewModels.PurchaseViewModels
         public CarGetByIdPurchaseViewModelItem Car { get; set; }
     }
 
+    /// <summary>
+    /// The UserGetByIdPurchaseViewModelItem object exists for getting the necessary properties 
+    /// </summary>
     public class UserGetByIdPurchaseViewModelItem
     {
         public string Id { get; set; }
@@ -18,6 +22,9 @@ namespace CarSeller.ViewModels.PurchaseViewModels
         public string UserName { get; set; }
     }
 
+    /// <summary>
+    /// The CarGetByIdPurchaseViewModelItem object exists for getting the necessary properties 
+    /// </summary>
     public class CarGetByIdPurchaseViewModelItem 
     {
         public int Id { get; set; }

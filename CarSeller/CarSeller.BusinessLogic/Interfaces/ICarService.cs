@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 
 namespace CarSeller.BusinessLogic.Interfaces
 {
+    /// <summary>
+    /// The ICarService interface is responsible for dependency injection and method usage
+    /// </summary>
     public interface ICarService
     {
         Task<GetAllCarViewModel> GetAllAsync();

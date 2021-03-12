@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace CarSeller.DataAccess.Repositories
 {
+    /// <summary>
+    /// The SellerRepository class is responsible for creating the logic to add, modify, get the seller entity.
+    /// </summary>
     public class SellerRepository : BaseRepository<Seller>, ISellerRepository
     {
         private readonly DataContext database;
@@ -14,13 +17,6 @@ namespace CarSeller.DataAccess.Repositories
         public SellerRepository(DataContext database) : base(database)
         {
             this.database = database;
-        }
-
-        public override async Task<ICollection<Seller>> GetAllAsync() 
-        {
-            return await this.database
-                             .Sellers
-                             .ToListAsync();
         }
     }
 }

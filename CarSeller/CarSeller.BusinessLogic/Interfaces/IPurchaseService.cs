@@ -1,10 +1,12 @@
 ﻿using CarSeller.ViewModels.PurchaseViewModels;
 using CarSeller.ViewModels.ViewModels;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace CarSeller.BusinessLogic.Interfaces
 {
+    /// <summary>
+    /// The IPurchaseService interface is responsible for dependency injection and method usage
+    /// </summary>
     public interface IPurchaseService
     {
         Task CreateAsync(CreatePurchaseViewModel entity);

@@ -2,6 +2,9 @@
 
 namespace CarSeller.ViewModels.ViewModels
 {
+    /// <summary>
+    /// The UpdateCarViewModel object exists to change the object interacts with API and business logic.
+    /// </summary>
     public class UpdateCarViewModel
     {
         [Required] public int Id { get; set; }

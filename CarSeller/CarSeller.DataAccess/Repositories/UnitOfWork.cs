@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 
 namespace CarSeller.DataAccess.Repositories
 {
+    /// <summary>
+    /// Responsible for the content of the repositories which will use the same data context.
+    /// </summary>
     public class UnitOfWork : IUnitOfWork
     {
         private readonly DataContext database;
@@ -29,6 +32,10 @@ namespace CarSeller.DataAccess.Repositories
             this.Purchase = new PurchaseRepository(this.database);
         }
 
+        /// <summary>
+        /// The asynchronous Save method is responsible for saving the entity data to the database
+        /// </summary>
+        /// <returns></returns>
         public async Task Save() 
         {
             await this.database.SaveChangesAsync();

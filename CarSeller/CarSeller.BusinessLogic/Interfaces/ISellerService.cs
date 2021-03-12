@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 
 namespace CarSeller.BusinessLogic.Interfaces
 {
+    /// <summary>
+    /// The ISellerService interface is responsible for dependency injection and method usage
+    /// </summary>
     public interface ISellerService
     {
         Task CreateAsync(CreateSellerViewModel entity);

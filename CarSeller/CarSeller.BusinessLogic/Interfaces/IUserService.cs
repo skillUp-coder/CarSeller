@@ -1,10 +1,13 @@
-﻿using CarSeller.ViewModels.UserViewModels;
+﻿using CarSeller.Entities.Models;
+using CarSeller.ViewModels.UserViewModels;
 using CarSeller.ViewModels.ViewModels;
-using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 
 namespace CarSeller.BusinessLogic.Interfaces
 {
+    /// <summary>
+    /// The IUserService interface is responsible for dependency injection and method usage
+    /// </summary>
     public interface IUserService
     {
         Task<GetAllUserViewModel> GetAllAsync();
@@ -15,8 +18,8 @@ namespace CarSeller.BusinessLogic.Interfaces
 
         Task Update(UpdateUserViewModel entity);
 
-        Task<IdentityResult> Register(RegisterUserViewModel entity);
+        Task<User> Register(RegisterUserViewModel entity);
 
-        Task<LoginUserViewModel> Login(LoginUserViewModel entity);
+        Task<User> Login(LoginUserViewModel entity);
     }
 }

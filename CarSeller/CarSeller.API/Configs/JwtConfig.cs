@@ -7,8 +7,16 @@ using System.Text;
 
 namespace CarSeller.API.Config
 {
+    /// <summary>
+    /// The JwtConfig class is responsible for adding configurations to startup.
+    /// </summary>
     public static class JwtConfig
     {
+        /// <summary>
+        /// SetJwtBearer method is responsible for adding configurations for Jwt Token and Authentication.
+        /// </summary>
+        /// <param name="services">Designed to add configurations to IServiceCollectio</param>
+        /// <param name="configuration">Designed to get configuration providers</param>
         public static void SetJwtBearer(this IServiceCollection services, IConfiguration configuration)
         {
             var issuerDev = configuration["Jwt:Issuer"];

@@ -1,4 +1,5 @@
-﻿using CarSeller.ViewModels.UserViewModels;
+﻿using CarSeller.Entities.Models;
+using CarSeller.ViewModels.UserViewModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -9,9 +10,12 @@ using System.Text;
 
 namespace CarSeller.API.Configs
 {
+    /// <summary>
+    /// The JwtTokenFactory method is responsible for generating the user's token.
+    /// </summary>
     public static class JwtTokenFactory
     {
-        public static string GenerateJwtToken(GenerateJwtTokenUserViewModel entity, IConfiguration configuration)
+        public static GenerateJwtTokenUserViewModel GenerateJwtToken(User entity, IConfiguration configuration)
         {
             var securityKeyStr = configuration["Jwt:SecretKey"];
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(securityKeyStr));
@@ -31,7 +35,7 @@ namespace CarSeller.API.Configs
                                              expires: expires,
                                              signingCredentials: credentials);
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return new GenerateJwtTokenUserViewModel { Token = new JwtSecurityTokenHandler().WriteToken(token) };
         }
     }
 }

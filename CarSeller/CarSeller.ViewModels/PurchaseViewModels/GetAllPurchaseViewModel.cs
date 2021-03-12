@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace CarSeller.ViewModels.ViewModels
 {
+    /// <summary>
+    /// GetAllPurchaseViewModel object exists to create a collection of GetAllPurchaseViewModelItem objects
+    /// </summary>
     public class GetAllPurchaseViewModel 
     {
         public ICollection<GetAllPurchaseViewModelItem> Purchases { get; set; }
@@ -13,6 +16,9 @@ namespace CarSeller.ViewModels.ViewModels
         }
     }
 
+    /// <summary>
+    /// The GetAllPurchaseViewModelItem object exists for getting the necessary properties for the interaction of API and business logic
+    /// </summary>
     public class GetAllPurchaseViewModelItem
     {
         public int Id { get; set; }

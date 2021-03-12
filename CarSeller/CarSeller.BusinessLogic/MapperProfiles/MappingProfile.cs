@@ -8,6 +8,9 @@ using CarSeller.ViewModels.ViewModels;
 
 namespace CarSeller.BusinessLogic.MapperProfiles
 {
+    /// <summary>
+    /// The MappingProfile class is responsible for creating a configuration for mapping object types.
+    /// </summary>
     public class MappingProfile : Profile
     {
         public MappingProfile()

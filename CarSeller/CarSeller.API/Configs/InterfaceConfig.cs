@@ -6,8 +6,15 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace CarSeller.API.Config
 {
+    /// <summary>
+    /// The Interface Config class is responsible for adding configurations to startup.
+    /// </summary>
     public static class InterfaceConfig
     {
+        /// <summary>
+        /// The method is responsible for injecting the dependency between interfaces and classes
+        /// </summary>
+        /// <param name="services">Designed to add configurations to IServiceCollectio</param>
         public static void SetInterfaceDI(this IServiceCollection services) 
         {
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));

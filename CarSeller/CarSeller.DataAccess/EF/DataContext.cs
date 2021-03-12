@@ -4,6 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CarSeller.DataAccess.EF
 {
+    /// <summary>
+    /// Responsible for the interaction of entities with the database
+    /// </summary>
     public class DataContext : IdentityDbContext
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)

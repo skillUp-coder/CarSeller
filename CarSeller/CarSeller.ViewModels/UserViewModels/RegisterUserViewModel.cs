@@ -2,6 +2,9 @@
 
 namespace CarSeller.ViewModels.ViewModels
 {
+    /// <summary>
+    /// RegisterUserViewModel is responsible for creating a user
+    /// </summary>
     public class RegisterUserViewModel
     {
         [Required] public string UserName { get; set; }
