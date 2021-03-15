@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 namespace CarSeller.DataAccess.EF
 {
     /// <summary>
-    /// Responsible for the interaction of entities with the database
+    /// Responsible for the interaction of entities with the database.
     /// </summary>
     public class DataContext : IdentityDbContext
     {

@@ -21,8 +21,8 @@ namespace CarSeller.DataAccess.Repositories
         /// <summary>
         /// The asynchronous GetById method is responsible for getting a specific user object.
         /// </summary>
-        /// <param name="id">Designed to get the desired object</param>
-        /// <returns>Returns the object of the required user</returns>
+        /// <param name="id">Designed to get the desired object.</param>
+        /// <returns>Returns the object of the required user.</returns>
         public async Task<User> GetById(string id)
         {
             return await this.database

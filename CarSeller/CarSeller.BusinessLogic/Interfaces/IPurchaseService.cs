@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace CarSeller.BusinessLogic.Interfaces
 {
     /// <summary>
-    /// The IPurchaseService interface is responsible for dependency injection and method usage
+    /// The IPurchaseService interface is responsible for dependency injection and method usage.
     /// </summary>
     public interface IPurchaseService
     {

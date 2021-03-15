@@ -9,10 +9,10 @@ namespace CarSeller.API.Config
     public static class SwaggerConfig
     {
         /// <summary>
-        /// The Set Swagger method is designed to add and Swagger config settings
+        /// The Set Swagger method is designed to add and Swagger config settings.
         /// </summary>
-        /// <param name="app">Designed to add configurations to IApplicationBuilder</param>
-        /// <param name="configuration">Designed to get configuration providers</param>
+        /// <param name="app">Designed to add configurations to IApplicationBuilder.</param>
+        /// <param name="configuration">Designed to get configuration providers.</param>
         public static void SetSwagger(this IApplicationBuilder app, IConfiguration configuration) 
         {
             var jsonRoute = configuration["SwaggerOptions:JsonRoute"];

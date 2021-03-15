@@ -22,7 +22,7 @@ namespace CarSeller.DataAccess.Repositories
         /// <summary>
         /// The overridden GetAllAsync method is responsible for retrieving a collection of entity purchases with related entities.
         /// </summary>
-        /// <returns>Returns a collection of purchase</returns>
+        /// <returns>Returns a collection of purchase.</returns>
         public override async Task<ICollection<Purchase>> GetAllAsync() 
         {
             return await this.database.Purchases
@@ -34,8 +34,8 @@ namespace CarSeller.DataAccess.Repositories
         /// <summary>
         /// The overridden GetById method is responsible for getting a custom vehicle object with related objects.
         /// </summary>
-        /// <param name="id">Designed to get the desired object</param>
-        /// <returns>Returns the object of the required purchase</returns>
+        /// <param name="id">Designed to get the desired object.</param>
+        /// <returns>Returns the object of the required purchase.</returns>
         public override async Task<Purchase> GetById(int id) 
         {
             return await this.database

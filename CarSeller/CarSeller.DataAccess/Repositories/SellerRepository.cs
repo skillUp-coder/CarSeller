@@ -1,9 +1,6 @@
 ﻿using CarSeller.DataAccess.EF;
 using CarSeller.DataAccess.Interfaces;
 using CarSeller.Entities.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace CarSeller.DataAccess.Repositories
 {

@@ -3,7 +3,7 @@
 namespace CarSeller.ViewModels.ViewModels
 {
     /// <summary>
-    /// GetAllSellerViewModel object exists to create a collection of GetAllPurchaseViewModelItem objects
+    /// GetAllSellerViewModel object exists to create a collection of GetAllPurchaseViewModelItem objects.
     /// </summary>
     public class GetAllSellerViewModel 
     {
@@ -16,7 +16,7 @@ namespace CarSeller.ViewModels.ViewModels
     }
 
     /// <summary>
-    /// The GetAllSellerViewModelItem object exists for getting the necessary properties
+    /// The GetAllSellerViewModelItem object exists for getting the necessary properties.
     /// </summary>
     public class GetAllSellerViewModelItem
     {

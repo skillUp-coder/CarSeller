@@ -3,7 +3,7 @@
 namespace CarSeller.ViewModels.ViewModels
 {
     /// <summary>
-    /// The CreateSellerViewModel object exists to create an object interacts with API and business logic
+    /// The CreateSellerViewModel object exists to create an object interacts with API and business logic.
     /// </summary>
     public class CreateSellerViewModel
     {

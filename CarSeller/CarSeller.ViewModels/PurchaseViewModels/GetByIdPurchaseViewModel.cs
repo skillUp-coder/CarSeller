@@ -13,7 +13,7 @@
     }
 
     /// <summary>
-    /// The UserGetByIdPurchaseViewModelItem object exists for getting the necessary properties 
+    /// The UserGetByIdPurchaseViewModelItem object exists for getting the necessary properties.
     /// </summary>
     public class UserGetByIdPurchaseViewModelItem
     {
@@ -23,7 +23,7 @@
     }
 
     /// <summary>
-    /// The CarGetByIdPurchaseViewModelItem object exists for getting the necessary properties 
+    /// The CarGetByIdPurchaseViewModelItem object exists for getting the necessary properties. 
     /// </summary>
     public class CarGetByIdPurchaseViewModelItem 
     {

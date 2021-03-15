@@ -33,9 +33,9 @@ namespace CarSeller.DataAccess.Repositories
         }
 
         /// <summary>
-        /// The asynchronous Save method is responsible for saving the entity data to the database
+        /// The asynchronous Save method is responsible for saving the entity data to the database.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Returns the persistence of a specific object.</returns>
         public async Task Save() 
         {
             await this.database.SaveChangesAsync();

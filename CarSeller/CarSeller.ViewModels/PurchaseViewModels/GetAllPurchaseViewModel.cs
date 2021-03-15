@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace CarSeller.ViewModels.ViewModels
 {
     /// <summary>
-    /// GetAllPurchaseViewModel object exists to create a collection of GetAllPurchaseViewModelItem objects
+    /// GetAllPurchaseViewModel object exists to create a collection of GetAllPurchaseViewModelItem objects.
     /// </summary>
     public class GetAllPurchaseViewModel 
     {
@@ -17,7 +17,7 @@ namespace CarSeller.ViewModels.ViewModels
     }
 
     /// <summary>
-    /// The GetAllPurchaseViewModelItem object exists for getting the necessary properties for the interaction of API and business logic
+    /// The GetAllPurchaseViewModelItem object exists for getting the necessary properties for the interaction of API and business logic.
     /// </summary>
     public class GetAllPurchaseViewModelItem
     {

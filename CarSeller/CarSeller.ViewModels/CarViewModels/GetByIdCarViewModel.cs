@@ -17,7 +17,7 @@
     }
 
     /// <summary>
-    /// SellerGetByIdCarViewModelItem exists to transform related data into GetByIdCarViewModel
+    /// SellerGetByIdCarViewModelItem exists to transform related data into GetByIdCarViewModel.
     /// </summary>
     public class SellerGetByIdCarViewModelItem 
     {
