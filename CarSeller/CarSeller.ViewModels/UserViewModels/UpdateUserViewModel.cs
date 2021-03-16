@@ -7,7 +7,14 @@ namespace CarSeller.ViewModels.ViewModels
     /// </summary>
     public class UpdateUserViewModel
     {
+        /// <summary>
+        /// Property Id User.
+        /// </summary>
         [Required] public string Id { get; set; }
+
+        /// <summary>
+        /// Property user name User.
+        /// </summary>
         [Required] public string UserName { get; set; }
     }
 }

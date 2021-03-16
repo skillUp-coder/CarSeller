@@ -11,6 +11,9 @@ namespace CarSeller.DataAccess.Repositories
     {
         private readonly DataContext database;
 
+        /// <summary>
+        /// Responsible for injecting a dependency for a DataContext.
+        /// </summary>
         public SellerRepository(DataContext database) : base(database)
         {
             this.database = database;

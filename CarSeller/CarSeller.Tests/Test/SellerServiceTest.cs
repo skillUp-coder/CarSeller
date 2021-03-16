@@ -109,11 +109,11 @@ namespace CarSeller.Tests.Test
             };
         }
 
-        private async Task<ICollection<GetAllSellerViewModelItem>> GetAllSellerViewModelItemsAsyncTest()
+        private async Task<ICollection<SellerGetAllSellerViewModelItem>> GetAllSellerViewModelItemsAsyncTest()
         {
-            return new List<GetAllSellerViewModelItem>
+            return new List<SellerGetAllSellerViewModelItem>
             {
-                new GetAllSellerViewModelItem { Id = 1, FirstName = "John", LastName = "Jonson" }
+                new SellerGetAllSellerViewModelItem { Id = 1, FirstName = "John", LastName = "Jonson" }
             };
         }
         #endregion

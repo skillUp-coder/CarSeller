@@ -110,10 +110,10 @@ namespace CarSeller.Tests.Test
             };
         }
 
-        private async Task<ICollection<GetAllCarViewModelItem>> GetAllCarViewModelItemAsyncTest()
+        private async Task<ICollection<CarGetAllCarViewModelItem>> GetAllCarViewModelItemAsyncTest()
         {
-            return new List<GetAllCarViewModelItem> {
-                new GetAllCarViewModelItem { Brand = "Tesla", Name = "X", State = "New" }
+            return new List<CarGetAllCarViewModelItem> {
+                new CarGetAllCarViewModelItem { Brand = "Tesla", Name = "X", State = "New" }
             };
         }
 

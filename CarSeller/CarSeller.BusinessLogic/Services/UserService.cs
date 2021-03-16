@@ -7,17 +7,21 @@ using CarSeller.ViewModels.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CarSeller.BusinessLogic.Services
 {
     /// <summary>
-    /// The UserService class is responsible for creating the logic for logging in, registering, modifying, and retrieving the car object.
+    /// The UserService class is responsible for creating the logic for logging in, registering, modifying, and retrieving the User object.
     /// </summary>
     public class UserService : BaseService<User>, IUserService
     { 
         private readonly UserManager<User> userManager;
 
+        /// <summary>
+        /// Responsible for injecting a dependency for a Unit Of Work, UserManager and Mapper.
+        /// </summary>
         public UserService(IUnitOfWork database, 
                            IMapper mapper,
                            UserManager<User> userManager) : base(database, mapper)
@@ -25,33 +29,28 @@ namespace CarSeller.BusinessLogic.Services
             this.userManager = userManager;
         }
 
-        /// <summary>
-        /// The asynchronous Register method is responsible for adding custom data.
-        /// </summary>
-        /// <param name="registerUserViewModel">This entity is for adding properties to an object.</param>
-        /// <returns>Returns the User entity.</returns>
+        ///<inheritdoc/>
         public async Task<User> Register(RegisterUserViewModel registerUserViewModel)
         {
             if (registerUserViewModel == null) 
             {
-                throw new Exception("Empty object");
+                throw new Exception("User register not object.");
             }
 
-            var user = this.mapper.Map<User>(registerUserViewModel);
+            var user = new User();
+            this.mapper.Map<RegisterUserViewModel, User>
+                (registerUserViewModel, user);
+            
             var result = await this.userManager.CreateAsync(user, registerUserViewModel.Password);
             return (result.Succeeded) ? user : null;
         }
 
-        /// <summary>
-        /// The asynchronous login method is responsible for checking if the username and password match.
-        /// </summary>
-        /// <param name="loginUserViewModel">The parameter contains properties to check for compliance.</param>
-        /// <returns>Returns the User entity.</returns>
+        ///<inheritdoc/>
         public async Task<User> Login(LoginUserViewModel loginUserViewModel) 
         {
             if (loginUserViewModel == null) 
             {
-                throw new Exception("Empty object");
+                throw new Exception("User login not object.");
             }
 
             var user = await this.userManager.FindByNameAsync(loginUserViewModel.UserName);
@@ -59,73 +58,63 @@ namespace CarSeller.BusinessLogic.Services
                 ? user : null; 
         }
 
-        /// <summary>
-        /// The asynchronous GetAllAsync method is responsible for getting a collection of users entities.
-        /// </summary>
-        /// <returns>Returns a collection of users.</returns>
+        ///<inheritdoc/>
         public async Task<GetAllUserViewModel> GetAllAsync() 
         {
             var userViewModel = new GetAllUserViewModel();
             var users = await this.database.User.GetAllAsync();
-            
-            userViewModel.Users = this.mapper.Map<ICollection<GetAllUserViewModelItem>>(users);
-            return userViewModel;
+
+            if (users.Count() != 0) 
+            {
+                this.mapper.Map<ICollection<User>, ICollection<UserGetAllUserViewModelItem>>
+                (users, userViewModel.Users);
+            }
+
+            return (users.Count() == 0) 
+                ? new GetAllUserViewModel() : userViewModel;
         }
 
-        /// <summary>
-        /// The asynchronous GetById method is responsible for sending the parameter to the repository and transforming the received data.
-        /// </summary>
-        /// <param name="id">The Id parameter is intended to get the required object.</param>
-        /// <returns>Returns a specific object.</returns>
+        ///<inheritdoc/>
         public async Task<GetByIdUserViewModel> GetById(string id)
         {
             var user = await this.database.User.GetById(id);
-
+            GetByIdUserViewModel userViewModel = new GetByIdUserViewModel();
             if (user == null) 
             {
-                throw new Exception("Empty object");
+                throw new Exception("User not found.");
             }
 
-            return this.mapper.Map<GetByIdUserViewModel>(user);
+            return this.mapper.Map<User, GetByIdUserViewModel>
+                (user, userViewModel);
         }
 
-        /// <summary>
-        /// The asynchronous Remove method is responsible for getting a specific object by the Id parameter 
-        /// and sending the resulting object to the repository to remove it from the database.
-        /// </summary>
-        /// <param name="id">The Id parameter is intended to get the required object.</param>
-        /// <returns>Returns the deletion of a specific object.</returns>
+        ///<inheritdoc/>
         public async Task Remove(string id)
         {
             var user = await this.database.User.GetById(id);
 
             if (user == null) 
             {
-                throw new Exception("Empty object");
+                throw new Exception("User not found.");
             }
 
             this.database.User.Remove(user);
-            await this.database.Save();
+            await this.database.SaveAsync();
         }
 
-        /// <summary>
-        /// The asynchronous update method is responsible for transforming an object 
-        /// and pushing that object to the repository to modify the data in the database.
-        /// </summary>
-        /// <param name="updateUserViewModel">The parameter is responsible for providing the necessary data to modify the entity.</param>
-        /// <returns>Returns the change of the entity.</returns>
+        ///<inheritdoc/>
         public async Task Update(UpdateUserViewModel updateUserViewModel)
         {
             var user = await this.database.User.GetById(updateUserViewModel.Id);
 
             if (user == null) 
             {
-                throw new Exception("Empty object");
+                throw new Exception("User update not object.");
             }
 
             user.UserName = updateUserViewModel.UserName;
             this.database.User.Update(user);
-            await this.database.Save();
+            await this.database.SaveAsync();
         }
     }
 }

@@ -5,7 +5,14 @@
     /// </summary>
     public class GetByIdUserViewModel
     {
+        /// <summary>
+        /// Property Id User.
+        /// </summary>
         public string Id { get; set; }
+
+        /// <summary>
+        /// Property user name User.
+        /// </summary>
         public string UserName { get; set; }
     }
 }

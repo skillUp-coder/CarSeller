@@ -8,6 +8,9 @@ namespace CarSeller.Entities.Models
     /// </summary>
     public abstract class BaseEntity
     {
+        /// <summary>
+        /// The Id property for entities.
+        /// </summary>
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public virtual int Id { get; set; }
     }

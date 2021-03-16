@@ -14,15 +14,18 @@ namespace CarSeller.DataAccess.Repositories
     {
         private readonly DataContext database;
 
+        /// <summary>
+        /// Responsible for injecting a dependency for a DataContext.
+        /// </summary>
         public CarRepository(DataContext database) : base(database)
         {
             this.database = database;
         }
 
         /// <summary>
-        /// The overridden GetAllAsync method is responsible for getting the machine entity collection with related entities.
+        /// Method to get all Car.
         /// </summary>
-        /// <returns>Returns a collection of cars.</returns>
+        /// <returns>Task representing get all operation.</returns>
         public override async Task<ICollection<Car>> GetAllAsync() 
         {
             return await this.database.Cars
@@ -31,10 +34,10 @@ namespace CarSeller.DataAccess.Repositories
         }
 
         /// <summary>
-        /// The overridden GetById method is responsible for getting a custom vehicle object with related objects.
+        /// Method to get by id Car.
         /// </summary>
-        /// <param name="id">Designed to get the desired object.</param>
-        /// <returns>Returns the object of the required car.</returns>
+        /// <param name="id">Identifier of requested Car.</param>
+        /// <returns>Task representing get by id operation.</returns>
         public override async Task<Car> GetById(int id) 
         {
             return await this.database

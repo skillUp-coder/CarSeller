@@ -1,40 +1,40 @@
-﻿using AutoMapper;
-using CarSeller.API.Configs;
+﻿using CarSeller.API.Configs;
 using CarSeller.BusinessLogic.Interfaces;
 using CarSeller.ViewModels.UserViewModels;
 using CarSeller.ViewModels.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Threading.Tasks;
 
 namespace CarSeller.API.Controllers
 {
     /// <summary>
-    /// The User controller is responsible for fulfilling the requests to get, delete, modify, login and register the user.
+    /// The User controller is responsible for fulfilling the requests to get, delete, modify, login and register the User.
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
         private readonly IUserService userService;
-        private readonly IMapper mapper;
         private readonly IConfiguration configuration;
 
+        /// <summary>
+        /// Responsible for injecting a dependency for a user service and configuration.
+        /// </summary>
         public UserController(IUserService userService,
-                              IMapper mapper,
                               IConfiguration configuration)
         {
             this.userService = userService;
-            this.mapper = mapper;
             this.configuration = configuration;
         }
 
 
         /// <summary>
-        /// The asynchronous Register method is responsible for adding user data to the database and creating a user token.
+        /// Method to register User.
         /// </summary>
-        /// <param name="model">The model parameter is responsible for getting the properties of the user.</param>
-        /// <returns>Returns the answer is how correctly the logic is executed in this method.</returns>
+        /// <param name="model">User object to register.</param>
+        /// <returns>Action result for register request.</returns>
         [HttpPost]
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterUserViewModel model)
@@ -44,24 +44,31 @@ namespace CarSeller.API.Controllers
                 return this.BadRequest(this.ModelState);
             }
 
-            var user = await this.userService.Register(model);
+            try
+            {
+                var user = await this.userService.Register(model);
 
-            if (user != null)
-            {
-                var tokenString = JwtTokenFactory.GenerateJwtToken(user, this.configuration);
-                return this.Ok(tokenString);
+                if (user != null)
+                {
+                    var tokenString = JwtTokenFactory.GenerateJwtToken(user, this.configuration);
+                    return this.Ok(tokenString);
+                }
+                else
+                {
+                    return this.BadRequest();
+                }
             }
-            else
+            catch (Exception ex) 
             {
-                return this.BadRequest();
+                return this.BadRequest(ex.Message);
             }
         }
 
         /// <summary>
-        /// The asynchronous login method is responsible for executing a request to check if the username and password are the same.
+        /// Method to login User.
         /// </summary>
-        /// <param name="model">The parameter contains properties to check for compliance.</param>
-        /// <returns>Returns the answer is how correctly the logic is executed in this method.</returns>
+        /// <param name="model">User object to login.</param>
+        /// <returns>Action result for login request.</returns>
         [HttpPost]
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginUserViewModel model) 
@@ -71,72 +78,89 @@ namespace CarSeller.API.Controllers
                 return this.BadRequest();
             }
 
-            var user = await this.userService.Login(model);
-            if (user != null)
+            try
             {
-                var tokenString = JwtTokenFactory.GenerateJwtToken(user, this.configuration);
-                return this.Ok(tokenString);
+                var user = await this.userService.Login(model);
+                if (user != null)
+                {
+                    var tokenString = JwtTokenFactory.GenerateJwtToken(user, this.configuration);
+                    return this.Ok(tokenString);
+                }
+                else
+                {
+                    return this.BadRequest();
+                }
             }
-            else 
+            catch (Exception ex) 
             {
-                return this.BadRequest();
+                return this.BadRequest(ex.Message);
             }
-            
         }
 
         /// <summary>
-        /// The asynchronous GetAll method is responsible for executing a request to get the collection of users.
+        /// Method to get all User.
         /// </summary>
-        /// <returns>Returns the response from the user collection.</returns>
+        /// <returns>Action result for get all request.</returns>
         [HttpGet]
         [Route("get-all")]
         public async Task<IActionResult> GetAll()
         {
-            var users = await this.userService.GetAllAsync();
-            return this.Ok(users);
+            try
+            {
+                var users = await this.userService.GetAllAsync();
+                return this.Ok(users);
+            }
+            catch (Exception ex) 
+            {
+                return this.BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
-        /// The asynchronous GetById method is responsible for executing a request to get a specific user object.
+        /// Method to get by id User.
         /// </summary>
-        /// <param name="id">The Id parameter is intended to get the required user object.</param>
-        /// <returns>Returns a response with a specific user object.</returns>
+        /// <param name="id">Identifier of requested User.</param>
+        /// <returns>Action result for get by id request.</returns>
         [HttpGet]
         [Route("get-by-id")]
         public async Task<IActionResult> GetById(string id)
         {
-            if (string.IsNullOrEmpty(id))
+            try
             {
-                return this.BadRequest();
+                var user = await this.userService.GetById(id);
+                return this.Ok(user);
             }
-
-            var user = await this.userService.GetById(id);
-            return this.Ok(user);
+            catch (Exception ex) 
+            {
+                return this.BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
-        /// The asynchronous Delete method is responsible for executing a request to delete an object from the database.
+        /// Method to delete User.
         /// </summary>
-        /// <param name="id">The Id parameter is intended to get the required v object.</param>
-        /// <returns>Returns the answer is how correctly the logic is executed in this method.</returns>
+        /// <param name="id">Identifier of requested User.</param>
+        /// <returns>Action result for delete request.</returns>
         [HttpDelete]
         [Route("delete")]
         public async Task<IActionResult> Delete(string id)
         {
-            if (string.IsNullOrEmpty(id))
+            try
             {
-                return this.BadRequest();
+                await this.userService.Remove(id);
+                return this.Ok();
             }
-
-            await this.userService.Remove(id);
-            return this.Ok();
+            catch (Exception ex)
+            {
+                return this.BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
-        /// The asynchronous update method is responsible for executing an object change request in the database.
+        /// Method to update User.
         /// </summary>
-        /// <param name="model">The parameter is responsible for providing the necessary data to modify the entity.</param>
-        /// <returns>Returns the answer is how correctly the logic is executed in this method.9</returns>
+        /// <param name="model">User model to be updated.</param>
+        /// <returns>Action result for update request.</returns>
         [HttpPut]
         [Route("update")]
         public async Task<IActionResult> Update([FromBody] UpdateUserViewModel model)
@@ -146,8 +170,15 @@ namespace CarSeller.API.Controllers
                 return this.BadRequest();
             }
 
-            await this.userService.Update(model);
-            return this.Ok();
+            try
+            {
+                await this.userService.Update(model);
+                return this.Ok();
+            }
+            catch (Exception ex) 
+            {
+                return this.BadRequest(ex.Message);
+            }
         }
     }
 }

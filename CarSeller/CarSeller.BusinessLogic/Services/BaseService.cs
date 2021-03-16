@@ -13,6 +13,9 @@ namespace CarSeller.BusinessLogic.Services
         protected readonly IUnitOfWork database;
         protected readonly IMapper mapper;
 
+        /// <summary>
+        /// Responsible for injecting a dependency for a Unit Of Work service and Mapper.
+        /// </summary>
         public BaseService(IUnitOfWork database, 
                            IMapper mapper)
         {

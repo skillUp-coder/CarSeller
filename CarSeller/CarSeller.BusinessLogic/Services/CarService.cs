@@ -6,100 +6,100 @@ using CarSeller.ViewModels.CarViewModels;
 using CarSeller.ViewModels.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CarSeller.BusinessLogic.Services
 {
     /// <summary>
-    /// The CarService class is responsible for creating the logic to add, modify, get the car entity.
+    /// The CarService class is responsible for creating the logic to add, modify, get the Сar.
     /// </summary>
     public class CarService : BaseService<Car>, ICarService
     {
+        /// <summary>
+        /// Responsible for injecting a dependency for a Unit Of Work and Mapper.
+        /// </summary>
         public CarService(IUnitOfWork database, 
                           IMapper mapper) : base(database, mapper)
         { }
 
-        /// <summary>
-        /// The asynchronous GetAllAsync method is responsible for getting a collection of car entities.
-        /// </summary>
-        /// <returns>Returns a collection of cars.</returns>
+        ///<inheritdoc/>
         public async Task<GetAllCarViewModel> GetAllAsync() 
         {
             var carViewModel = new GetAllCarViewModel();
             var cars = await this.database.Car.GetAllAsync();
-            carViewModel.Cars = this.mapper.Map<ICollection<GetAllCarViewModelItem>>(cars);
-            return carViewModel;
+
+            if (cars.Count() != 0)
+            {
+                this.mapper.Map<ICollection<Car>, ICollection<CarGetAllCarViewModelItem>>
+                (cars, carViewModel.Cars);
+            }
+
+            return (cars.Count() == 0) 
+                ? new GetAllCarViewModel() : carViewModel;
         }
 
-        /// <summary>
-        /// The asynchronous CreateAsync method is responsible for transforming the object and submitting the object to the repository.
-        /// </summary>
-        /// <param name="createCarViewModel">This entity is for transforming properties and passing data to the repository.</param>
-        /// <returns>Returns the addition of a specific object.</returns>
-        public async Task CreateAsync(CreateCarViewModel createCarViewModel) 
+        ///<inheritdoc/>
+        public async Task<int> CreateAsync(CreateCarViewModel createCarViewModel) 
         {
             if (createCarViewModel == null)
             {
-                throw new Exception("Empty object");
+                throw new Exception("Car create not object.");
             }
 
-            var car = this.mapper.Map<Car>(createCarViewModel);
+            var car = new Car();
+            this.mapper.Map<CreateCarViewModel, Car>
+                (createCarViewModel, car);
+
             await this.database.Car.CreateAsync(car);
-            await this.database.Save();
+            await this.database.SaveAsync();
+            
+            return car.Id;
         }
 
-        /// <summary>
-        /// The asynchronous GetById method is responsible for sending the parameter to the repository and transforming the received data.
-        /// </summary>
-        /// <param name="id">The Id parameter is intended to get the required object.</param>
-        /// <returns>Returns a specific object.</returns>
+        ///<inheritdoc/>
         public async Task<GetByIdCarViewModel> GetById(int id)
         {
             var car = await this.database.Car.GetById(id);
+            GetByIdCarViewModel carViewModel = new GetByIdCarViewModel();
 
             if (car == null) 
             {
-                throw new Exception("Empty object");    
+                throw new Exception("Car not found.");    
             }
 
-            return this.mapper.Map<GetByIdCarViewModel>(car);
+            return this.mapper.Map<Car, GetByIdCarViewModel>
+                (car, carViewModel);
         }
 
-        /// <summary>
-        /// The asynchronous Remove method is responsible for getting a specific object by the Id parameter 
-        /// and sending the resulting object to the repository to remove it from the database.
-        /// </summary>
-        /// <param name="id">The Id parameter is intended to get the required object.</param>
-        /// <returns>Returns the deletion of a specific object.</returns>
+        ///<inheritdoc/>
         public async Task Remove(int id) 
         {
             var car = await this.database.Car.GetById(id);
 
             if (car == null) 
             {
-                throw new Exception("Empty object");
+                throw new Exception("Car not found.");
             }
 
             this.database.Car.Remove(car);
-            await this.database.Save();
+            await this.database.SaveAsync();
         }
 
-        /// <summary>
-        /// The asynchronous update method is responsible for transforming an object 
-        /// and pushing that object to the repository to modify the data in the database.
-        /// </summary>
-        /// <param name="updateCarViewModel">The parameter is responsible for providing the necessary data to modify the entity.</param>
-        /// <returns>Returns the change of the entity.</returns>
+        ///<inheritdoc/>
         public async Task Update(UpdateCarViewModel updateCarViewModel) 
         {
             if (updateCarViewModel == null) 
             {
-                throw new Exception("Empty object");    
+                throw new Exception("Car update not object.");    
             }
 
-            var car = this.mapper.Map<Car>(updateCarViewModel);
+            var car = new Car();
+            this.mapper.Map<UpdateCarViewModel, Car>
+                (updateCarViewModel, car);
+
             this.database.Car.Update(car);
-            await this.database.Save();
+            await this.database.SaveAsync();
         }
     }
 }

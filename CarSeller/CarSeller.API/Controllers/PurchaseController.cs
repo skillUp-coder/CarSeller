@@ -1,33 +1,33 @@
-﻿using AutoMapper;
-using CarSeller.BusinessLogic.Interfaces;
+﻿using CarSeller.BusinessLogic.Interfaces;
 using CarSeller.ViewModels.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace CarSeller.API.Controllers
 {
     /// <summary>
-    /// The Purchase controller is responsible for fulfilling the requests to get, delete, modify and create the purchase.
+    /// The Purchase controller is responsible for fulfilling the requests to get, delete, modify and create the Purchase.
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class PurchaseController : ControllerBase
     {
         private readonly IPurchaseService purchaseService;
-        private readonly IMapper mapper;
 
-        public PurchaseController(IPurchaseService purchaseService, 
-                                  IMapper mapper)
+        /// <summary>
+        /// Responsible for injecting a dependency for a purchase service.
+        /// </summary>
+        public PurchaseController(IPurchaseService purchaseService)
         {
             this.purchaseService = purchaseService;
-            this.mapper = mapper;
         }
 
         /// <summary>
-        /// the asynchronous Create method is responsible for executing the request to create the purchase object.
+        /// Method to create Purchase.
         /// </summary>
-        /// <param name="model">The model parameter is responsible for getting the properties of the purchase.</param>
-        /// <returns>Returns the answer is how correctly the logic is executed in this method.</returns>
+        /// <param name="model">Purchase object to create.</param>
+        /// <returns>Action result for create request.</returns>
         [HttpPost]
         [Route("create")]
         public async Task<IActionResult> Create([FromBody] CreatePurchaseViewModel model) 
@@ -37,64 +37,81 @@ namespace CarSeller.API.Controllers
                 return this.BadRequest(this.ModelState);
             }
 
-            await this.purchaseService.CreateAsync(model);
-
-            return this.Ok();
+            try
+            {
+                var purchaseId = await this.purchaseService.CreateAsync(model);
+                return this.Ok(purchaseId);
+            }
+            catch (Exception ex) 
+            {
+                return this.BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
-        /// The asynchronous GetAll method is responsible for executing a request to get the collection of purchases.
+        /// Method to get all Purchases. 
         /// </summary>
-        /// <returns>Returns the response from the purchases collection.</returns>
+        /// <returns>Action result for get all request.</returns>
         [HttpGet]
         [Route("get-all")]
         public async Task<IActionResult> GetAll() 
         {
-            var purchases = await this.purchaseService.GetAllAsync();
-            return this.Ok(purchases);
+            try
+            {
+                var purchases = await this.purchaseService.GetAllAsync();
+                return this.Ok(purchases);
+            }
+            catch (Exception ex) 
+            {
+                return this.BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
-        /// The asynchronous GetById method is responsible for executing a request to get a specific purchase object.
+        /// Method to get by id Purchase.
         /// </summary>
-        /// <param name="id">The Id parameter is intended to get the required object.</param>
-        /// <returns>Returns a response with a specific purchase object.</returns>
+        /// <param name="id">Identifier of requested purchase.</param>
+        /// <returns>Action result for get by id request.</returns>
         [HttpGet]
         [Route("get-by-id")]
         public async Task<IActionResult> GetById(int id)
         {
-            if (id == 0)
+            try
             {
-                return this.BadRequest();
+                var purchase = await this.purchaseService.GetById(id);
+                return this.Ok(purchase);
             }
-
-            var purchase = await this.purchaseService.GetById(id);
-            return this.Ok(purchase);
+            catch (Exception ex) 
+            {
+                return this.BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
-        /// The asynchronous Delete method is responsible for executing a request to delete an object from the database.
+        ///  Method to delete Purchase.
         /// </summary>
-        /// <param name="id">The Id parameter is intended to get the required purchase object.</param>
-        /// <returns>Returns the answer is how correctly the logic is executed in this method.</returns>
+        /// <param name="id">Identifier of requested Purchase.</param>
+        /// <returns>Action result for delete request.</returns>
         [HttpDelete]
         [Route("delete")]
         public async Task<IActionResult> Delete(int id)
         {
-            if (id == 0)
+            try
             {
-                return this.BadRequest();
+                await this.purchaseService.Remove(id);
+                return this.Ok();
             }
-
-            await this.purchaseService.Remove(id);
-            return this.Ok();
+            catch (Exception ex) 
+            {
+                return this.BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
-        /// The asynchronous update method is responsible for executing an object change request in the database.
+        /// Method to update Purchase.
         /// </summary>
-        /// <param name="model">The parameter is responsible for providing the necessary data to modify the entity.</param>
-        /// <returns>Returns the answer is how correctly the logic is executed in this method.</returns>
+        /// <param name="model">Purchase model to be updated.</param>
+        /// <returns>Action result for update request.</returns>
         [HttpPut]
         [Route("update")]
         public async Task<IActionResult> Update([FromBody] UpdatePurchaseViewModel model)
@@ -104,8 +121,15 @@ namespace CarSeller.API.Controllers
                 return this.BadRequest();
             }
 
-            await this.purchaseService.Update(model);
-            return this.Ok();
+            try
+            {
+                await this.purchaseService.Update(model);
+                return this.Ok();
+            }
+            catch (Exception ex) 
+            {
+                return this.BadRequest(ex.Message);
+            }
         }
     }
 }

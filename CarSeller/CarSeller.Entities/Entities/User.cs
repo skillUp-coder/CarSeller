@@ -8,6 +8,9 @@ namespace CarSeller.Entities.Models
     /// </summary>
     public class User : IdentityUser
     {
+        /// <summary>
+        /// Purchase property a list for the related entity User.
+        /// </summary>
         public virtual ICollection<Purchase> Purchases { get; set; }
     }
 }

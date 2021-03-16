@@ -19,6 +19,9 @@ namespace CarSeller.DataAccess.Repositories
 
         public IPurchaseRepository Purchase { get; }
 
+        /// <summary>
+        /// Responsible for dependency injection to initialize the DataContext and repositories.
+        /// </summary>
         public UnitOfWork(DataContext database)
         {
             this.database = database;
@@ -36,7 +39,7 @@ namespace CarSeller.DataAccess.Repositories
         /// The asynchronous Save method is responsible for saving the entity data to the database.
         /// </summary>
         /// <returns>Returns the persistence of a specific object.</returns>
-        public async Task Save() 
+        public async Task SaveAsync() 
         {
             await this.database.SaveChangesAsync();
         }

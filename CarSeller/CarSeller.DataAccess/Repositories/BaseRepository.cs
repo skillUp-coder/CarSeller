@@ -15,56 +15,40 @@ namespace CarSeller.DataAccess.Repositories
         private readonly DbSet<TEntity> dbSet;
         private readonly DataContext database;
 
+        /// <summary>
+        /// Responsible for injecting a dependency for a DbSet and DataContext.
+        /// </summary>
         public BaseRepository(DataContext database)
         {
             this.database = database;
             this.dbSet = database.Set<TEntity>();
         }
 
-        /// <summary>
-        /// The CreateAsync method is responsible for creating asynchronous logic for adding an entity to the database.
-        /// </summary>
-        /// <param name="entity">Generalized entity.</param>
-        /// <returns>Returns the addition of a specific object.</returns>
+        ///<inheritdoc/>
         public virtual async Task CreateAsync(TEntity entity)
         {
             await this.dbSet.AddAsync(entity);
         }
 
-        /// <summary>
-        /// The asynchronous GetAllAsync method is responsible for getting the collection of generic entities.
-        /// </summary>
-        /// <returns>Returns a collection of generic entities.</returns>
+        ///<inheritdoc/>
         public virtual async Task<ICollection<TEntity>> GetAllAsync()
         {
             return await this.dbSet.AsNoTracking().ToListAsync();
         }
 
-        /// <summary>
-        /// The asynchronous GetById method is responsible for getting the generic entity by Id.
-        /// </summary>
-        /// <param name="id">Serves to get the required entity.</param>
-        /// <returns>Returns a generic entity.</returns>
+        ///<inheritdoc/>
         public virtual async Task<TEntity> GetById(int id)
         {
             return await this.database.FindAsync<TEntity>(id);
         }
 
-        /// <summary>
-        /// The Remove method is responsible for removing the required entity from the database.
-        /// </summary>
-        /// <param name="entity">The generalized entity to be removed from the database.</param>
-        /// <returns>Returns the deletion of a specific object.</returns>
+        ///<inheritdoc/>
         public virtual void Remove(TEntity entity)
         {
             this.dbSet.Remove(entity);
         }
 
-        /// <summary>
-        /// The Update method is responsible for modifying the required entity in the database.
-        /// </summary>
-        /// <param name="entity">Generic object to be modified in databases.</param>
-        /// <returns>Returns the change of the entity.</returns>
+        ///<inheritdoc/>
         public virtual void Update(TEntity entity)
         {
             this.database.Entry(entity).State = EntityState.Modified;

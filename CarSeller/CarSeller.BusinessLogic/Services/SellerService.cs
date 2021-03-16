@@ -6,101 +6,100 @@ using CarSeller.ViewModels.SellerViewModels;
 using CarSeller.ViewModels.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CarSeller.BusinessLogic.Services
 {
     /// <summary>
-    /// The SellerService class is responsible for creating the logic to add, modify, get the seller entity.
+    /// The SellerService class is responsible for creating the logic to add, modify, get the Seller entity.
     /// </summary>
     public class SellerService : BaseService<Seller>, ISellerService
     {
+        /// <summary>
+        /// Responsible for injecting a dependency for a Unit Of Work and Mapper.
+        /// </summary>
         public SellerService(IUnitOfWork database,
                              IMapper mapper) : base(database, mapper)
         { }
 
-        /// <summary>
-        /// The asynchronous CreateAsync method is responsible for transforming the object and submitting the object to the repository.
-        /// </summary>
-        /// <param name="createSellerViewModel">This entity provides properties for creating an object.</param>
-        /// <returns>Returns the addition of a specific object.</returns>
-        public async Task CreateAsync(CreateSellerViewModel createSellerViewModel)
+        ///<inheritdoc/>
+        public async Task<int> CreateAsync(CreateSellerViewModel createSellerViewModel)
         {
             if (createSellerViewModel == null)
             {
-                throw new Exception("Empty object");
+                throw new Exception("Seller create not object.");
             }
 
-            var seller = this.mapper.Map<Seller>(createSellerViewModel);
+            var seller = new Seller();
+            this.mapper.Map<CreateSellerViewModel, Seller>
+                (createSellerViewModel, seller);
+
             await this.database.Seller.CreateAsync(seller);
-            await this.database.Save();
+            await this.database.SaveAsync();
+
+            return seller.Id;
         }
 
-        /// <summary>
-        /// The asynchronous GetAllAsync method is responsible for getting a collection of seller entities.
-        /// </summary>
-        /// <returns>Returns a collection of sellers.</returns>
+        ///<inheritdoc/>
         public async Task<GetAllSellerViewModel> GetAllAsync() 
         {
             var sellerViewModel = new GetAllSellerViewModel();
             var seller = await this.database.Seller.GetAllAsync();
 
-            sellerViewModel.Sellers = this.mapper.Map<ICollection<GetAllSellerViewModelItem>>(seller);
-            return sellerViewModel;
+            if (seller.Count() != 0) 
+            {
+                this.mapper.Map<ICollection<Seller>, ICollection<SellerGetAllSellerViewModelItem>>
+                (seller, sellerViewModel.Sellers);
+            }
+
+            return (seller.Count() == 0) 
+                ? new GetAllSellerViewModel() : sellerViewModel;
         }
 
-        /// <summary>
-        /// The asynchronous GetById method is responsible for sending the parameter to the repository and transforming the received data.
-        /// </summary>
-        /// <param name="id">The Id parameter is intended to get the required object.</param>
-        /// <returns>Returns a specific object.</returns>
+        ///<inheritdoc/>
         public async Task<GetByIdSellerViewModel> GetById(int id)
         {
             var seller = await this.database.Seller.GetById(id);
+            GetByIdSellerViewModel sellerViewModel = new GetByIdSellerViewModel();
 
             if (seller == null)
             {
-                throw new Exception("Empty object");
+                throw new Exception("Seller not found.");
             }
 
-            return this.mapper.Map<GetByIdSellerViewModel>(seller);
+            return this.mapper.Map<Seller, GetByIdSellerViewModel>
+                (seller, sellerViewModel);
         }
 
-        /// <summary>
-        /// The asynchronous Remove method is responsible for getting a specific object by the Id parameter 
-        /// and sending the resulting object to the repository to remove it from the database.
-        /// </summary>
-        /// <param name="id">The Id parameter is intended to get the required object.</param>
-        /// <returns>Returns the deletion of a specific object.</returns>
+        ///<inheritdoc/>
         public async Task Remove(int id)
         {
             var seller = await this.database.Seller.GetById(id);
 
             if (seller == null) 
             {
-                throw new Exception("Empty object");
+                throw new Exception("Seller not found.");
             }
 
             this.database.Seller.Remove(seller);
-            await this.database.Save();
+            await this.database.SaveAsync();
         }
 
-        /// <summary>
-        /// The asynchronous update method is responsible for transforming an object 
-        /// and pushing that object to the repository to modify the data in the database.
-        /// </summary>
-        /// <param name="updateSellerViewModel">The parameter is responsible for providing the necessary data to modify the entity.</param>
-        /// <returns>Returns the change of the entity.</returns>
+        ///<inheritdoc/>
         public async Task Update(UpdateSellerViewModel updateSellerViewModel)
         {
             if (updateSellerViewModel == null) 
             {
-                throw new Exception("Empty object");
+                throw new Exception("Seller update not object.");
             }
 
-            var seller = this.mapper.Map<Seller>(updateSellerViewModel);
+            var seller = new Seller(); 
+            this.mapper.Map<UpdateSellerViewModel, Seller>
+                (updateSellerViewModel, seller);
+            
             this.database.Seller.Update(seller);
-            await this.database.Save();
+            await this.database.SaveAsync();
         }
     }
 }

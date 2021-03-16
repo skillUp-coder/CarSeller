@@ -7,22 +7,25 @@ using System.Threading.Tasks;
 namespace CarSeller.DataAccess.Repositories
 {
     /// <summary>
-    /// The Car Repository class is responsible for creating the logic to add, modify, get the user entity.
+    /// The UserRepository class is responsible for creating the logic to add, modify, get the user entity.
     /// </summary>
     public class UserRepository : BaseRepository<User>, IUserRepository
     {
         private readonly DataContext database;
 
+        /// <summary>
+        /// Responsible for injecting a dependency for a DataContext.
+        /// </summary>
         public UserRepository(DataContext database) : base(database)
         {
             this.database = database;
         }
 
         /// <summary>
-        /// The asynchronous GetById method is responsible for getting a specific user object.
+        /// Method to get by id User.
         /// </summary>
-        /// <param name="id">Designed to get the desired object.</param>
-        /// <returns>Returns the object of the required user.</returns>
+        /// <param name="id">Identifier of requested User.</param>
+        /// <returns>Task representing get by id operation.</returns>
         public async Task<User> GetById(string id)
         {
             return await this.database

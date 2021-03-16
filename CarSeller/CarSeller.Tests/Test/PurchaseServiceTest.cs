@@ -121,11 +121,11 @@ namespace CarSeller.Tests.Test
             };
         }
 
-        private async Task<ICollection<GetAllPurchaseViewModelItem>> GetAllPurchaseViewModelItemsAsyncTest()
+        private async Task<ICollection<PurchaseGetAllPurchaseViewModelItem>> GetAllPurchaseViewModelItemsAsyncTest()
         {
-            return new List<GetAllPurchaseViewModelItem>
+            return new List<PurchaseGetAllPurchaseViewModelItem>
             {
-                new GetAllPurchaseViewModelItem
+                new PurchaseGetAllPurchaseViewModelItem
                 {
                     Id = 1,
                     Car = new Car { Id = 1, Brand = "Tesla", Name = "X", State = "new" },

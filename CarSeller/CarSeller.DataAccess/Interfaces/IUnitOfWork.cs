@@ -15,6 +15,6 @@ namespace CarSeller.DataAccess.Interfaces
 
         IPurchaseRepository Purchase { get; }
 
-        Task Save();
+        Task SaveAsync();
     }
 }

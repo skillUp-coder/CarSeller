@@ -9,14 +9,38 @@ namespace CarSeller.BusinessLogic.Interfaces
     /// </summary>
     public interface ISellerService
     {
-        Task CreateAsync(CreateSellerViewModel entity);
+        /// <summary>
+        /// Method to create Seller.
+        /// </summary>
+        /// <param name="createSellerViewModel">Seller object to create.</param>
+        /// <returns>Task representing create operation.</returns>
+        Task<int> CreateAsync(CreateSellerViewModel entity);
 
+        /// <summary>
+        /// Method to get by id Seller.
+        /// </summary>
+        /// <param name="id">Identifier of requested Seller.</param>
+        /// <returns>Task representing get by id operation.</returns>
         Task<GetByIdSellerViewModel> GetById(int id);
 
+        /// <summary>
+        /// Method to delete Seller.
+        /// </summary>
+        /// <param name="id">Identifier of requested Seller.</param>
+        /// <returns>Task representing delete operation.</returns>
         Task Remove(int id);
 
+        /// <summary>
+        /// Method to update Seller.
+        /// </summary>
+        /// <param name="updateSellerViewModel">Seller model to be updated.</param>
+        /// <returns>Task representing update operation.</returns>
         Task Update(UpdateSellerViewModel entity);
 
+        /// <summary>
+        /// Method to get all Seller.
+        /// </summary>
+        /// <returns>Task representing get all operation.</returns>
         Task<GetAllSellerViewModel> GetAllAsync();
     }
 }

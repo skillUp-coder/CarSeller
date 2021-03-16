@@ -14,15 +14,18 @@ namespace CarSeller.DataAccess.Repositories
     {
         private readonly DataContext database;
 
+        /// <summary>
+        /// Responsible for injecting a dependency for a DataContext.
+        /// </summary>
         public PurchaseRepository(DataContext database) : base(database)
         {
             this.database = database;
         }
 
         /// <summary>
-        /// The overridden GetAllAsync method is responsible for retrieving a collection of entity purchases with related entities.
+        /// Method to get all Purchase.
         /// </summary>
-        /// <returns>Returns a collection of purchase.</returns>
+        /// <returns>Task representing get all operation.</returns>
         public override async Task<ICollection<Purchase>> GetAllAsync() 
         {
             return await this.database.Purchases
@@ -32,10 +35,10 @@ namespace CarSeller.DataAccess.Repositories
         }
 
         /// <summary>
-        /// The overridden GetById method is responsible for getting a custom vehicle object with related objects.
+        /// Method to get by id Purchase.
         /// </summary>
-        /// <param name="id">Designed to get the desired object.</param>
-        /// <returns>Returns the object of the required purchase.</returns>
+        /// <param name="id">Identifier of requested Purchase.</param>
+        /// <returns>Task representing get by id operation.</returns>
         public override async Task<Purchase> GetById(int id) 
         {
             return await this.database

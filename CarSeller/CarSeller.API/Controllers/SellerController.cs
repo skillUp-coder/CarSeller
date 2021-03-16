@@ -1,34 +1,33 @@
-﻿using AutoMapper;
-using CarSeller.BusinessLogic.Interfaces;
+﻿using CarSeller.BusinessLogic.Interfaces;
 using CarSeller.ViewModels.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace CarSeller.API.Controllers
 {
     /// <summary>
-    /// The Seller controller is responsible for fulfilling the requests to get, delete, modify and create the seller.
+    /// The Seller controller is responsible for fulfilling the requests to get, delete, modify and create the Seller.
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class SellerController : ControllerBase
     {
-
-        private readonly IMapper mapper;
         private readonly ISellerService sellerService;
 
-        public SellerController(IMapper mapper, 
-                                ISellerService sellerService)
+        /// <summary>
+        /// Responsible for injecting a dependency for a seller service.
+        /// </summary>
+        public SellerController(ISellerService sellerService)
         {
-            this.mapper = mapper;
             this.sellerService = sellerService;
         }
 
         /// <summary>
-        /// the asynchronous Create method is responsible for executing the request to create the seller object.
+        /// Method to create Seller. 
         /// </summary>
-        /// <param name="model">The model parameter is responsible for getting the properties of the seller.</param>
-        /// <returns>Returns the answer is how correctly the logic is executed in this method.</returns>
+        /// <param name="model">Purchase object to create.</param>
+        /// <returns>Action result for create request.</returns>
         [HttpPost]
         [Route("create")]
         public async Task<IActionResult> Create([FromBody] CreateSellerViewModel model) 
@@ -38,63 +37,81 @@ namespace CarSeller.API.Controllers
                 return this.BadRequest(this.ModelState);
             }
 
-            await this.sellerService.CreateAsync(model);
-            return this.Ok();
+            try
+            {
+                var sellerId = await this.sellerService.CreateAsync(model);
+                return this.Ok(sellerId);
+            }
+            catch (Exception ex) 
+            {
+                return this.BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
-        /// The asynchronous GetAll method is responsible for executing a request to get the collection of sellers.
+        /// Method to get all Sellers. 
         /// </summary>
-        /// <returns>Returns the response from the seller collection.</returns>
+        /// <returns>Action result for get all request.</returns>
         [HttpGet]
         [Route("get-all")]
         public async Task<IActionResult> GetAll() 
         {
-            var sellers = await this.sellerService.GetAllAsync();
-            return this.Ok(sellers);
+            try
+            {
+                var sellers = await this.sellerService.GetAllAsync();
+                return this.Ok(sellers);
+            }
+            catch (Exception ex) 
+            {
+                return this.BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
-        /// The asynchronous GetById method is responsible for executing a request to get a specific seller object.
+        /// Method to get by id Seller. 
         /// </summary>
-        /// <param name="id">The Id parameter is intended to get the required object.</param>
-        /// <returns>Returns a response with a specific seller object.</returns>
+        /// <param name="id">Identifier of requested Seller.</param>
+        /// <returns>Action result for get by id request.</returns>
         [HttpGet]
         [Route("get-by-id")]
         public async Task<IActionResult> GetById(int id)
         {
-            if (id == 0)
+            try
             {
-                return this.BadRequest();
+                var seller = await this.sellerService.GetById(id);
+                return this.Ok(seller);
             }
-
-            var seller = await this.sellerService.GetById(id);
-            return this.Ok(seller);
+            catch (Exception ex) 
+            {
+                return this.BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
-        /// The asynchronous Delete method is responsible for executing a request to delete an object from the database.
+        /// Method to delete Seller. 
         /// </summary>
-        /// <param name="id">The Id parameter is intended to get the required seller object.</param>
-        /// <returns>Returns the answer is how correctly the logic is executed in this method.</returns>
+        /// <param name="id">Identifier of requested Seller.</param>
+        /// <returns>Action result for delete request.</returns>
         [HttpDelete]
         [Route("delete")]
         public async Task<IActionResult> Delete(int id)
         {
-            if (id == 0)
+            try
             {
-                return this.BadRequest();
+                await this.sellerService.Remove(id);
+                return this.Ok();
             }
-
-            await this.sellerService.Remove(id);
-            return this.Ok();
+            catch (Exception ex) 
+            {
+                return this.BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
-        /// The asynchronous update method is responsible for executing an object change request in the database.
+        /// Method to update Seller. 
         /// </summary>
-        /// <param name="model">The parameter is responsible for providing the necessary data to modify the entity.</param>
-        /// <returns>Returns the answer is how correctly the logic is executed in this method.</returns>
+        /// <param name="model">Seller model to be updated.</param>
+        /// <returns>Action result for update request.</returns>
         [HttpPut]
         [Route("update")]
         public async Task<IActionResult> Update([FromBody] UpdateSellerViewModel model)
@@ -104,8 +121,15 @@ namespace CarSeller.API.Controllers
                 return this.BadRequest();
             }
 
-            await this.sellerService.Update(model);
-            return this.Ok();
+            try
+            {
+                await this.sellerService.Update(model);
+                return this.Ok();
+            }
+            catch (Exception ex) 
+            {
+                return this.BadRequest(ex.Message);
+            }
         }
     }
 }
