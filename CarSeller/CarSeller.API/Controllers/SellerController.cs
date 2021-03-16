@@ -78,7 +78,7 @@ namespace CarSeller.API.Controllers
         {
             try
             {
-                var seller = await this.sellerService.GetById(id);
+                var seller = await this.sellerService.GetByIdAsync(id);
                 return this.Ok(seller);
             }
             catch (Exception ex) 
@@ -98,7 +98,7 @@ namespace CarSeller.API.Controllers
         {
             try
             {
-                await this.sellerService.Remove(id);
+                await this.sellerService.RemoveAsync(id);
                 return this.Ok();
             }
             catch (Exception ex) 
@@ -123,7 +123,7 @@ namespace CarSeller.API.Controllers
 
             try
             {
-                await this.sellerService.Update(model);
+                await this.sellerService.UpdateAsync(model);
                 return this.Ok();
             }
             catch (Exception ex) 

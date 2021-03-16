@@ -35,8 +35,7 @@ namespace CarSeller.BusinessLogic.Services
                 (cars, carViewModel.Cars);
             }
 
-            return (cars.Count() == 0) 
-                ? new GetAllCarViewModel() : carViewModel;
+            return carViewModel;
         }
 
         ///<inheritdoc/>
@@ -44,7 +43,7 @@ namespace CarSeller.BusinessLogic.Services
         {
             if (createCarViewModel == null)
             {
-                throw new Exception("Car create not object.");
+                throw new Exception("There was no Car object to create.");
             }
 
             var car = new Car();
@@ -58,7 +57,7 @@ namespace CarSeller.BusinessLogic.Services
         }
 
         ///<inheritdoc/>
-        public async Task<GetByIdCarViewModel> GetById(int id)
+        public async Task<GetByIdCarViewModel> GetByIdAsync(int id)
         {
             var car = await this.database.Car.GetById(id);
             GetByIdCarViewModel carViewModel = new GetByIdCarViewModel();
@@ -73,7 +72,7 @@ namespace CarSeller.BusinessLogic.Services
         }
 
         ///<inheritdoc/>
-        public async Task Remove(int id) 
+        public async Task RemoveAsync(int id) 
         {
             var car = await this.database.Car.GetById(id);
 
@@ -87,11 +86,11 @@ namespace CarSeller.BusinessLogic.Services
         }
 
         ///<inheritdoc/>
-        public async Task Update(UpdateCarViewModel updateCarViewModel) 
+        public async Task UpdateAsync(UpdateCarViewModel updateCarViewModel) 
         {
             if (updateCarViewModel == null) 
             {
-                throw new Exception("Car update not object.");    
+                throw new Exception("There was no Car object to update.");    
             }
 
             var car = new Car();

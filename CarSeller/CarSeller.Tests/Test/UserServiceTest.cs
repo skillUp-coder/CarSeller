@@ -47,9 +47,9 @@ namespace CarSeller.Tests.Test
 
             var service = new UserService(unitOfWorkMock.Object, mapperMock.Object, userManager);
 
-            service.Register(RegisterUserViewModelTest()).GetAwaiter().Should().As<Task<User>>();
-            service.Register(null).Should().Equals("Empty object");
-            service.Register(RegisterUserViewModelTest()).Should().NotBeNull();
+            service.RegisterAsync(RegisterUserViewModelTest()).GetAwaiter().Should().As<Task<User>>();
+            service.RegisterAsync(null).Should().Equals("Empty object");
+            service.RegisterAsync(RegisterUserViewModelTest()).Should().NotBeNull();
             var result = RegisterUserViewModelTest();
             result.UserName.Should().Equals("John");
         }
@@ -59,9 +59,9 @@ namespace CarSeller.Tests.Test
         {
             var service = new UserService(unitOfWorkMock.Object, mapperMock.Object, userManager);
 
-            service.Login(LoginUserViewModelTest()).GetAwaiter().Should().As<Task<User>>();
-            service.Login(null).Should().Equals("Empty object");
-            service.Login(LoginUserViewModelTest()).Should().NotBeNull();
+            service.LoginAsync(LoginUserViewModelTest()).GetAwaiter().Should().As<Task<User>>();
+            service.LoginAsync(null).Should().Equals("Empty object");
+            service.LoginAsync(LoginUserViewModelTest()).Should().NotBeNull();
         }
 
         [Test]
@@ -70,7 +70,7 @@ namespace CarSeller.Tests.Test
             unitOfWorkMock.Setup(rep => rep.User.GetById(It.IsAny<string>()))
                 .Returns(this.GetByIdUserAsyncTest());
             var service = new UserService(unitOfWorkMock.Object, mapperMock.Object, userManager)
-                .GetById(It.IsAny<string>());
+                .GetByIdAsync(It.IsAny<string>());
 
             service = this.GetByIdUserViewModelAsyncTest();
 
@@ -91,9 +91,9 @@ namespace CarSeller.Tests.Test
 
             var service = new UserService(unitOfWorkMock.Object, mapperMock.Object, userManager);
 
-            service.Remove(It.IsAny<string>()).Should().Equals("Empty object");
-            service.Remove(It.IsAny<string>()).GetAwaiter().IsCompleted.Should().BeTrue();
-            service.Remove(It.IsAny<string>()).Should().As<Task>();
+            service.RemoveAsync(It.IsAny<string>()).Should().Equals("Empty object");
+            service.RemoveAsync(It.IsAny<string>()).GetAwaiter().IsCompleted.Should().BeTrue();
+            service.RemoveAsync(It.IsAny<string>()).Should().As<Task>();
         }
 
 
@@ -105,9 +105,9 @@ namespace CarSeller.Tests.Test
 
             var service = new UserService(unitOfWorkMock.Object, mapperMock.Object, userManager);
 
-            service.Update(UpdateUserViewModelTest()).Should().Equals("Empty object");
-            service.Update(UpdateUserViewModelTest()).GetAwaiter().IsCompleted.Should().BeTrue();
-            service.Update(UpdateUserViewModelTest()).Should().As<Task>();
+            service.UpdateAsync(UpdateUserViewModelTest()).Should().Equals("Empty object");
+            service.UpdateAsync(UpdateUserViewModelTest()).GetAwaiter().IsCompleted.Should().BeTrue();
+            service.UpdateAsync(UpdateUserViewModelTest()).Should().As<Task>();
         }
 
         #region GetAll

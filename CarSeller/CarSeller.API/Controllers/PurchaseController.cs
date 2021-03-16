@@ -78,7 +78,7 @@ namespace CarSeller.API.Controllers
         {
             try
             {
-                var purchase = await this.purchaseService.GetById(id);
+                var purchase = await this.purchaseService.GetByIdAsync(id);
                 return this.Ok(purchase);
             }
             catch (Exception ex) 
@@ -98,7 +98,7 @@ namespace CarSeller.API.Controllers
         {
             try
             {
-                await this.purchaseService.Remove(id);
+                await this.purchaseService.RemoveAsync(id);
                 return this.Ok();
             }
             catch (Exception ex) 
@@ -123,7 +123,7 @@ namespace CarSeller.API.Controllers
 
             try
             {
-                await this.purchaseService.Update(model);
+                await this.purchaseService.UpdateAsync(model);
                 return this.Ok();
             }
             catch (Exception ex) 

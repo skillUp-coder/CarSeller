@@ -21,34 +21,34 @@ namespace CarSeller.BusinessLogic.Interfaces
         /// </summary>
         /// <param name="id">Identifier of requested User.</param>
         /// <returns>Task representing get by id operation.</returns>
-        Task<GetByIdUserViewModel> GetById(string id);
+        Task<GetByIdUserViewModel> GetByIdAsync(string id);
 
         /// <summary>
         /// Method to delete User.
         /// </summary>
         /// <param name="id">Identifier of requested User.</param>
         /// <returns>Task representing delete operation.</returns>
-        Task Remove(string id);
+        Task RemoveAsync(string id);
 
         /// <summary>
         /// Method to update User.
         /// </summary>
         /// <param name="updateUserViewModel">User model to be updated.</param>
         /// <returns>Task representing update operation.</returns>
-        Task Update(UpdateUserViewModel entity);
+        Task UpdateAsync(UpdateUserViewModel entity);
 
         /// <summary>
         /// Method to register User.
         /// </summary>
         /// <param name="registerUserViewModel">User object to register.</param>
         /// <returns>Task representing register operation.</returns>
-        Task<User> Register(RegisterUserViewModel entity);
+        Task<User> RegisterAsync(RegisterUserViewModel entity);
 
         /// <summary>
         /// Method to login User.
         /// </summary>
         /// <param name="loginUserViewModel">User object to login.</param>
         /// <returns>Task representing login operation.</returns>
-        Task<User> Login(LoginUserViewModel entity);
+        Task<User> LoginAsync(LoginUserViewModel entity);
     }
 }

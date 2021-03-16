@@ -21,21 +21,21 @@ namespace CarSeller.BusinessLogic.Interfaces
         /// </summary>
         /// <param name="id">Identifier of requested Seller.</param>
         /// <returns>Task representing get by id operation.</returns>
-        Task<GetByIdSellerViewModel> GetById(int id);
+        Task<GetByIdSellerViewModel> GetByIdAsync(int id);
 
         /// <summary>
         /// Method to delete Seller.
         /// </summary>
         /// <param name="id">Identifier of requested Seller.</param>
         /// <returns>Task representing delete operation.</returns>
-        Task Remove(int id);
+        Task RemoveAsync(int id);
 
         /// <summary>
         /// Method to update Seller.
         /// </summary>
         /// <param name="updateSellerViewModel">Seller model to be updated.</param>
         /// <returns>Task representing update operation.</returns>
-        Task Update(UpdateSellerViewModel entity);
+        Task UpdateAsync(UpdateSellerViewModel entity);
 
         /// <summary>
         /// Method to get all Seller.

@@ -28,7 +28,7 @@ namespace CarSeller.BusinessLogic.Services
         {
             if (createSellerViewModel == null)
             {
-                throw new Exception("Seller create not object.");
+                throw new Exception("There was no Seller object to create.");
             }
 
             var seller = new Seller();
@@ -53,12 +53,11 @@ namespace CarSeller.BusinessLogic.Services
                 (seller, sellerViewModel.Sellers);
             }
 
-            return (seller.Count() == 0) 
-                ? new GetAllSellerViewModel() : sellerViewModel;
+            return sellerViewModel;
         }
 
         ///<inheritdoc/>
-        public async Task<GetByIdSellerViewModel> GetById(int id)
+        public async Task<GetByIdSellerViewModel> GetByIdAsync(int id)
         {
             var seller = await this.database.Seller.GetById(id);
             GetByIdSellerViewModel sellerViewModel = new GetByIdSellerViewModel();
@@ -73,7 +72,7 @@ namespace CarSeller.BusinessLogic.Services
         }
 
         ///<inheritdoc/>
-        public async Task Remove(int id)
+        public async Task RemoveAsync(int id)
         {
             var seller = await this.database.Seller.GetById(id);
 
@@ -87,11 +86,11 @@ namespace CarSeller.BusinessLogic.Services
         }
 
         ///<inheritdoc/>
-        public async Task Update(UpdateSellerViewModel updateSellerViewModel)
+        public async Task UpdateAsync(UpdateSellerViewModel updateSellerViewModel)
         {
             if (updateSellerViewModel == null) 
             {
-                throw new Exception("Seller update not object.");
+                throw new Exception("There was no Seller object to update.");
             }
 
             var seller = new Seller(); 

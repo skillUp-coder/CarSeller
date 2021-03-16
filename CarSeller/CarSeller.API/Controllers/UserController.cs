@@ -46,7 +46,7 @@ namespace CarSeller.API.Controllers
 
             try
             {
-                var user = await this.userService.Register(model);
+                var user = await this.userService.RegisterAsync(model);
 
                 if (user != null)
                 {
@@ -80,7 +80,7 @@ namespace CarSeller.API.Controllers
 
             try
             {
-                var user = await this.userService.Login(model);
+                var user = await this.userService.LoginAsync(model);
                 if (user != null)
                 {
                     var tokenString = JwtTokenFactory.GenerateJwtToken(user, this.configuration);
@@ -127,7 +127,7 @@ namespace CarSeller.API.Controllers
         {
             try
             {
-                var user = await this.userService.GetById(id);
+                var user = await this.userService.GetByIdAsync(id);
                 return this.Ok(user);
             }
             catch (Exception ex) 
@@ -147,7 +147,7 @@ namespace CarSeller.API.Controllers
         {
             try
             {
-                await this.userService.Remove(id);
+                await this.userService.RemoveAsync(id);
                 return this.Ok();
             }
             catch (Exception ex)
@@ -172,7 +172,7 @@ namespace CarSeller.API.Controllers
 
             try
             {
-                await this.userService.Update(model);
+                await this.userService.UpdateAsync(model);
                 return this.Ok();
             }
             catch (Exception ex) 

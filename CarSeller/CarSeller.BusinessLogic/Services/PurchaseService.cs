@@ -28,7 +28,7 @@ namespace CarSeller.BusinessLogic.Services
         {
             if (createPurchaseViewModel == null)
             {
-                throw new Exception("Purchase create not object.");
+                throw new Exception("There was no Purchase object to create.");
             }
 
             var purchase = new Purchase();
@@ -53,12 +53,11 @@ namespace CarSeller.BusinessLogic.Services
                 (purchases, purchaseViewModel.Purchases);
             }
 
-            return (purchases.Count() == 0) 
-                ? new GetAllPurchaseViewModel() : purchaseViewModel;
+            return purchaseViewModel;
         }
 
         ///<inheritdoc/>
-        public async Task<GetByIdPurchaseViewModel> GetById(int id)
+        public async Task<GetByIdPurchaseViewModel> GetByIdAsync(int id)
         {
             var purchase = await this.database.Purchase.GetById(id);
             GetByIdPurchaseViewModel purchaseViewModel = new GetByIdPurchaseViewModel();
@@ -73,7 +72,7 @@ namespace CarSeller.BusinessLogic.Services
         }
 
         ///<inheritdoc/>
-        public async Task Remove(int id)
+        public async Task RemoveAsync(int id)
         {
             var purchase = await this.database.Purchase.GetById(id);
 
@@ -87,11 +86,11 @@ namespace CarSeller.BusinessLogic.Services
         }
 
         ///<inheritdoc/>
-        public async Task Update(UpdatePurchaseViewModel updatePurchaseViewModel)
+        public async Task UpdateAsync(UpdatePurchaseViewModel updatePurchaseViewModel)
         {
             if (updatePurchaseViewModel == null) 
             {
-                throw new Exception("Purchase update not object.");
+                throw new Exception("There was no Purchase object to update.");
             }
 
             var purchase = new Purchase(); 

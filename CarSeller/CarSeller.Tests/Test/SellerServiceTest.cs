@@ -43,7 +43,7 @@ namespace CarSeller.Tests.Test
         {
             unitOfWorkMock.Setup(rep => rep.Seller.GetById(It.IsAny<int>())).Returns(this.GetByIdSellerAsyncTest());
             var service = new SellerService(unitOfWorkMock.Object, mapperMock.Object)
-                .GetById(It.IsAny<int>());
+                .GetByIdAsync(It.IsAny<int>());
 
             service = this.GetByIdSellerViewModelAsyncTest();
 
@@ -64,7 +64,7 @@ namespace CarSeller.Tests.Test
                                                   .Verifiable();
 
             var service = new SellerService(unitOfWorkMock.Object, mapperMock.Object)
-                .Remove(It.IsAny<int>());
+                .RemoveAsync(It.IsAny<int>());
 
             service.Should().Equals("Empty object");
             service.GetAwaiter().IsCompleted.Should().BeTrue();
@@ -78,7 +78,7 @@ namespace CarSeller.Tests.Test
                                                   .Verifiable();
 
             var service = new SellerService(unitOfWorkMock.Object, mapperMock.Object)
-                .Update(this.UpdateSellerViewModelTest());
+                .UpdateAsync(this.UpdateSellerViewModelTest());
 
             service.Should().Equals("Empty object");
             service.GetAwaiter().IsCompleted.Should().BeTrue();
@@ -86,17 +86,20 @@ namespace CarSeller.Tests.Test
         }
 
         [Test]
-        public void Create_ParametersPassed_ExpectedResults()
+        public async Task Create_ParametersPassed_ExpectedResults()
         {
             unitOfWorkMock.Setup(rep => rep.Seller.CreateAsync(this.CreateSellerTest()))
                                                   .Verifiable();
 
-            var service = new SellerService(unitOfWorkMock.Object, mapperMock.Object)
-                .CreateAsync(this.CreateSellerViewModelTest());
+            var service = new SellerService(unitOfWorkMock.Object, mapperMock.Object);
+            var result = await service.CreateAsync(this.CreateSellerViewModelTest());
+            result = this.CreateSellerIdTest();
 
-            service.Should().Equals("Empty object");
-            service.GetAwaiter().IsCompleted.Should().BeTrue();
-            service.Should().As<Task>();
+            result.Should().As<int>();
+            result.Should().Equals(1);
+
+            result = await service.CreateAsync(new CreateSellerViewModel());
+            result.Should().Equals("There was no Seller object to create.");
         }
 
 
@@ -158,6 +161,11 @@ namespace CarSeller.Tests.Test
         private CreateSellerViewModel CreateSellerViewModelTest()
         {
             return new CreateSellerViewModel { FirstName = "John", LastName = "Jonson" };
+        }
+
+        private int CreateSellerIdTest()
+        {
+            return 1;
         }
         #endregion
     }

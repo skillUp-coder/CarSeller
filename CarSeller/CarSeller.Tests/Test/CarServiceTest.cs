@@ -18,6 +18,23 @@ namespace CarSeller.Tests.Test
         Mock<IMapper> mapperMock = new Mock<IMapper>();
 
         [Test]
+        public async Task Create_ParametersPassed_ExpectedResults()
+        {
+            unitOfWorkMock.Setup(rep => rep.Car.CreateAsync(this.CreateCarTest()))
+                                                  .Verifiable();
+
+            var service = new CarService(unitOfWorkMock.Object, mapperMock.Object);
+            var result = await service.CreateAsync(this.CreateCarViewModelTest());
+            result = this.CreateCarIdTest();
+
+            result.Should().As<int>();
+            result.Should().Equals(1);
+
+            result = await service.CreateAsync(new CreateCarViewModel());
+            result.Should().Equals("There was no Car object to create.");
+        }
+
+        [Test]
         public async Task GetAllAsync_ParametersPassed_ExpectedResults()
         {
             unitOfWorkMock.Setup(rep => rep.Car.GetAllAsync()).Returns(this.GetCarsAsyncTest());
@@ -44,7 +61,7 @@ namespace CarSeller.Tests.Test
         {
             unitOfWorkMock.Setup(rep => rep.Car.GetById(It.IsAny<int>())).Returns(this.GetByIdAsyncTest());
             var service = new CarService(unitOfWorkMock.Object, mapperMock.Object)
-                .GetById(It.IsAny<int>());
+                .GetByIdAsync(It.IsAny<int>());
             service = this.GetByIdCarViewModelAsyncTest();
 
             var result = await service;
@@ -65,9 +82,9 @@ namespace CarSeller.Tests.Test
                                                   .Verifiable();
 
             var service = new CarService(unitOfWorkMock.Object, mapperMock.Object)
-                .Remove(It.IsAny<int>());
+                .RemoveAsync(It.IsAny<int>());
 
-            service.Should().Equals("Empty object");
+            service.Should().Equals("Car not found.");
             service.GetAwaiter().IsCompleted.Should().BeTrue();
             service.Should().As<Task>();
         }
@@ -79,27 +96,12 @@ namespace CarSeller.Tests.Test
                                                   .Verifiable();
 
             var service = new CarService(unitOfWorkMock.Object, mapperMock.Object)
-                .Update(this.UpdateCarViewModelTest());
+                .UpdateAsync(this.UpdateCarViewModelTest());
 
-            service.Should().Equals("Empty object");
+            service.Should().Equals("There was no Car object to update.");
             service.GetAwaiter().IsCompleted.Should().BeTrue();
             service.Should().As<Task>();
         }
-
-        [Test]
-        public void Create_ParametersPassed_ExpectedResults()
-        {
-            unitOfWorkMock.Setup(rep => rep.Car.CreateAsync(this.CreateCarTest()))
-                                                  .Verifiable();
-
-            var service = new CarService(unitOfWorkMock.Object, mapperMock.Object)
-                .CreateAsync(this.CreateCarViewModelTest());
-
-            service.Should().Equals("Empty object");
-            service.GetAwaiter().IsCompleted.Should().BeTrue();
-            service.Should().As<Task>();
-        }
-
 
         #region GetAll
         private async Task<ICollection<Car>> GetCarsAsyncTest()
@@ -128,6 +130,11 @@ namespace CarSeller.Tests.Test
         private CreateCarViewModel CreateCarViewModelTest()
         {
             return new CreateCarViewModel { Brand = "Tesla", Name = "X", State = "New" };
+        }
+
+        private int CreateCarIdTest() 
+        {
+            return 1;
         }
 
 

@@ -30,11 +30,11 @@ namespace CarSeller.BusinessLogic.Services
         }
 
         ///<inheritdoc/>
-        public async Task<User> Register(RegisterUserViewModel registerUserViewModel)
+        public async Task<User> RegisterAsync(RegisterUserViewModel registerUserViewModel)
         {
             if (registerUserViewModel == null) 
             {
-                throw new Exception("User register not object.");
+                throw new Exception("There was no User object to register.");
             }
 
             var user = new User();
@@ -46,11 +46,11 @@ namespace CarSeller.BusinessLogic.Services
         }
 
         ///<inheritdoc/>
-        public async Task<User> Login(LoginUserViewModel loginUserViewModel) 
+        public async Task<User> LoginAsync(LoginUserViewModel loginUserViewModel) 
         {
             if (loginUserViewModel == null) 
             {
-                throw new Exception("User login not object.");
+                throw new Exception("There was no User object to login.");
             }
 
             var user = await this.userManager.FindByNameAsync(loginUserViewModel.UserName);
@@ -70,12 +70,11 @@ namespace CarSeller.BusinessLogic.Services
                 (users, userViewModel.Users);
             }
 
-            return (users.Count() == 0) 
-                ? new GetAllUserViewModel() : userViewModel;
+            return userViewModel;
         }
 
         ///<inheritdoc/>
-        public async Task<GetByIdUserViewModel> GetById(string id)
+        public async Task<GetByIdUserViewModel> GetByIdAsync(string id)
         {
             var user = await this.database.User.GetById(id);
             GetByIdUserViewModel userViewModel = new GetByIdUserViewModel();
@@ -89,7 +88,7 @@ namespace CarSeller.BusinessLogic.Services
         }
 
         ///<inheritdoc/>
-        public async Task Remove(string id)
+        public async Task RemoveAsync(string id)
         {
             var user = await this.database.User.GetById(id);
 
@@ -103,13 +102,13 @@ namespace CarSeller.BusinessLogic.Services
         }
 
         ///<inheritdoc/>
-        public async Task Update(UpdateUserViewModel updateUserViewModel)
+        public async Task UpdateAsync(UpdateUserViewModel updateUserViewModel)
         {
             var user = await this.database.User.GetById(updateUserViewModel.Id);
 
             if (user == null) 
             {
-                throw new Exception("User update not object.");
+                throw new Exception("There was no User object to update.");
             }
 
             user.UserName = updateUserViewModel.UserName;

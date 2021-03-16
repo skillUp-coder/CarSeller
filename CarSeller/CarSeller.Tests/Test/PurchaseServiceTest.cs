@@ -18,6 +18,23 @@ namespace CarSeller.Tests.Test
         Mock<IMapper> mapperMock = new Mock<IMapper>();
 
         [Test]
+        public async Task Create_ParametersPassed_ExpectedResults()
+        {
+            unitOfWorkMock.Setup(rep => rep.Purchase.CreateAsync(this.CreatePurchaseTest()))
+                                                  .Verifiable();
+
+            var service = new PurchaseService(unitOfWorkMock.Object, mapperMock.Object);
+            var result = await service.CreateAsync(this.CreatePurchaseViewModelTest());
+            result = this.CreatePurchaseIdTest();
+
+            result.Should().As<int>();
+            result.Should().Equals(1);
+
+            result = await service.CreateAsync(new CreatePurchaseViewModel());
+            result.Should().Equals("There was no Purchase object to create.");
+        }
+
+        [Test]
         public async Task GetAllAsync_ParametersPassed_ExpectedResults()
         {
             unitOfWorkMock.Setup(rep => rep.Purchase.GetAllAsync())
@@ -48,7 +65,7 @@ namespace CarSeller.Tests.Test
         {
             unitOfWorkMock.Setup(rep => rep.Purchase.GetById(It.IsAny<int>())).Returns(this.GetByIdAsyncTest());
             var service = new PurchaseService(unitOfWorkMock.Object, mapperMock.Object)
-                .GetById(It.IsAny<int>());
+                .GetByIdAsync(It.IsAny<int>());
             service = this.GetByIdPurchaseViewModelAsyncTest();
 
             var result = await service;
@@ -77,7 +94,7 @@ namespace CarSeller.Tests.Test
                                                   .Verifiable();
 
             var service = new PurchaseService(unitOfWorkMock.Object, mapperMock.Object)
-                .Remove(It.IsAny<int>());
+                .RemoveAsync(It.IsAny<int>());
 
             service.Should().Equals("Empty object");
             service.GetAwaiter().IsCompleted.Should().BeTrue();
@@ -91,26 +108,14 @@ namespace CarSeller.Tests.Test
                                                   .Verifiable();
 
             var service = new PurchaseService(unitOfWorkMock.Object, mapperMock.Object)
-                .Update(this.UpdatePurchaseViewModelTest());
+                .UpdateAsync(this.UpdatePurchaseViewModelTest());
 
             service.Should().Equals("Empty object");
             service.GetAwaiter().IsCompleted.Should().BeTrue();
             service.Should().As<Task>();
         }
 
-        [Test]
-        public void Create_ParametersPassed_ExpectedResults()
-        {
-            unitOfWorkMock.Setup(rep => rep.Purchase.CreateAsync(this.CreatePurchaseTest()))
-                                                  .Verifiable();
-
-            var service = new PurchaseService(unitOfWorkMock.Object, mapperMock.Object)
-                .CreateAsync(this.CreatePurchaseViewModelTest());
-
-            service.Should().Equals("Empty object");
-            service.GetAwaiter().IsCompleted.Should().BeTrue();
-            service.Should().As<Task>();
-        }
+        
 
         #region GetAll
         private async Task<ICollection<Purchase>> GetAllPurchaseAsyncTest()
@@ -128,8 +133,8 @@ namespace CarSeller.Tests.Test
                 new PurchaseGetAllPurchaseViewModelItem
                 {
                     Id = 1,
-                    Car = new Car { Id = 1, Brand = "Tesla", Name = "X", State = "new" },
-                    User = new User { Id = "1b556baa-29cc-4bf1-a65f-70c3d98d5005", UserName = "John" }
+                    Car = new CarGetAllPurchaseViewModelItem { Id = 1, Brand = "Tesla", Name = "X", State = "new" },
+                    User = new UserGetAllPurchaseViewModelItem { Id = "1b556baa-29cc-4bf1-a65f-70c3d98d5005", UserName = "John" }
                 }
             };
         }
@@ -197,6 +202,11 @@ namespace CarSeller.Tests.Test
                 Car = new Car { Id = 1, Brand = "Tesla", Name = "X", State = "new" },
                 User = new User { Id = "1b556baa-29cc-4bf1-a65f-70c3d98d5005", UserName = "John" }
             };
+        }
+
+        private int CreatePurchaseIdTest() 
+        {
+            return 1;
         }
 
         private CreatePurchaseViewModel CreatePurchaseViewModelTest()
