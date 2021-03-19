@@ -36,7 +36,7 @@ namespace CarSeller.Entities.Models
         public virtual Seller Seller { get; set; }
 
         /// <summary>
-        /// The Purchase list property for the associated Car.
+        /// The Purchases list property for the associated Car.
         /// </summary>
         public virtual ICollection<Purchase> Purchases { get; set; }
     }
