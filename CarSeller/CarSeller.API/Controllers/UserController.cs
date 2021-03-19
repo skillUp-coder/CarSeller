@@ -10,7 +10,8 @@ using System.Threading.Tasks;
 namespace CarSeller.API.Controllers
 {
     /// <summary>
-    /// The User controller is responsible for fulfilling the requests to get, delete, modify, login and register the User.
+    /// The User controller is responsible for fulfilling 
+    /// the requests to get, delete, modify, login and register the User.
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
@@ -20,8 +21,10 @@ namespace CarSeller.API.Controllers
         private readonly IConfiguration configuration;
 
         /// <summary>
-        /// Responsible for injecting a dependency for a user service and configuration.
+        /// Creates an instance of UserController.
         /// </summary>
+        /// <param name="userService">The object for interacting with the User functionality.</param>
+        /// <param name="configuration">An object to use the configuration properties.</param>
         public UserController(IUserService userService,
                               IConfiguration configuration)
         {
@@ -75,7 +78,7 @@ namespace CarSeller.API.Controllers
         {
             if (!this.ModelState.IsValid) 
             {
-                return this.BadRequest();
+                return this.BadRequest(this.ModelState);
             }
 
             try
@@ -98,7 +101,7 @@ namespace CarSeller.API.Controllers
         }
 
         /// <summary>
-        /// Method to get all User.
+        /// Method to get-all Users.
         /// </summary>
         /// <returns>Action result for get all request.</returns>
         [HttpGet]
@@ -117,7 +120,7 @@ namespace CarSeller.API.Controllers
         }
 
         /// <summary>
-        /// Method to get by id User.
+        /// Method to get the User by id.
         /// </summary>
         /// <param name="id">Identifier of requested User.</param>
         /// <returns>Action result for get by id request.</returns>
@@ -167,7 +170,7 @@ namespace CarSeller.API.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return this.BadRequest();
+                return this.BadRequest(this.ModelState);
             }
 
             try

@@ -17,8 +17,10 @@ namespace CarSeller.BusinessLogic.Services
     public class CarService : BaseService<Car>, ICarService
     {
         /// <summary>
-        /// Responsible for injecting a dependency for a Unit Of Work and Mapper.
+        /// Creates an instance of CarService.
         /// </summary>
+        /// <param name="database">The UnitOfWork object for interacting with repositories.</param>
+        /// <param name="mapper">The Mapper object to transform objects.</param>
         public CarService(IUnitOfWork database, 
                           IMapper mapper) : base(database, mapper)
         { }
@@ -60,13 +62,13 @@ namespace CarSeller.BusinessLogic.Services
         public async Task<GetByIdCarViewModel> GetByIdAsync(int id)
         {
             var car = await this.database.Car.GetById(id);
-            GetByIdCarViewModel carViewModel = new GetByIdCarViewModel();
 
             if (car == null) 
             {
                 throw new Exception("Car not found.");    
             }
 
+            var carViewModel = new GetByIdCarViewModel();
             return this.mapper.Map<Car, GetByIdCarViewModel>
                 (car, carViewModel);
         }

@@ -8,14 +8,16 @@ namespace CarSeller.ViewModels.UserViewModels
     public class LoginUserViewModel
     {
         /// <summary>
-        /// Property user name User.
+        /// The user name of the User.
         /// </summary>
-        [Required] public string UserName { get; set; }
+        [Required] 
+        public string UserName { get; set; }
 
         /// <summary>
-        /// Property password User.
+        /// The password of the User.
         /// </summary>
         [Required]
-        [DataType(DataType.Password)] public string Password { get; set; }
+        [DataType(DataType.Password)] 
+        public string Password { get; set; }
     }
 }

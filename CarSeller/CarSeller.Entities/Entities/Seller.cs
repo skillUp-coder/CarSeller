@@ -8,12 +8,12 @@ namespace CarSeller.Entities.Models
     public class Seller : BaseEntity
     {
         /// <summary>
-        /// Property first name Seller.
+        /// The first name of the Seller.
         /// </summary>
         public string FirstName { get; set; }
 
         /// <summary>
-        /// Property last name Seller.
+        /// The last name of the Seller.
         /// </summary>
         public string LastName { get; set; }
 

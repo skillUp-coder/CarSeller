@@ -9,19 +9,27 @@ namespace CarSeller.DataAccess.Repositories
     /// </summary>
     public class UnitOfWork : IUnitOfWork
     {
+        /// <summary>
+        /// The object for interaction between entities.
+        /// </summary>
         private readonly DataContext database;
 
+        ///<inheritdoc/>
         public IUserRepository User { get; }
 
+        ///<inheritdoc/>
         public ICarRepository Car { get; }
 
+        ///<inheritdoc/>
         public ISellerRepository Seller { get; }
 
+        ///<inheritdoc/>
         public IPurchaseRepository Purchase { get; }
 
         /// <summary>
-        /// Responsible for dependency injection to initialize the DataContext and repositories.
+        /// Creates an instance of UnitOfWork.
         /// </summary>
+        /// <param name="database">The object for interaction between entities.</param>
         public UnitOfWork(DataContext database)
         {
             this.database = database;
@@ -35,10 +43,7 @@ namespace CarSeller.DataAccess.Repositories
             this.Purchase = new PurchaseRepository(this.database);
         }
 
-        /// <summary>
-        /// The asynchronous Save method is responsible for saving the entity data to the database.
-        /// </summary>
-        /// <returns>Returns the persistence of a specific object.</returns>
+        ///<inheritdoc/>
         public async Task SaveAsync() 
         {
             await this.database.SaveChangesAsync();

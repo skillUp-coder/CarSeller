@@ -11,21 +11,14 @@ namespace CarSeller.DataAccess.Repositories
     /// </summary>
     public class UserRepository : BaseRepository<User>, IUserRepository
     {
-        private readonly DataContext database;
-
         /// <summary>
-        /// Responsible for injecting a dependency for a DataContext.
+        /// Creates an instance of UserRepository.
         /// </summary>
+        /// <param name="database">The object for interacting with the User entity.</param>
         public UserRepository(DataContext database) : base(database)
-        {
-            this.database = database;
-        }
+        { }
 
-        /// <summary>
-        /// Method to get by id User.
-        /// </summary>
-        /// <param name="id">Identifier of requested User.</param>
-        /// <returns>Task representing get by id operation.</returns>
+        ///<inheritdoc/>
         public async Task<User> GetById(string id)
         {
             return await this.database

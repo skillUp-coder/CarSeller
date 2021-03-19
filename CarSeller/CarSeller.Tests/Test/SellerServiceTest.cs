@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CarSeller.BusinessLogic.MapperProfiles;
 using CarSeller.BusinessLogic.Services;
 using CarSeller.DataAccess.Interfaces;
 using CarSeller.Entities.Models;
@@ -7,6 +8,7 @@ using CarSeller.ViewModels.ViewModels;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -14,17 +16,59 @@ namespace CarSeller.Tests.Test
 {
     public class SellerServiceTest
     {
-        Mock<IUnitOfWork> unitOfWorkMock = new Mock<IUnitOfWork>();
-        Mock<IMapper> mapperMock = new Mock<IMapper>();
+        private Mock<IUnitOfWork> unitOfWorkMock;
+        private IMapper mapper;
+        private Mock<ISellerRepository> sellerRepositoryMock;
+
+        [SetUp]
+        public void SetUp()
+        {
+            this.unitOfWorkMock = new Mock<IUnitOfWork>();
+            this.sellerRepositoryMock = new Mock<ISellerRepository>();
+
+            var mapperMock = new MapperConfiguration(opt =>
+            {
+                opt.AddProfile(new MappingProfile());
+            });
+
+            this.mapper = mapperMock.CreateMapper();
+        }
+
+        [Test]
+        public async Task Create_ParametersPassed_ExpectedResults()
+        {
+            this.unitOfWorkMock.Setup(opt => opt.Seller)
+                .Returns(this.sellerRepositoryMock.Object);
+
+            var service = new SellerService(this.unitOfWorkMock.Object, this.mapper);
+            await service.CreateAsync(this.CreateSellerViewModelTest());
+
+            this.sellerRepositoryMock.Verify
+                (opt => opt.CreateAsync(It.IsAny<Seller>()), Times.Once);
+        }
+
+        [Test]
+        public void Create_NullParameters_ThrowException()
+        {
+            this.unitOfWorkMock.Setup(opt => opt.Seller)
+                .Returns(this.sellerRepositoryMock.Object);
+
+            var service = new SellerService(this.unitOfWorkMock.Object, this.mapper);
+
+            service.Invoking(opt => opt.CreateAsync(null))
+                   .Should()
+                   .Throw<Exception>()
+                   .WithMessage("There was no Seller object to create.");
+        }
 
         [Test]
         public async Task GetAllAsync_ParametersPassed_ExpectedResults()
         {
-            unitOfWorkMock.Setup(rep => rep.Seller.GetAllAsync()).Returns(this.GetAllSellerAsyncTest());
-            var service = new SellerService(unitOfWorkMock.Object, mapperMock.Object);
+            unitOfWorkMock.Setup
+                (rep => rep.Seller.GetAllAsync()).Returns(this.GetSellerAsyncTest());
+            var service = new SellerService(unitOfWorkMock.Object, this.mapper);
 
             var result = await service.GetAllAsync();
-            result.Sellers = await this.GetAllSellerViewModelItemsAsyncTest();
 
             result.Should().BeOfType<GetAllSellerViewModel>();
             result.Should().NotBeNull();
@@ -41,13 +85,12 @@ namespace CarSeller.Tests.Test
         [Test]
         public async Task GetByIdAsync_ParametersPassed_ExpectedResults()
         {
-            unitOfWorkMock.Setup(rep => rep.Seller.GetById(It.IsAny<int>())).Returns(this.GetByIdSellerAsyncTest());
-            var service = new SellerService(unitOfWorkMock.Object, mapperMock.Object)
-                .GetByIdAsync(It.IsAny<int>());
+            unitOfWorkMock.Setup
+                (rep => rep.Seller.GetById(It.IsAny<int>())).Returns(this.GetByIdAsyncTest());
 
-            service = this.GetByIdSellerViewModelAsyncTest();
+            var service = new SellerService(unitOfWorkMock.Object, this.mapper);
 
-            var result = await service;
+            var result = await service.GetByIdAsync(It.IsAny<int>());
 
             result.Should().As<GetByIdSellerViewModel>();
             result.Should().NotBeNull();
@@ -58,78 +101,70 @@ namespace CarSeller.Tests.Test
         }
 
         [Test]
-        public void Delete_ParametersPassed_ExpectedResults()
+        public void GetByIdAsync_NullParameters_ThrowException()
         {
-            unitOfWorkMock.Setup(rep => rep.Seller.Remove(this.DeleteSellerTest()))
-                                                  .Verifiable();
+            unitOfWorkMock.Setup
+                (rep => rep.Seller.GetById(It.IsAny<int>()));
 
-            var service = new SellerService(unitOfWorkMock.Object, mapperMock.Object)
-                .RemoveAsync(It.IsAny<int>());
+            var service = new SellerService(unitOfWorkMock.Object, this.mapper);
 
-            service.Should().Equals("Empty object");
-            service.GetAwaiter().IsCompleted.Should().BeTrue();
-            service.Should().As<Task>();
+            service.Invoking(opt => opt.GetByIdAsync(It.IsAny<int>()))
+                   .Should()
+                   .Throw<Exception>()
+                   .WithMessage("Seller not found.");
         }
 
         [Test]
-        public void Update_ParametersPassed_ExpectedResults()
+        public void Delete_NullParameters_ThrowException()
         {
-            unitOfWorkMock.Setup(rep => rep.Seller.Update(this.UpdateSellerTest()))
-                                                  .Verifiable();
+            unitOfWorkMock.Setup
+                (rep => rep.Seller.Remove(null)).Verifiable();
 
-            var service = new SellerService(unitOfWorkMock.Object, mapperMock.Object)
-                .UpdateAsync(this.UpdateSellerViewModelTest());
+            var service = new SellerService(unitOfWorkMock.Object, this.mapper);
 
-            service.Should().Equals("Empty object");
-            service.GetAwaiter().IsCompleted.Should().BeTrue();
-            service.Should().As<Task>();
+            service.Invoking(opt => opt.RemoveAsync(It.IsAny<int>()))
+                  .Should()
+                  .Throw<Exception>()
+                  .WithMessage("Seller not found.");
         }
 
         [Test]
-        public async Task Create_ParametersPassed_ExpectedResults()
+        public void Update_NullParameters_ThrowException()
         {
-            unitOfWorkMock.Setup(rep => rep.Seller.CreateAsync(this.CreateSellerTest()))
-                                                  .Verifiable();
+            unitOfWorkMock.Setup
+                (rep => rep.Seller.Update(this.UpdateSellerTest())).Verifiable();
 
-            var service = new SellerService(unitOfWorkMock.Object, mapperMock.Object);
-            var result = await service.CreateAsync(this.CreateSellerViewModelTest());
-            result = this.CreateSellerIdTest();
+            var service = new SellerService(unitOfWorkMock.Object, this.mapper);
 
-            result.Should().As<int>();
-            result.Should().Equals(1);
-
-            result = await service.CreateAsync(new CreateSellerViewModel());
-            result.Should().Equals("There was no Seller object to create.");
+            service.Invoking(opt => opt.UpdateAsync(null))
+                  .Should()
+                  .Throw<Exception>()
+                  .WithMessage("There was no Seller object to update.");
         }
-
 
         #region GetAll
-        private async Task<ICollection<Seller>> GetAllSellerAsyncTest()
+        private Task<ICollection<Seller>> GetSellerAsyncTest()
         {
-            return new List<Seller>
+            var sellers = new List<Seller>
             {
-                new Seller { Id = 1, FirstName = "John", LastName = "Jonson"  }
+                new Seller { FirstName = "John", LastName = "Jonson" }
             };
+            return Task.FromResult<ICollection<Seller>>(sellers);
         }
+        #endregion
 
-        private async Task<ICollection<SellerGetAllSellerViewModelItem>> GetAllSellerViewModelItemsAsyncTest()
+        #region Create
+        private CreateSellerViewModel CreateSellerViewModelTest()
         {
-            return new List<SellerGetAllSellerViewModelItem>
-            {
-                new SellerGetAllSellerViewModelItem { Id = 1, FirstName = "John", LastName = "Jonson" }
-            };
+            return new CreateSellerViewModel { FirstName = "John", LastName = "Jonson" };
         }
         #endregion
 
         #region GetById
-        private async Task<Seller> GetByIdSellerAsyncTest()
+        private Task<Seller> GetByIdAsyncTest()
         {
-            return new Seller { Id = 1, FirstName = "John", LastName = "Jonson" };
-        }
-
-        private async Task<GetByIdSellerViewModel> GetByIdSellerViewModelAsyncTest()
-        {
-            return new GetByIdSellerViewModel { Id = 1, FirstName = "John", LastName = "Jonson" };
+            var seller = new Seller { Id = 1, FirstName = "John", LastName = "Jonson" };
+            return Task.FromResult<Seller>(seller);
         }
         #endregion
 
@@ -146,26 +181,9 @@ namespace CarSeller.Tests.Test
             return new Seller { Id = 1, FirstName = "John", LastName = "Jonson" };
         }
 
-        private UpdateSellerViewModel UpdateSellerViewModelTest()
+        private UpdateSellerViewModel UpdateSellerViewModel()
         {
-            return new UpdateSellerViewModel { Id = 1, FirstName = "John", LastName = "Jonson" };
-        }
-        #endregion
-
-        #region Create
-        private Seller CreateSellerTest()
-        {
-            return new Seller { Id = 1, FirstName = "John", LastName = "Jonson" };
-        }
-
-        private CreateSellerViewModel CreateSellerViewModelTest()
-        {
-            return new CreateSellerViewModel { FirstName = "John", LastName = "Jonson" };
-        }
-
-        private int CreateSellerIdTest()
-        {
-            return 1;
+            return new UpdateSellerViewModel { FirstName = "John", LastName = "Jonson" };
         }
         #endregion
     }

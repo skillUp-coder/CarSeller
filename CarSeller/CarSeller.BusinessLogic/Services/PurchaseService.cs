@@ -17,8 +17,10 @@ namespace CarSeller.BusinessLogic.Services
     public class PurchaseService : BaseService<Purchase>, IPurchaseService
     {
         /// <summary>
-        /// Responsible for injecting a dependency for a Unit Of Work and Mapper.
+        /// Creates an instance of PurchaseService.
         /// </summary>
+        /// <param name="database">The UnitOfWork object for interacting with repositories.</param>
+        /// <param name="mapper">The Mapper object to transform objects.</param>
         public PurchaseService(IUnitOfWork database, 
                                IMapper mapper) : base(database, mapper)
         { }
@@ -60,13 +62,13 @@ namespace CarSeller.BusinessLogic.Services
         public async Task<GetByIdPurchaseViewModel> GetByIdAsync(int id)
         {
             var purchase = await this.database.Purchase.GetById(id);
-            GetByIdPurchaseViewModel purchaseViewModel = new GetByIdPurchaseViewModel();
 
             if (purchase == null) 
             {
                 throw new Exception("Purchase not found.");
             }
 
+            var purchaseViewModel = new GetByIdPurchaseViewModel();
             return this.mapper.Map<Purchase, GetByIdPurchaseViewModel>
                 (purchase, purchaseViewModel);
         }

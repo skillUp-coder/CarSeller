@@ -3,18 +3,20 @@
 namespace CarSeller.ViewModels.ViewModels
 {
     /// <summary>
-    /// The CreatePurchaseViewModel object exists to create an object interacts with API and business logic.
+    /// The CreatePurchaseViewModel exists to create Purchase object.
     /// </summary>
     public class CreatePurchaseViewModel
     {
         /// <summary>
-        /// Property user Id Purchase.
+        /// The user id of the Purchase.
         /// </summary>
-        [Required] public string UserId { get; set; }
+        [Required] 
+        public string UserId { get; set; }
 
         /// <summary>
-        /// Property car Id Purchase.
+        /// The car id of the Purchase.
         /// </summary>
-        [Required] public int CarId { get; set; }
+        [Required] 
+        public int CarId { get; set; }
     }
 }

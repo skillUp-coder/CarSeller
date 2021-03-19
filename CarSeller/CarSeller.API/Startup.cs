@@ -38,6 +38,8 @@ namespace CarSeller.API
             {
                 opt.ResolveConflictingActions(apiDesc => apiDesc.First());
             });
+
+            services.BuildServiceProvider().GetService<DataContext>().Database.Migrate();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

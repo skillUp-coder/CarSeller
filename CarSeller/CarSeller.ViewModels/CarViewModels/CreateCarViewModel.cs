@@ -1,30 +1,35 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CarSeller.ViewModels.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace CarSeller.ViewModels.ViewModels
 {
     /// <summary>
-    /// The CreateCarViewModel object exists to create an object that interacts with API and business logic.
+    /// The CreateCarViewModel exists to create Car object.
     /// </summary>
     public class CreateCarViewModel
     {
         /// <summary>
-        /// Property name Car.
+        /// The name of the Car.
         /// </summary>
-        [Required] public string Name { get; set; }
+        [Required] 
+        public string Name { get; set; }
 
         /// <summary>
-        /// Property brand Car.
+        /// The brand of the Car.
         /// </summary>
-        [Required] public string Brand { get; set; }
+        [Required] 
+        public string Brand { get; set; }
 
         /// <summary>
-        /// Property state Car.
+        /// The state of the Car.
         /// </summary>
-        [Required] public string State { get; set; }
+        [Required] 
+        public CarStateViewModel State { get; set; }
 
         /// <summary>
-        /// Property seller Id Car.
+        /// The seller Id of the Car.
         /// </summary>
-        [Required] public int SellerId { get; set; }
+        [Required] 
+        public int SellerId { get; set; }
     }
 }

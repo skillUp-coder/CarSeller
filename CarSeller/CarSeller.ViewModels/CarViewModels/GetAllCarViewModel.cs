@@ -1,14 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using CarSeller.ViewModels.Enums;
+using System.Collections.Generic;
 
 namespace CarSeller.ViewModels.ViewModels
 {
     /// <summary>
-    /// GetAllCarViewModel object exists to create a collection of GetAllCarViewModelItem objects.
+    /// GetAllCarViewModel object exists to create 
+    /// a collection of GetAllCarViewModelItem objects.
     /// </summary>
     public class GetAllCarViewModel 
     {
         /// <summary>
-        /// Property list of all cars.
+        /// List of all cars.
         /// </summary>
         public ICollection<CarGetAllCarViewModelItem> Cars { get; set; }
 
@@ -22,28 +24,29 @@ namespace CarSeller.ViewModels.ViewModels
     }
 
     /// <summary>
-    /// The GetAllCarViewModelItem object exists for getting the necessary properties for the interaction of API and business logic.
+    /// The CarGetAllCarViewModelItem object exists to receive
+    /// required properties of the Car object.
     /// </summary>
     public class CarGetAllCarViewModelItem
     {
         /// <summary>
-        /// Property Id Car.
+        /// The id of the Car.
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// Property name Car.
+        /// The name of the Car.
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Property brand Car.
+        /// The brand of the Car.
         /// </summary>
         public string Brand { get; set; }
 
         /// <summary>
-        /// Property state Car.
+        /// The state of the Car.
         /// </summary>
-        public string State { get; set; }
+        public CarStateViewModel State { get; set; }
     }
 }

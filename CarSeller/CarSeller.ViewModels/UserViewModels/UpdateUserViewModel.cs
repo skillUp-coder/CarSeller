@@ -3,18 +3,20 @@
 namespace CarSeller.ViewModels.ViewModels
 {
     /// <summary>
-    /// The UpdateUserViewModel object is responsible for modifying the user properties of the object's API and business logic interactions.
+    /// UpdateUserViewModel exists to modify object User.
     /// </summary>
     public class UpdateUserViewModel
     {
         /// <summary>
-        /// Property Id User.
+        /// The id of the User.
         /// </summary>
-        [Required] public string Id { get; set; }
+        [Required] 
+        public string Id { get; set; }
 
         /// <summary>
-        /// Property user name User.
+        /// The user name of the User.
         /// </summary>
-        [Required] public string UserName { get; set; }
+        [Required] 
+        public string UserName { get; set; }
     }
 }

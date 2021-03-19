@@ -6,17 +6,17 @@
     public class GetByIdSellerViewModel
     {
         /// <summary>
-        /// Property Id Seller.
+        /// The id of the Seller.
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// Property first name Seller.
+        /// The first name of the Seller.
         /// </summary>
         public string FirstName { get; set; }
 
         /// <summary>
-        /// Property last name Seller.
+        /// The last name of the Seller.
         /// </summary>
         public string LastName { get; set; }
     }

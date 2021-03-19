@@ -5,7 +5,7 @@ using CarSeller.DataAccess.Interfaces;
 namespace CarSeller.BusinessLogic.Services
 {
     /// <summary>
-    /// The BaseService class is responsible for the implementation in the dependency constructor.
+    /// The BaseService class is responsible for the implementation of the dependency constructor.
     /// </summary>
     /// <typeparam name="TEntity">Generalized entity.</typeparam>
     public class BaseService<TEntity> : IBaseService<TEntity> where TEntity : class
@@ -14,8 +14,10 @@ namespace CarSeller.BusinessLogic.Services
         protected readonly IMapper mapper;
 
         /// <summary>
-        /// Responsible for injecting a dependency for a Unit Of Work service and Mapper.
+        /// Creates an instance of BaseService.
         /// </summary>
+        /// <param name="database">The UnitOfWork object for interacting with repositories.</param>
+        /// <param name="mapper">The Mapper object to transform objects.</param>
         public BaseService(IUnitOfWork database, 
                            IMapper mapper)
         {

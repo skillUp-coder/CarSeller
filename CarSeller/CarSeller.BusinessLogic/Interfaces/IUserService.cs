@@ -6,49 +6,50 @@ using System.Threading.Tasks;
 namespace CarSeller.BusinessLogic.Interfaces
 {
     /// <summary>
-    /// The IUserService interface is responsible for dependency injection and method usage.
+    /// The IUserService interface is responsible 
+    /// for dependency injection and method usage.
     /// </summary>
     public interface IUserService
     {
         /// <summary>
-        /// Method to get all User.
+        /// Method to get-all Users.
         /// </summary>
-        /// <returns>Task representing get all operation.</returns>
+        /// <returns>A task that represents a get-all operation.</returns>
         Task<GetAllUserViewModel> GetAllAsync();
 
         /// <summary>
-        /// Method to get by id User.
+        /// Method to get the User by id .
         /// </summary>
         /// <param name="id">Identifier of requested User.</param>
-        /// <returns>Task representing get by id operation.</returns>
+        /// <returns>A task that represents a get by id operation.</returns>
         Task<GetByIdUserViewModel> GetByIdAsync(string id);
 
         /// <summary>
         /// Method to delete User.
         /// </summary>
         /// <param name="id">Identifier of requested User.</param>
-        /// <returns>Task representing delete operation.</returns>
+        /// <returns>The task that represents the delete operation.</returns>
         Task RemoveAsync(string id);
 
         /// <summary>
         /// Method to update User.
         /// </summary>
-        /// <param name="updateUserViewModel">User model to be updated.</param>
-        /// <returns>Task representing update operation.</returns>
-        Task UpdateAsync(UpdateUserViewModel entity);
+        /// <param name="updateUserViewModel">User object to update.</param>
+        /// <returns>The task representing update operation.</returns>
+        Task UpdateAsync(UpdateUserViewModel updateUserViewModel);
 
         /// <summary>
         /// Method to register User.
         /// </summary>
         /// <param name="registerUserViewModel">User object to register.</param>
-        /// <returns>Task representing register operation.</returns>
-        Task<User> RegisterAsync(RegisterUserViewModel entity);
+        /// <returns>A task that is a registration operation.</returns>
+        Task<User> RegisterAsync(RegisterUserViewModel registerUserViewModel);
 
         /// <summary>
         /// Method to login User.
         /// </summary>
         /// <param name="loginUserViewModel">User object to login.</param>
-        /// <returns>Task representing login operation.</returns>
-        Task<User> LoginAsync(LoginUserViewModel entity);
+        /// <returns>A task that represents a logon operation.</returns>
+        Task<User> LoginAsync(LoginUserViewModel loginUserViewModel);
     }
 }

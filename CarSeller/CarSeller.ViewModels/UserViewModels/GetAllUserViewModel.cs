@@ -3,12 +3,13 @@
 namespace CarSeller.ViewModels.ViewModels
 {
     /// <summary>
-    /// GetAllUserViewModel object exists to create a collection of GetAllPurchaseViewModelItem objects.
+    /// GetAllUserViewModel object exists 
+    /// to create a collection of GetAllPurchaseViewModelItem objects.
     /// </summary>
     public class GetAllUserViewModel 
     {
         /// <summary>
-        /// Property list of all Users.
+        /// List of all Users.
         /// </summary>
         public ICollection<UserGetAllUserViewModelItem> Users { get; set; }
 
@@ -28,12 +29,12 @@ namespace CarSeller.ViewModels.ViewModels
     public class UserGetAllUserViewModelItem
     {
         /// <summary>
-        /// Property Id User.
+        /// The id of the User.
         /// </summary>
         public string Id { get; set; }
 
         /// <summary>
-        /// Property user name User.
+        /// The user name of the User.
         /// </summary>
         public string UserName { get; set; }
     }

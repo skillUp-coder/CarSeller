@@ -1,35 +1,41 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CarSeller.ViewModels.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace CarSeller.ViewModels.ViewModels
 {
     /// <summary>
-    /// The UpdateCarViewModel object exists to change the object interacts with API and business logic.
+    /// UpdateCarViewModel exists to modify object Car.
     /// </summary>
     public class UpdateCarViewModel
     {
         /// <summary>
-        /// Property Id Car.
+        /// The id of the Car.
         /// </summary>
-        [Required] public int Id { get; set; }
+        [Required] 
+        public int Id { get; set; }
 
         /// <summary>
-        /// Property seller Id Car.
+        /// The seller id of the Car.
         /// </summary>
-        [Required] public int SellerId { get; set; }
+        [Required] 
+        public int SellerId { get; set; }
 
         /// <summary>
-        /// Property name Car.
+        /// The name of the Car.
         /// </summary>
-        [Required] public string Name { get; set; }
+        [Required] 
+        public string Name { get; set; }
 
         /// <summary>
-        /// Property brand Car.
+        /// The brand of the Car.
         /// </summary>
-        [Required] public string Brand { get; set; }
+        [Required] 
+        public string Brand { get; set; }
 
         /// <summary>
-        /// Property state Car.
+        /// The state of the Car.
         /// </summary>
-        [Required] public string State { get; set; }
+        [Required] 
+        public CarStateViewModel State { get; set; }
     }
 }

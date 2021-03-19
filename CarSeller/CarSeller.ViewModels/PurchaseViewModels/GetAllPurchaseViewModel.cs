@@ -1,14 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using CarSeller.ViewModels.Enums;
+using System.Collections.Generic;
 
 namespace CarSeller.ViewModels.ViewModels
 {
     /// <summary>
-    /// GetAllPurchaseViewModel object exists to create a collection of GetAllPurchaseViewModelItem objects.
+    /// GetAllPurchaseViewModel object exists 
+    /// to create a collection of GetAllPurchaseViewModelItem objects.
     /// </summary>
     public class GetAllPurchaseViewModel 
     {
         /// <summary>
-        /// Property list of all Purchases.
+        /// List of all Purchases.
         /// </summary>
         public ICollection<PurchaseGetAllPurchaseViewModelItem> Purchases { get; set; }
 
@@ -22,59 +24,66 @@ namespace CarSeller.ViewModels.ViewModels
     }
 
     /// <summary>
-    /// The GetAllPurchaseViewModelItem object exists for getting the necessary properties for the interaction of API and business logic.
+    /// The GetAllPurchaseViewModelItem object exists to receive
+    /// required properties of the Purchase object.
     /// </summary>
     public class PurchaseGetAllPurchaseViewModelItem
     {
         /// <summary>
-        /// Property Id Purchase.
+        /// The id of the Purchase.
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// Property User for the related entity Purchase.
+        /// The User for the related entity Purchase.
         /// </summary>
         public UserGetAllPurchaseViewModelItem User { get; set; }
 
         /// <summary>
-        /// Property Car for the related entity Purchase.
+        /// The Car for the related entity Purchase.
         /// </summary>
         public CarGetAllPurchaseViewModelItem Car { get; set; }
     }
 
+    /// <summary>
+    /// UserGetAllPurchaseViewModelItem is a related object for Purchase.
+    /// </summary>
     public class UserGetAllPurchaseViewModelItem 
     {
         /// <summary>
-        /// Property Id User.
+        /// The id of the User.
         /// </summary>
         public string Id { get; set; }
 
         /// <summary>
-        /// Property user name User.
+        /// The user name of the User.
         /// </summary>
         public string UserName { get; set; }
     }
 
+    /// <summary>
+    /// CarGetAllPurchaseViewModelItem is a related object for Purchase.
+    /// </summary>
     public class CarGetAllPurchaseViewModelItem 
     {
         /// <summary>
-        /// Property Id Car.
+        /// The id of the Car.
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// Property name Car.
+        /// The name of the Car.
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Property brand Car.
+        /// The brand of the Car.
         /// </summary>
         public string Brand { get; set; }
 
         /// <summary>
-        /// Property state Car.
+        /// The state of the Car.
         /// </summary>
-        public string State { get; set; }
+        public CarStateViewModel State { get; set; }
     }
 }

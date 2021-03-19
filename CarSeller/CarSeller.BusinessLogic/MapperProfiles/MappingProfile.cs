@@ -13,6 +13,9 @@ namespace CarSeller.BusinessLogic.MapperProfiles
     /// </summary>
     public class MappingProfile : Profile
     {
+        /// <summary>
+        /// Creates an instance of MappingProfile.
+        /// </summary>
         public MappingProfile()
         {
             #region Car Profile

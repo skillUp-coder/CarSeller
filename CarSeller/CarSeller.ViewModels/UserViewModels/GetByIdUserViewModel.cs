@@ -6,12 +6,12 @@
     public class GetByIdUserViewModel
     {
         /// <summary>
-        /// Property Id User.
+        /// The id of the User.
         /// </summary>
         public string Id { get; set; }
 
         /// <summary>
-        /// Property user name User.
+        /// The user name of the User.
         /// </summary>
         public string UserName { get; set; }
     }

@@ -8,24 +8,22 @@ using System.Threading.Tasks;
 namespace CarSeller.DataAccess.Repositories
 {
     /// <summary>
-    /// The PurchaseRepository class is responsible for creating the logic to add, modify, get the purchase entity.
+    /// The PurchaseRepository class is responsible for creating 
+    /// the logic to add, modify, get the purchase entity.
     /// </summary>
     public class PurchaseRepository : BaseRepository<Purchase>, IPurchaseRepository
     {
-        private readonly DataContext database;
-
         /// <summary>
-        /// Responsible for injecting a dependency for a DataContext.
+        /// Creates an instance of PurchaseRepository.
         /// </summary>
+        /// <param name="database">The object for interacting with the Purchase entity.</param>
         public PurchaseRepository(DataContext database) : base(database)
-        {
-            this.database = database;
-        }
+        { }
 
         /// <summary>
-        /// Method to get all Purchase.
+        /// Method to get all Purchases.
         /// </summary>
-        /// <returns>Task representing get all operation.</returns>
+        /// <returns>A task that is an operation of getting all.</returns>
         public override async Task<ICollection<Purchase>> GetAllAsync() 
         {
             return await this.database.Purchases
@@ -35,10 +33,10 @@ namespace CarSeller.DataAccess.Repositories
         }
 
         /// <summary>
-        /// Method to get by id Purchase.
+        /// Method to get a Purchase by id.
         /// </summary>
         /// <param name="id">Identifier of requested Purchase.</param>
-        /// <returns>Task representing get by id operation.</returns>
+        /// <returns>A task that represents a get by id operation.</returns>
         public override async Task<Purchase> GetById(int id) 
         {
             return await this.database

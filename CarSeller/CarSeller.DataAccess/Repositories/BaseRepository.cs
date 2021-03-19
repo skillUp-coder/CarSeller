@@ -9,15 +9,16 @@ namespace CarSeller.DataAccess.Repositories
     /// <summary>
     /// The base repository is responsible for creating the base methods.
     /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
+    /// <typeparam name="TEntity">Generalized entity.</typeparam>
     public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
     {
-        private readonly DbSet<TEntity> dbSet;
-        private readonly DataContext database;
+        protected readonly DbSet<TEntity> dbSet;
+        protected readonly DataContext database;
 
         /// <summary>
-        /// Responsible for injecting a dependency for a DbSet and DataContext.
+        /// Creates an instance of BaseRepository.
         /// </summary>
+        /// <param name="database">The object for interaction between entities.</param>
         public BaseRepository(DataContext database)
         {
             this.database = database;

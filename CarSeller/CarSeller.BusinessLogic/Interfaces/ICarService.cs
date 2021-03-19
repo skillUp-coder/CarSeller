@@ -10,37 +10,37 @@ namespace CarSeller.BusinessLogic.Interfaces
     public interface ICarService
     {
         /// <summary>
-        /// Method to get all Car.
+        /// Method to get-all Cars.
         /// </summary>
-        /// <returns>Task representing get all operation.</returns>
+        /// <returns>A task that represents a get-all operation.</returns>
         Task<GetAllCarViewModel> GetAllAsync();
 
         /// <summary>
         /// Method to create Car.
         /// </summary>
         /// <param name="createCarViewModel">Car object to create.</param>
-        /// <returns>Task representing create operation.</returns>
-        Task<int> CreateAsync(CreateCarViewModel entity);
+        /// <returns>A task that represents a create operation.</returns>
+        Task<int> CreateAsync(CreateCarViewModel createCarViewModel);
 
         /// <summary>
-        /// Method to get by id Car.
+        /// Method to get a Car by id .
         /// </summary>
         /// <param name="id">Identifier of requested Car.</param>
-        /// <returns>Task representing get by id operation.</returns>
+        /// <returns>A task that represents a get by id operation.</returns>
         Task<GetByIdCarViewModel> GetByIdAsync(int id);
 
         /// <summary>
         /// Method to delete Car.
         /// </summary>
         /// <param name="id">Identifier of requested Car.</param>
-        /// <returns>Task representing delete operation.</returns>
+        /// <returns>The task that represents the delete operation.</returns>
         Task RemoveAsync(int id);
 
         /// <summary>
         /// Method to update Car.
         /// </summary>
-        /// <param name="updateCarViewModel">Car model to be updated.</param>
-        /// <returns>Task representing update operation.</returns>
-        Task UpdateAsync(UpdateCarViewModel entity);
+        /// <param name="updateCarViewModel">Car object to update.</param>
+        /// <returns>The task representing update operation.</returns>
+        Task UpdateAsync(UpdateCarViewModel updateCarViewModel);
     }
 }

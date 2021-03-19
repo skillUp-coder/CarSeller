@@ -1,4 +1,6 @@
-﻿namespace CarSeller.ViewModels.CarViewModels
+﻿using CarSeller.ViewModels.Enums;
+
+namespace CarSeller.ViewModels.CarViewModels
 {
     /// <summary>
     /// GetByIdCarViewModel object exists for getting an object by Id.
@@ -6,48 +8,49 @@
     public class GetByIdCarViewModel
     {
         /// <summary>
-        /// Property Id Car.
+        /// The Id of the Car.
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// Property name Car.
+        /// The name of the Car.
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Property brand Car.
+        /// The brand of the Car.
         /// </summary>
         public string Brand { get; set; }
 
         /// <summary>
-        /// Property state Car.
+        /// The state of the Car.
         /// </summary>
-        public string State { get; set; }
+        public CarStateViewModel State { get; set; }
 
         /// <summary>
-        /// Property Seller for the related entity Car.
+        /// The Seller for the related entity Car.
         /// </summary>
         public SellerGetByIdCarViewModelItem Seller { get; set; }
     }
 
     /// <summary>
-    /// SellerGetByIdCarViewModelItem exists to transform related data into GetByIdCarViewModel.
+    /// SellerGetByIdCarViewModelItem exists 
+    /// to transform related data into GetByIdCarViewModel.
     /// </summary>
     public class SellerGetByIdCarViewModelItem 
     {
         /// <summary>
-        /// Property Id Seller.
+        /// The id of the Seller.
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// Property first name Seller.
+        /// The first name of the Seller.
         /// </summary>
         public string FirstName { get; set; }
 
         /// <summary>
-        /// Property last name Seller.
+        /// The last name of the Seller.
         /// </summary>
         public string LastName { get; set; }
     }

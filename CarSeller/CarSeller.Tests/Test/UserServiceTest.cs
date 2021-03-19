@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CarSeller.BusinessLogic.MapperProfiles;
 using CarSeller.BusinessLogic.Services;
 using CarSeller.DataAccess.Interfaces;
 using CarSeller.Entities.Models;
@@ -8,6 +9,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
 using Moq;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -15,19 +17,34 @@ namespace CarSeller.Tests.Test
 {
     public class UserServiceTest
     {
-        Mock<IUnitOfWork> unitOfWorkMock = new Mock<IUnitOfWork>();
-        Mock<IMapper> mapperMock = new Mock<IMapper>();
-        UserManager<User> userManager;
+        private Mock<IUnitOfWork> unitOfWorkMock;
+        private IMapper mapper;
+        IUserStore<User> userStoreMock = Mock.Of<IUserStore<User>>();
+        private Mock<UserManager<User>> userManagerMock;
+
+        [SetUp]
+        public void SetUp()
+        {
+            this.unitOfWorkMock = new Mock<IUnitOfWork>();
+            this.userManagerMock = new Mock<UserManager<User>>
+                (this.userStoreMock, null, null, null, null, null, null, null, null);
+
+            var mapperMock = new MapperConfiguration(opt =>
+            {
+                opt.AddProfile(new MappingProfile());
+            });
+
+            this.mapper = mapperMock.CreateMapper();
+        }
 
         [Test]
         public async Task GetAllAsync_ParametersPassed_ExpectedResults()
         {
-            unitOfWorkMock.Setup(rep => rep.User.GetAllAsync())
-                .Returns(GetAllUserAsyncTest());
-            var service = new UserService(unitOfWorkMock.Object, mapperMock.Object, userManager);
+            unitOfWorkMock.Setup
+                (rep => rep.User.GetAllAsync()).Returns(this.GetAllUserAsyncTest());
+            var service = new UserService(this.unitOfWorkMock.Object, this.mapper, this.userManagerMock.Object);
 
             var result = await service.GetAllAsync();
-            result.Users = await this.GetAllUserViewModelItemAsyncTest();
 
             result.Should().BeOfType<GetAllUserViewModel>();
             result.Should().NotBeNull();
@@ -41,27 +58,25 @@ namespace CarSeller.Tests.Test
         }
 
         [Test]
-        public void Register_ParametersPassed_ExpectedResults()
+        public void Register_NullParameters_ThrowException()
         {
-            unitOfWorkMock.Setup(rep => rep.User.CreateAsync(this.RegisterUserTest()));
+            var service = new UserService(this.unitOfWorkMock.Object, this.mapper, this.userManagerMock.Object);
 
-            var service = new UserService(unitOfWorkMock.Object, mapperMock.Object, userManager);
-
-            service.RegisterAsync(RegisterUserViewModelTest()).GetAwaiter().Should().As<Task<User>>();
-            service.RegisterAsync(null).Should().Equals("Empty object");
-            service.RegisterAsync(RegisterUserViewModelTest()).Should().NotBeNull();
-            var result = RegisterUserViewModelTest();
-            result.UserName.Should().Equals("John");
+            service.Invoking(opt => opt.RegisterAsync(null))
+                   .Should()
+                   .Throw<Exception>()
+                   .WithMessage("There was no User object to register.");
         }
 
         [Test]
         public void Login_ParametersPassed_ExpectedResults()
         {
-            var service = new UserService(unitOfWorkMock.Object, mapperMock.Object, userManager);
+            var service = new UserService(this.unitOfWorkMock.Object, this.mapper, this.userManagerMock.Object);
 
-            service.LoginAsync(LoginUserViewModelTest()).GetAwaiter().Should().As<Task<User>>();
-            service.LoginAsync(null).Should().Equals("Empty object");
-            service.LoginAsync(LoginUserViewModelTest()).Should().NotBeNull();
+            service.Invoking(opt => opt.LoginAsync(null))
+                   .Should()
+                   .Throw<Exception>()
+                   .WithMessage("There was no User object to login.");
         }
 
         [Test]
@@ -69,12 +84,8 @@ namespace CarSeller.Tests.Test
         {
             unitOfWorkMock.Setup(rep => rep.User.GetById(It.IsAny<string>()))
                 .Returns(this.GetByIdUserAsyncTest());
-            var service = new UserService(unitOfWorkMock.Object, mapperMock.Object, userManager)
-                .GetByIdAsync(It.IsAny<string>());
-
-            service = this.GetByIdUserViewModelAsyncTest();
-
-            var result = await service;
+            var service = new UserService(this.unitOfWorkMock.Object, this.mapper, this.userManagerMock.Object);
+            var result = await service.GetByIdAsync(It.IsAny<string>());
 
             result.Should().As<GetByIdUserViewModel>();
             result.Should().NotBeNull();
@@ -84,86 +95,59 @@ namespace CarSeller.Tests.Test
         }
 
         [Test]
-        public void Delete_ParametersPassed_ExpectedResults()
+        public void Delete_NullParameters_ThrowException()
         {
-            unitOfWorkMock.Setup(rep => rep.User.Remove(this.DeleteUserTest()))
-                .Verifiable();
+            unitOfWorkMock.Setup
+                (rep => rep.User.Remove(this.DeleteUserTest())).Verifiable();
 
-            var service = new UserService(unitOfWorkMock.Object, mapperMock.Object, userManager);
+            var service = new UserService(unitOfWorkMock.Object, this.mapper, this.userManagerMock.Object);
 
-            service.RemoveAsync(It.IsAny<string>()).Should().Equals("Empty object");
-            service.RemoveAsync(It.IsAny<string>()).GetAwaiter().IsCompleted.Should().BeTrue();
-            service.RemoveAsync(It.IsAny<string>()).Should().As<Task>();
+            service.Invoking(opt => opt.RemoveAsync(null))
+                  .Should()
+                  .Throw<Exception>()
+                  .WithMessage("User not found.");
         }
 
-
         [Test]
-        public void Update_ParametersPassed_ExpectedResults()
+        public void Update_NullParameters_ThrowException()
         {
-            unitOfWorkMock.Setup(rep => rep.User.Update(this.UpdateUserTest()))
-                .Verifiable();
+            unitOfWorkMock.Setup
+                (rep => rep.User.Update(this.UpdateUserTest())).Verifiable();
 
-            var service = new UserService(unitOfWorkMock.Object, mapperMock.Object, userManager);
+            var service = new UserService(unitOfWorkMock.Object, this.mapper, this.userManagerMock.Object);
 
-            service.UpdateAsync(UpdateUserViewModelTest()).Should().Equals("Empty object");
-            service.UpdateAsync(UpdateUserViewModelTest()).GetAwaiter().IsCompleted.Should().BeTrue();
-            service.UpdateAsync(UpdateUserViewModelTest()).Should().As<Task>();
+            service.Invoking(opt => opt.UpdateAsync(null))
+                  .Should()
+                  .Throw<NullReferenceException>()
+                  .WithMessage("Object reference not set to an instance of an object.");
+
+            service.Invoking(opt => opt.UpdateAsync(this.UpdateUserViewModelTest()))
+                  .Should()
+                  .Throw<Exception>()
+                  .WithMessage("There was no User object to update.");
+
         }
 
         #region GetAll
         public async Task<ICollection<User>> GetAllUserAsyncTest()
         {
-            return new List<User>
+            var users = new List<User>
             {
                 new User { Id = "1", UserName = "John" }
             };
-        }
-
-        public async Task<ICollection<UserGetAllUserViewModelItem>> GetAllUserViewModelItemAsyncTest()
-        {
-            return new List<UserGetAllUserViewModelItem>
-            {
-                new UserGetAllUserViewModelItem { Id = "1", UserName = "John" }
-            };
-        }
-
-        #endregion
-
-        #region Register
-
-        public User RegisterUserTest()
-        {
-            return new User { Id = "1", UserName = "John" };
-        }
-
-        public RegisterUserViewModel RegisterUserViewModelTest()
-        {
-            return new RegisterUserViewModel { UserName = "Bobb", Password = "Qwerty_123", PasswordConfirm = "Qwerty_123" };
-        }
-
-        #endregion
-
-        #region Login
-        public LoginUserViewModel LoginUserViewModelTest()
-        {
-            return new LoginUserViewModel { UserName = "John", Password = "Qwerty_123" };
+            return await Task.FromResult<ICollection<User>>(users);
         }
         #endregion
 
         #region GetById
         public async Task<User> GetByIdUserAsyncTest()
         {
-            return new User { Id = "1b556baa-29cc-4bf1-a65f-70c3d98d5005", UserName = "John" };
-        }
-
-        public async Task<GetByIdUserViewModel> GetByIdUserViewModelAsyncTest()
-        {
-            return new GetByIdUserViewModel { Id = "1b556baa-29cc-4bf1-a65f-70c3d98d5005", UserName = "John" };
+            var user = new User { Id = "1b556baa-29cc-4bf1-a65f-70c3d98d5005", UserName = "John" };
+            return await Task.FromResult<User>(user);
         }
         #endregion
 
         #region Delete
-
         public User DeleteUserTest()
         {
             return new User { Id = "1b556baa-29cc-4bf1-a65f-70c3d98d5005", UserName = "John" };

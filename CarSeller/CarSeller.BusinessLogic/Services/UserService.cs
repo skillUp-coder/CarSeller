@@ -20,8 +20,11 @@ namespace CarSeller.BusinessLogic.Services
         private readonly UserManager<User> userManager;
 
         /// <summary>
-        /// Responsible for injecting a dependency for a Unit Of Work, UserManager and Mapper.
+        /// Creates an instance of UserService.
         /// </summary>
+        /// <param name="database">The UnitOfWork object for interacting with repositories.</param>
+        /// <param name="mapper">The Mapper object to transform objects.</param>
+        /// <param name="userManager">The UserManager object for user management.</param>
         public UserService(IUnitOfWork database, 
                            IMapper mapper,
                            UserManager<User> userManager) : base(database, mapper)
@@ -42,6 +45,7 @@ namespace CarSeller.BusinessLogic.Services
                 (registerUserViewModel, user);
             
             var result = await this.userManager.CreateAsync(user, registerUserViewModel.Password);
+            
             return (result.Succeeded) ? user : null;
         }
 
@@ -54,6 +58,7 @@ namespace CarSeller.BusinessLogic.Services
             }
 
             var user = await this.userManager.FindByNameAsync(loginUserViewModel.UserName);
+            
             return (user != null && await this.userManager.CheckPasswordAsync(user, loginUserViewModel.Password))
                 ? user : null; 
         }
@@ -77,12 +82,13 @@ namespace CarSeller.BusinessLogic.Services
         public async Task<GetByIdUserViewModel> GetByIdAsync(string id)
         {
             var user = await this.database.User.GetById(id);
-            GetByIdUserViewModel userViewModel = new GetByIdUserViewModel();
+            
             if (user == null) 
             {
                 throw new Exception("User not found.");
             }
 
+            var userViewModel = new GetByIdUserViewModel();
             return this.mapper.Map<User, GetByIdUserViewModel>
                 (user, userViewModel);
         }

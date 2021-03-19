@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 namespace CarSeller.API.Controllers
 {
     /// <summary>
-    /// The Seller controller is responsible for fulfilling the requests to get, delete, modify and create the Seller.
+    /// The Seller controller is responsible 
+    /// for fulfilling the requests to get, delete, modify and create the Seller.
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
@@ -16,8 +17,9 @@ namespace CarSeller.API.Controllers
         private readonly ISellerService sellerService;
 
         /// <summary>
-        /// Responsible for injecting a dependency for a seller service.
+        /// Creates an instance of SellerController.
         /// </summary>
+        /// <param name="sellerService">The object for interacting with the Seller functionality.</param>
         public SellerController(ISellerService sellerService)
         {
             this.sellerService = sellerService;
@@ -49,7 +51,7 @@ namespace CarSeller.API.Controllers
         }
 
         /// <summary>
-        /// Method to get all Sellers. 
+        /// Method to get-all Sellers. 
         /// </summary>
         /// <returns>Action result for get all request.</returns>
         [HttpGet]
@@ -68,7 +70,7 @@ namespace CarSeller.API.Controllers
         }
 
         /// <summary>
-        /// Method to get by id Seller. 
+        /// Method to get the Seller by id. 
         /// </summary>
         /// <param name="id">Identifier of requested Seller.</param>
         /// <returns>Action result for get by id request.</returns>
@@ -118,7 +120,7 @@ namespace CarSeller.API.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return this.BadRequest();
+                return this.BadRequest(this.ModelState);
             }
 
             try

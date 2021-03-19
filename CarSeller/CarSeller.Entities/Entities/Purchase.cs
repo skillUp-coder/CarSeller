@@ -8,7 +8,7 @@ namespace CarSeller.Entities.Models
     public class Purchase : BaseEntity
     {
         /// <summary>
-        /// Property user Id Purchase.
+        /// The user id of the Purchase.
         /// </summary>
         public string UserId { get; set; }
 
@@ -19,7 +19,7 @@ namespace CarSeller.Entities.Models
         public virtual User User { get; set; }
 
         /// <summary>
-        /// Property car Id Purchase.
+        /// The car id of the Purchase.
         /// </summary>
         public int CarId { get; set; }
 

@@ -1,28 +1,32 @@
-﻿using System.Collections.Generic;
+﻿using CarSeller.Entities.Enums;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CarSeller.Entities.Models
 {
     /// <summary>
-    /// A machine object exists to store the properties of this entity.
+    /// A Car object exists to store the properties of this entity.
     /// </summary>
     public class Car : BaseEntity
     {
         /// <summary>
-        /// Property name Car.
+        /// The name of the Car.
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Property brand Car.
+        /// The brand of the Car.
         /// </summary>
         public string Brand { get; set; }
 
         /// <summary>
-        /// Property state Car.
+        /// The state of the Car.
         /// </summary>
-        public string State { get; set; }
+        public CarState State { get; set; }
 
+        /// <summary>
+        /// The seller id of the Car.
+        /// </summary>
         public int SellerId { get; set; }
 
         /// <summary>

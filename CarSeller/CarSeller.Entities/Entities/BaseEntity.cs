@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace CarSeller.Entities.Models
 {
     /// <summary>
-    /// Base key for entities.
+    /// Base entity.
     /// </summary>
     public abstract class BaseEntity
     {

@@ -1,12 +1,15 @@
 ﻿using AutoMapper;
+using CarSeller.BusinessLogic.MapperProfiles;
 using CarSeller.BusinessLogic.Services;
 using CarSeller.DataAccess.Interfaces;
+using CarSeller.Entities.Enums;
 using CarSeller.Entities.Models;
 using CarSeller.ViewModels.PurchaseViewModels;
 using CarSeller.ViewModels.ViewModels;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -14,35 +17,59 @@ namespace CarSeller.Tests.Test
 {
     public class PurchaseServiceTest
     {
-        Mock<IUnitOfWork> unitOfWorkMock = new Mock<IUnitOfWork>();
-        Mock<IMapper> mapperMock = new Mock<IMapper>();
+        private Mock<IUnitOfWork> unitOfWorkMock;
+        private IMapper mapper;
+        private Mock<IPurchaseRepository> purchaseRepositoryMock;
+
+        [SetUp]
+        public void SetUp()
+        {
+            this.unitOfWorkMock = new Mock<IUnitOfWork>();
+            this.purchaseRepositoryMock = new Mock<IPurchaseRepository>();
+
+            var mapperMock = new MapperConfiguration(opt =>
+            {
+                opt.AddProfile(new MappingProfile());
+            });
+
+            this.mapper = mapperMock.CreateMapper();
+        }
 
         [Test]
         public async Task Create_ParametersPassed_ExpectedResults()
         {
-            unitOfWorkMock.Setup(rep => rep.Purchase.CreateAsync(this.CreatePurchaseTest()))
-                                                  .Verifiable();
+            this.unitOfWorkMock.Setup(opt => opt.Purchase)
+                .Returns(this.purchaseRepositoryMock.Object);
 
-            var service = new PurchaseService(unitOfWorkMock.Object, mapperMock.Object);
-            var result = await service.CreateAsync(this.CreatePurchaseViewModelTest());
-            result = this.CreatePurchaseIdTest();
+            var service = new PurchaseService(this.unitOfWorkMock.Object, this.mapper);
+            await service.CreateAsync(this.CreatePurchaseViewModel());
 
-            result.Should().As<int>();
-            result.Should().Equals(1);
+            this.purchaseRepositoryMock.Verify
+                (opt => opt.CreateAsync(It.IsAny<Purchase>()), Times.Once);
+        }
 
-            result = await service.CreateAsync(new CreatePurchaseViewModel());
-            result.Should().Equals("There was no Purchase object to create.");
+        [Test]
+        public void Create_NullParameters_ThrowException()
+        {
+            this.unitOfWorkMock.Setup(opt => opt.Purchase)
+                .Returns(this.purchaseRepositoryMock.Object);
+
+            var service = new PurchaseService(this.unitOfWorkMock.Object, this.mapper);
+
+            service.Invoking(opt => opt.CreateAsync(null))
+                   .Should()
+                   .Throw<Exception>()
+                   .WithMessage("There was no Purchase object to create.");
         }
 
         [Test]
         public async Task GetAllAsync_ParametersPassed_ExpectedResults()
         {
-            unitOfWorkMock.Setup(rep => rep.Purchase.GetAllAsync())
-                .Returns(this.GetAllPurchaseAsyncTest());
-            var service = new PurchaseService(unitOfWorkMock.Object, mapperMock.Object);
+            unitOfWorkMock.Setup
+                (rep => rep.Purchase.GetAllAsync()).Returns(this.GetPurchaseAsyncTest());
+            var service = new PurchaseService(unitOfWorkMock.Object, this.mapper);
 
             var result = await service.GetAllAsync();
-            result.Purchases = await this.GetAllPurchaseViewModelItemsAsyncTest();
 
             result.Should().BeOfType<GetAllPurchaseViewModel>();
             result.Should().NotBeNull();
@@ -51,167 +78,114 @@ namespace CarSeller.Tests.Test
             foreach (var purchase in result.Purchases)
             {
                 purchase.Id.Should().Equals(1);
-                purchase.Car.Id.Should().Equals(1);
-                purchase.Car.Brand.Should().Equals("Tesla");
-                purchase.Car.Name.Should().Equals("X");
-                purchase.Car.State.Should().Equals("new");
-                purchase.User.Id.Should().Equals("1b556baa-29cc-4bf1-a65f-70c3d98d5005");
-                purchase.User.UserName.Should().Equals("John");
             }
         }
 
         [Test]
         public async Task GetByIdAsync_ParametersPassed_ExpectedResults()
         {
-            unitOfWorkMock.Setup(rep => rep.Purchase.GetById(It.IsAny<int>())).Returns(this.GetByIdAsyncTest());
-            var service = new PurchaseService(unitOfWorkMock.Object, mapperMock.Object)
-                .GetByIdAsync(It.IsAny<int>());
-            service = this.GetByIdPurchaseViewModelAsyncTest();
+            unitOfWorkMock.Setup
+                (rep => rep.Purchase.GetById(It.IsAny<int>())).Returns(this.GetByIdAsyncTest());
 
-            var result = await service;
+            var service = new PurchaseService(unitOfWorkMock.Object, this.mapper);
+
+            var result = await service.GetByIdAsync(It.IsAny<int>());
 
             result.Should().As<GetByIdPurchaseViewModel>();
             result.Should().NotBeNull();
-            result.Should().BeEquivalentTo(new GetByIdPurchaseViewModel
-            {
-                Id = 1,
-                Car = new CarGetByIdPurchaseViewModelItem { Id = 1, Brand = "Tesla", Name = "X", State = "new" },
-                User = new UserGetByIdPurchaseViewModelItem { Id = "1b556baa-29cc-4bf1-a65f-70c3d98d5005", UserName = "John" }
-            });
             result.Id.Should().Equals(1);
             result.Car.Id.Should().Equals(1);
             result.Car.Brand.Should().Equals("Tesla");
             result.Car.Name.Should().Equals("X");
-            result.Car.State.Should().Equals("new");
-            result.User.Id.Should().Equals("1b556baa-29cc-4bf1-a65f-70c3d98d5005");
-            result.User.UserName.Should().Equals("John");
+            result.Car.State.Should().Equals(CarState.New);
+            result.User.Id.Should().Equals("1");
+            result.User.Id.Should().Equals("John");
         }
 
         [Test]
-        public void Delete_ParametersPassed_ExpectedResults()
+        public void GetByIdAsync_NullParameters_ThrowException()
         {
-            unitOfWorkMock.Setup(rep => rep.Purchase.Remove(this.DeletePurchaseTest()))
-                                                  .Verifiable();
+            unitOfWorkMock.Setup
+                (rep => rep.Purchase.GetById(It.IsAny<int>()));
 
-            var service = new PurchaseService(unitOfWorkMock.Object, mapperMock.Object)
-                .RemoveAsync(It.IsAny<int>());
+            var service = new PurchaseService(unitOfWorkMock.Object, this.mapper);
 
-            service.Should().Equals("Empty object");
-            service.GetAwaiter().IsCompleted.Should().BeTrue();
-            service.Should().As<Task>();
+            service.Invoking(opt => opt.GetByIdAsync(It.IsAny<int>()))
+                   .Should()
+                   .Throw<Exception>()
+                   .WithMessage("Purchase not found.");
         }
 
         [Test]
-        public void Update_ParametersPassed_ExpectedResults()
+        public void Delete_NullParameters_ThrowException()
         {
-            unitOfWorkMock.Setup(rep => rep.Purchase.Update(this.UpdatePurchaseTest()))
-                                                  .Verifiable();
+            unitOfWorkMock.Setup
+                (rep => rep.Purchase.Remove(null)).Verifiable();
 
-            var service = new PurchaseService(unitOfWorkMock.Object, mapperMock.Object)
-                .UpdateAsync(this.UpdatePurchaseViewModelTest());
+            var service = new PurchaseService(unitOfWorkMock.Object, this.mapper);
 
-            service.Should().Equals("Empty object");
-            service.GetAwaiter().IsCompleted.Should().BeTrue();
-            service.Should().As<Task>();
+            service.Invoking(opt => opt.RemoveAsync(It.IsAny<int>()))
+                  .Should()
+                  .Throw<Exception>()
+                  .WithMessage("Purchase not found.");
         }
 
-        
+        [Test]
+        public void Update_NullParameters_ThrowException()
+        {
+            unitOfWorkMock.Setup
+                (rep => rep.Purchase.Update(this.UpdatePurchaseTest())).Verifiable();
+
+            var service = new PurchaseService(unitOfWorkMock.Object, this.mapper);
+
+            service.Invoking(opt => opt.UpdateAsync(null))
+                  .Should()
+                  .Throw<Exception>()
+                  .WithMessage("There was no Purchase object to update.");
+        }
 
         #region GetAll
-        private async Task<ICollection<Purchase>> GetAllPurchaseAsyncTest()
+        private Task<ICollection<Purchase>> GetPurchaseAsyncTest()
         {
-            return new List<Purchase>
+            var purchase = new List<Purchase>
             {
                 new Purchase { Id = 1, CarId = 1, UserId = "1b556baa-29cc-4bf1-a65f-70c3d98d5005" }
             };
+            return Task.FromResult<ICollection<Purchase>>(purchase);
         }
+        #endregion
 
-        private async Task<ICollection<PurchaseGetAllPurchaseViewModelItem>> GetAllPurchaseViewModelItemsAsyncTest()
+        #region Create
+        private CreatePurchaseViewModel CreatePurchaseViewModel()
         {
-            return new List<PurchaseGetAllPurchaseViewModelItem>
-            {
-                new PurchaseGetAllPurchaseViewModelItem
-                {
-                    Id = 1,
-                    Car = new CarGetAllPurchaseViewModelItem { Id = 1, Brand = "Tesla", Name = "X", State = "new" },
-                    User = new UserGetAllPurchaseViewModelItem { Id = "1b556baa-29cc-4bf1-a65f-70c3d98d5005", UserName = "John" }
-                }
-            };
+            return new CreatePurchaseViewModel { CarId = 1, UserId = "1" };
         }
         #endregion
 
         #region GetById
-        private async Task<Purchase> GetByIdAsyncTest()
+        private Task<Purchase> GetByIdAsyncTest()
         {
-            return new Purchase
+            var purchase = new Purchase
             {
                 Id = 1,
-                Car = new Car { Id = 1, Brand = "Tesla", Name = "X", State = "new" },
+                Car = new Car { Id = 1, Brand = "Tesla", Name = "X", State = CarState.New },
                 User = new User { Id = "1b556baa-29cc-4bf1-a65f-70c3d98d5005", UserName = "John" }
             };
-        }
-
-        private async Task<GetByIdPurchaseViewModel> GetByIdPurchaseViewModelAsyncTest()
-        {
-            return new GetByIdPurchaseViewModel
-            {
-                Id = 1,
-                Car = new CarGetByIdPurchaseViewModelItem { Id = 1, Brand = "Tesla", Name = "X", State = "new" },
-                User = new UserGetByIdPurchaseViewModelItem { Id = "1b556baa-29cc-4bf1-a65f-70c3d98d5005", UserName = "John" }
-            };
+            return Task.FromResult<Purchase>(purchase);
         }
         #endregion
 
         #region Delete
-
-        private Purchase DeletePurchaseTest()
+        private Purchase DeleteTest()
         {
-            return new Purchase
-            {
-                Id = 1,
-                Car = new Car { Id = 1, Brand = "Tesla", Name = "X", State = "new" },
-                User = new User { Id = "1b556baa-29cc-4bf1-a65f-70c3d98d5005", UserName = "John" }
-            };
+            return new Purchase { CarId = 1, Id = 1, UserId = "1" };
         }
-
         #endregion
 
         #region Update
         private Purchase UpdatePurchaseTest()
         {
-            return new Purchase
-            {
-                Id = 1,
-                Car = new Car { Id = 1, Brand = "Tesla", Name = "X", State = "new" },
-                User = new User { Id = "1b556baa-29cc-4bf1-a65f-70c3d98d5005", UserName = "John" }
-            };
-        }
-
-        private UpdatePurchaseViewModel UpdatePurchaseViewModelTest()
-        {
-            return new UpdatePurchaseViewModel { Id = 1, CarId = 1, UserId = "1b556baa-29cc-4bf1-a65f-70c3d98d5005" };
-        }
-        #endregion
-
-        #region Create
-        private Purchase CreatePurchaseTest()
-        {
-            return new Purchase
-            {
-                Id = 1,
-                Car = new Car { Id = 1, Brand = "Tesla", Name = "X", State = "new" },
-                User = new User { Id = "1b556baa-29cc-4bf1-a65f-70c3d98d5005", UserName = "John" }
-            };
-        }
-
-        private int CreatePurchaseIdTest() 
-        {
-            return 1;
-        }
-
-        private CreatePurchaseViewModel CreatePurchaseViewModelTest()
-        {
-            return new CreatePurchaseViewModel { CarId = 1, UserId = "1b556baa-29cc-4bf1-a65f-70c3d98d5005" };
+            return new Purchase { CarId = 1, Id = 1, UserId = "1" };
         }
         #endregion
     }

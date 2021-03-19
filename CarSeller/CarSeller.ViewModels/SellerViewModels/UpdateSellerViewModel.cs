@@ -3,23 +3,26 @@
 namespace CarSeller.ViewModels.ViewModels
 {
     /// <summary>
-    /// The UpdateSellerViewModel object exists to change the object interacts with API and business logic.
+    /// UpdateSellerViewModel exists to modify object Seller.
     /// </summary>
     public class UpdateSellerViewModel
     {
         /// <summary>
-        /// Property Id Seller.
+        /// The id of the Seller.
         /// </summary>
-        [Required] public int Id { get; set; }
+        [Required] 
+        public int Id { get; set; }
 
         /// <summary>
-        /// Property fist name Seller.
+        /// The first name of the Seller.
         /// </summary>
-        [Required] public string FirstName { get; set; }
+        [Required] 
+        public string FirstName { get; set; }
 
         /// <summary>
-        /// Property last name Seller.
+        /// The last name of the Seller.
         /// </summary>
-        [Required] public string LastName { get; set; }
+        [Required] 
+        public string LastName { get; set; }
     }
 }

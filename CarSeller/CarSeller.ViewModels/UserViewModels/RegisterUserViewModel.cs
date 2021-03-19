@@ -8,21 +8,24 @@ namespace CarSeller.ViewModels.ViewModels
     public class RegisterUserViewModel
     {
         /// <summary>
-        /// Property user name User.
+        /// The user name of the User.
         /// </summary>
-        [Required] public string UserName { get; set; }
+        [Required] 
+        public string UserName { get; set; }
 
         /// <summary>
-        /// Property password User.
+        /// The password of the User.
         /// </summary>
         [Required]
-        [DataType(DataType.Password)] public string Password { get; set; }
+        [DataType(DataType.Password)] 
+        public string Password { get; set; }
 
         /// <summary>
-        /// Property password confirm User.
+        /// The password confirm of the User.
         /// </summary>
         [Required]
         [Compare("Password", ErrorMessage = "Password mismatch")]
-        [DataType(DataType.Password)] public string PasswordConfirm { get; set; }
+        [DataType(DataType.Password)] 
+        public string PasswordConfirm { get; set; }
     }
 }

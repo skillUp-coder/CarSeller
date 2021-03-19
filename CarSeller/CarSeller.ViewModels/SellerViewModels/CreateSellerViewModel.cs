@@ -3,18 +3,20 @@
 namespace CarSeller.ViewModels.ViewModels
 {
     /// <summary>
-    /// The CreateSellerViewModel object exists to create an object interacts with API and business logic.
+    /// The CreateSellerViewModel exists to create Seller object.
     /// </summary>
     public class CreateSellerViewModel
     {
         /// <summary>
-        /// Property first name Seller.
+        /// The first name of the Seller.
         /// </summary>
-        [Required] public string FirstName { get; set; }
+        [Required] 
+        public string FirstName { get; set; }
 
         /// <summary>
-        /// Property last name Seller.
+        /// The last name of the Seller.
         /// </summary>
-        [Required] public string LastName { get; set; }
+        [Required] 
+        public string LastName { get; set; }
     }
 }

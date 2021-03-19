@@ -2,12 +2,14 @@
 using CarSeller.ViewModels.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CarSeller.API.Controllers
 {
     /// <summary>
-    /// The Car controller is responsible for fulfilling the requests to get, delete, modify and create the Car.
+    /// The Car controller is responsible for fulfilling 
+    /// the requests to get, delete, modify and create the Car.
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
@@ -16,8 +18,9 @@ namespace CarSeller.API.Controllers
         private readonly ICarService carService;
 
         /// <summary>
-        /// Responsible for injecting a dependency for a car service.
+        /// Creates an instance of CarController.
         /// </summary>
+        /// <param name="carService">The object for interacting with the Car functionality.</param>
         public CarController(ICarService carService)
         {
             this.carService = carService;
@@ -34,7 +37,7 @@ namespace CarSeller.API.Controllers
         {
             if (!this.ModelState.IsValid) 
             {
-                return this.BadRequest();
+                return this.BadRequest(this.ModelState);
             }
 
             try
@@ -49,9 +52,9 @@ namespace CarSeller.API.Controllers
         }
 
         /// <summary>
-        /// Method to get all Car.
+        /// Method to get-all Cars.
         /// </summary>
-        /// <returns>Action result for get all request.</returns>
+        /// <returns>Action result for get-all request.</returns>
         [HttpGet]
         [Route("get-all")]
         public async Task<IActionResult> GetAll() 
@@ -68,7 +71,7 @@ namespace CarSeller.API.Controllers
         }
 
         /// <summary>
-        /// Method to get by id Car.
+        /// Method to get the Car by id.
         /// </summary>
         /// <param name="id">Identifier of requested Car.</param>
         /// <returns>Action result for get by id request.</returns>
@@ -118,7 +121,7 @@ namespace CarSeller.API.Controllers
         {
             if (!ModelState.IsValid) 
             {
-                return this.BadRequest();
+                return this.BadRequest(this.ModelState);
             }
 
             try
