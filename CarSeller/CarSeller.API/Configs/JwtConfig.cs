@@ -15,9 +15,10 @@ namespace CarSeller.API.Config
         /// <summary>
         /// SetJwtBearer method is responsible for adding configurations for Jwt Token and Authentication.
         /// </summary>
-        /// <param name="services">Designed to add configurations to IServiceCollectio.</param>
+        /// <param name="services">Designed to add configurations to IServiceCollection.</param>
         /// <param name="configuration">Designed to get configuration providers.</param>
-        public static void SetJwtBearer(this IServiceCollection services, IConfiguration configuration)
+        public static void SetJwtBearer(this IServiceCollection services, 
+                                             IConfiguration configuration)
         {
             var issuerDev = configuration["Jwt:Issuer"];
             var audienceDev = configuration["Jwt:Audience"];

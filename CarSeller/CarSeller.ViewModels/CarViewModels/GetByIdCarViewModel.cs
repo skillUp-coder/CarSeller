@@ -25,7 +25,7 @@ namespace CarSeller.ViewModels.CarViewModels
         /// <summary>
         /// The state of the Car.
         /// </summary>
-        public CarStateViewModel State { get; set; }
+        public CarStateEnumView State { get; set; }
 
         /// <summary>
         /// The Seller for the related entity Car.

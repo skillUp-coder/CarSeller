@@ -1,5 +1,6 @@
 ﻿using CarSeller.BusinessLogic.Interfaces;
 using CarSeller.ViewModels.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace CarSeller.API.Controllers
     /// The Car controller is responsible for fulfilling 
     /// the requests to get, delete, modify and create the Car.
     /// </summary>
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/[controller]")]
     [ApiController]
     public class CarController : ControllerBase

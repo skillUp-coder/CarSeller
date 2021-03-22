@@ -14,7 +14,7 @@ namespace CarSeller.API.Config
         /// <summary>
         /// The method is responsible for injecting the dependency between interfaces and classes.
         /// </summary>
-        /// <param name="services">Designed to add configurations to IServiceCollectio.</param>
+        /// <param name="services">Designed to add configurations to IServiceCollection.</param>
         public static void SetInterfaceDI(this IServiceCollection services) 
         {
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));

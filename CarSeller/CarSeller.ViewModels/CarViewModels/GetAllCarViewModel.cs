@@ -47,6 +47,6 @@ namespace CarSeller.ViewModels.ViewModels
         /// <summary>
         /// The state of the Car.
         /// </summary>
-        public CarStateViewModel State { get; set; }
+        public CarStateEnumView State { get; set; }
     }
 }

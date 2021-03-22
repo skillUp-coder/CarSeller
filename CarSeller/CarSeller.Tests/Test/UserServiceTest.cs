@@ -19,13 +19,14 @@ namespace CarSeller.Tests.Test
     {
         private Mock<IUnitOfWork> unitOfWorkMock;
         private IMapper mapper;
-        IUserStore<User> userStoreMock = Mock.Of<IUserStore<User>>();
+        private IUserStore<User> userStoreMock;
         private Mock<UserManager<User>> userManagerMock;
 
         [SetUp]
         public void SetUp()
         {
             this.unitOfWorkMock = new Mock<IUnitOfWork>();
+            this.userStoreMock = Mock.Of<IUserStore<User>>();
             this.userManagerMock = new Mock<UserManager<User>>
                 (this.userStoreMock, null, null, null, null, null, null, null, null);
 
@@ -120,16 +121,24 @@ namespace CarSeller.Tests.Test
                   .Should()
                   .Throw<NullReferenceException>()
                   .WithMessage("Object reference not set to an instance of an object.");
+        }
+
+        [Test]
+        public void Update_InvalidParametersPassed_ThrowException() 
+        {
+            unitOfWorkMock.Setup
+                (rep => rep.User.Update(this.UpdateUserTest())).Verifiable();
+
+            var service = new UserService(unitOfWorkMock.Object, this.mapper, this.userManagerMock.Object);
 
             service.Invoking(opt => opt.UpdateAsync(this.UpdateUserViewModelTest()))
                   .Should()
                   .Throw<Exception>()
                   .WithMessage("There was no User object to update.");
-
         }
 
         #region GetAll
-        public async Task<ICollection<User>> GetAllUserAsyncTest()
+        private async Task<ICollection<User>> GetAllUserAsyncTest()
         {
             var users = new List<User>
             {
@@ -140,7 +149,7 @@ namespace CarSeller.Tests.Test
         #endregion
 
         #region GetById
-        public async Task<User> GetByIdUserAsyncTest()
+        private async Task<User> GetByIdUserAsyncTest()
         {
             var user = new User { Id = "1b556baa-29cc-4bf1-a65f-70c3d98d5005", UserName = "John" };
             return await Task.FromResult<User>(user);
@@ -148,19 +157,19 @@ namespace CarSeller.Tests.Test
         #endregion
 
         #region Delete
-        public User DeleteUserTest()
+        private User DeleteUserTest()
         {
             return new User { Id = "1b556baa-29cc-4bf1-a65f-70c3d98d5005", UserName = "John" };
         }
         #endregion
 
         #region Update
-        public User UpdateUserTest()
+        private User UpdateUserTest()
         {
             return new User { Id = "1b556baa-29cc-4bf1-a65f-70c3d98d5005", UserName = "John" };
         }
 
-        public UpdateUserViewModel UpdateUserViewModelTest()
+        private UpdateUserViewModel UpdateUserViewModelTest()
         {
             return new UpdateUserViewModel { Id = "1b556baa-29cc-4bf1-a65f-70c3d98d5005", UserName = "John" };
         }

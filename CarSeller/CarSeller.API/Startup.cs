@@ -14,32 +14,31 @@ namespace CarSeller.API
 {
     public class Startup
     {
-        private readonly IConfiguration _configuration;
+        private readonly IConfiguration configuration;
 
         public Startup(IConfiguration configuration)
         {
-            _configuration = configuration;
+            this.configuration = configuration;
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.SetJwtBearer(this._configuration);
+            services.SetJwtBearer(this.configuration);
             services.AddDbContext<DataContext>(options =>
-                options.UseSqlServer(this._configuration["ConnectionStrings:DefaultConnection"]));
+                options.UseSqlServer(this.configuration["ConnectionStrings:DefaultConnection"]));
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<DataContext>();
             services.AddControllers().AddNewtonsoftJson(options =>
                                       options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-            
             services.SetInterfaceDI();
-            services.SetMapperDI();
+            services.SetMapper();
 
             services.AddSwaggerGen(opt => 
             {
                 opt.ResolveConflictingActions(apiDesc => apiDesc.First());
             });
 
-            services.BuildServiceProvider().GetService<DataContext>().Database.Migrate();
+            services.SetSwaggerSecurity(this.configuration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -49,7 +48,7 @@ namespace CarSeller.API
                 app.UseDeveloperExceptionPage();
             }
 
-            app.SetSwagger(this._configuration);
+            app.SetSwagger(this.configuration);
 
             app.UseHttpsRedirection();
 

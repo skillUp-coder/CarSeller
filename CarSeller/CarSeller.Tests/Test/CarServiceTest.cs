@@ -81,7 +81,7 @@ namespace CarSeller.Tests.Test
                 car.Id.Should().Equals(1);
                 car.Brand.Should().Equals("Tesla");
                 car.Name.Should().Equals("X");
-                car.State.Should().Equals(CarStateViewModel.New);
+                car.State.Should().Equals(CarStateEnumView.New);
             }
         }
 
@@ -97,11 +97,11 @@ namespace CarSeller.Tests.Test
 
             result.Should().As<GetByIdCarViewModel>();
             result.Should().NotBeNull();
-            result.Should().BeEquivalentTo(new GetByIdCarViewModel { Id = 1, Name = "X", Brand = "Tesla", State = CarStateViewModel.New });
+            result.Should().BeEquivalentTo(new GetByIdCarViewModel { Id = 1, Name = "X", Brand = "Tesla", State = CarStateEnumView.New });
             result.Id.Should().Equals(1);
             result.Brand.Should().Equals("Tesla");
             result.Name.Should().Equals("X");
-            result.State.Should().Equals(CarStateViewModel.New);
+            result.State.Should().Equals(CarStateEnumView.New);
         }
 
         [Test]
@@ -160,7 +160,7 @@ namespace CarSeller.Tests.Test
         #region Create
         private CreateCarViewModel CreateCarViewModelTest()
         {
-            return new CreateCarViewModel { Brand = "Tesla", Name = "X", State = CarStateViewModel.New, SellerId = 1 };
+            return new CreateCarViewModel { Brand = "Tesla", Name = "X", State = CarStateEnumView.New, SellerId = 1 };
         }
         #endregion
 
@@ -187,7 +187,7 @@ namespace CarSeller.Tests.Test
 
         private UpdateCarViewModel UpdateCarViewModelTest()
         {
-            return new UpdateCarViewModel { Brand = "Tesla", Name = "X", State = CarStateViewModel.New };
+            return new UpdateCarViewModel { Brand = "Tesla", Name = "X", State = CarStateEnumView.New };
         }
         #endregion
     }

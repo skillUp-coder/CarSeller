@@ -20,8 +20,9 @@ namespace CarSeller.API.Configs
         /// </summary>
         /// <param name="entity">The User object to create the token.</param>
         /// <param name="configuration">Designed to get configuration providers.</param>
-        /// <returns></returns>
-        public static GenerateJwtTokenUserViewModel GenerateJwtToken(User entity, IConfiguration configuration)
+        /// <returns>A task that represents a token generation operation.</returns>
+        public static GenerateJwtTokenUserViewModel GenerateJwtToken(User entity, 
+                                                                     IConfiguration configuration)
         {
             var securityKeyStr = configuration["Jwt:SecretKey"];
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(securityKeyStr));

@@ -24,7 +24,7 @@ namespace CarSeller.ViewModels.ViewModels
         /// The state of the Car.
         /// </summary>
         [Required] 
-        public CarStateViewModel State { get; set; }
+        public CarStateEnumView State { get; set; }
 
         /// <summary>
         /// The seller Id of the Car.

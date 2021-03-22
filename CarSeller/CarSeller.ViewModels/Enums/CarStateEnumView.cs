@@ -1,9 +1,9 @@
-﻿namespace CarSeller.Entities.Enums
+﻿namespace CarSeller.ViewModels.Enums
 {
     /// <summary>
     /// Data with car states for the Car object.
     /// </summary>
-    public enum CarState
+    public enum CarStateEnumView
     {
         /// <summary>
         /// New car condition.

@@ -9,7 +9,8 @@ using CarSeller.ViewModels.ViewModels;
 namespace CarSeller.BusinessLogic.MapperProfiles
 {
     /// <summary>
-    /// The MappingProfile class is responsible for creating a configuration for mapping object types.
+    /// The MappingProfile class is responsible 
+    /// for creating a configuration for mapping object types.
     /// </summary>
     public class MappingProfile : Profile
     {
@@ -19,7 +20,6 @@ namespace CarSeller.BusinessLogic.MapperProfiles
         public MappingProfile()
         {
             #region Car Profile
-                this.CreateMap<Car, CreateCarViewModel>();
                 this.CreateMap<CreateCarViewModel, Car>();
                 this.CreateMap<Car, GetAllCarViewModel>();
                 this.CreateMap<UpdateCarViewModel, Car>();
@@ -32,7 +32,6 @@ namespace CarSeller.BusinessLogic.MapperProfiles
 
             #region Purchase Profile
                 this.CreateMap<CreatePurchaseViewModel, Purchase>();
-                this.CreateMap<Purchase, CreatePurchaseViewModel>();
                 this.CreateMap<Purchase, GetAllPurchaseViewModel>();
                 this.CreateMap<UpdatePurchaseViewModel, Purchase>();
                 this.CreateMap<Purchase, PurchaseGetAllPurchaseViewModelItem>();
@@ -42,7 +41,6 @@ namespace CarSeller.BusinessLogic.MapperProfiles
             #endregion
 
             #region Seller Profile
-            this.CreateMap<Seller, CreateSellerViewModel>();
                 this.CreateMap<CreateSellerViewModel, Seller>();
                 this.CreateMap<GetAllSellerViewModel, Seller>();
                 this.CreateMap<Seller, GetAllSellerViewModel>();
@@ -54,7 +52,6 @@ namespace CarSeller.BusinessLogic.MapperProfiles
 
             #region User Profile
                 this.CreateMap<RegisterUserViewModel, User>();
-                this.CreateMap<User, RegisterUserViewModel>();
                 this.CreateMap<User, GetAllUserViewModel>();
                 this.CreateMap<UpdateUserViewModel, User>();
                 this.CreateMap<User, UserGetByIdPurchaseViewModelItem>();
