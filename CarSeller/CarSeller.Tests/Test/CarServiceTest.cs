@@ -146,6 +146,20 @@ namespace CarSeller.Tests.Test
                   .WithMessage("There was no Car object to update.");
         }
 
+        [Test]
+        public void Update_InvalidParametersPassed_ThrowException() 
+        {
+            unitOfWorkMock.Setup
+                (rep => rep.Car.Update(this.UpdateCarTest())).Verifiable();
+
+            var service = new CarService(unitOfWorkMock.Object, this.mapper);
+
+            service.Invoking(opt => opt.UpdateAsync(this.UpdateCarViewModelTest()))
+                   .Should()
+                   .Throw<Exception>()
+                   .WithMessage("Car not found.");
+        }
+
         #region GetAll
         private Task<ICollection<Car>> GetCarsAsyncTest()
         {

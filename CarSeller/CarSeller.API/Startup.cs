@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Linq;
 
 namespace CarSeller.API
 {
@@ -30,13 +29,10 @@ namespace CarSeller.API
                 .AddEntityFrameworkStores<DataContext>();
             services.AddControllers().AddNewtonsoftJson(options =>
                                       options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            
             services.SetInterfaceDI();
-            services.SetMapper();
 
-            services.AddSwaggerGen(opt => 
-            {
-                opt.ResolveConflictingActions(apiDesc => apiDesc.First());
-            });
+            services.SetMapper();
 
             services.SetSwaggerSecurity(this.configuration);
         }

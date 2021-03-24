@@ -119,8 +119,8 @@ namespace CarSeller.Tests.Test
 
             service.Invoking(opt => opt.UpdateAsync(null))
                   .Should()
-                  .Throw<NullReferenceException>()
-                  .WithMessage("Object reference not set to an instance of an object.");
+                  .Throw<Exception>()
+                  .WithMessage("There was no User object to update.");
         }
 
         [Test]
@@ -134,7 +134,7 @@ namespace CarSeller.Tests.Test
             service.Invoking(opt => opt.UpdateAsync(this.UpdateUserViewModelTest()))
                   .Should()
                   .Throw<Exception>()
-                  .WithMessage("There was no User object to update.");
+                  .WithMessage("User not found.");
         }
 
         #region GetAll

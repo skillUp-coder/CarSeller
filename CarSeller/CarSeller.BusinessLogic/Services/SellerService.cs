@@ -95,7 +95,15 @@ namespace CarSeller.BusinessLogic.Services
                 throw new Exception("There was no Seller object to update.");
             }
 
-            var seller = new Seller(); 
+            var seller = await this.database
+                                   .Seller
+                                   .GetById(updateSellerViewModel.Id);
+
+            if (seller == null) 
+            {
+                throw new Exception("Seller not found.");
+            }
+
             this.mapper.Map<UpdateSellerViewModel, Seller>
                 (updateSellerViewModel, seller);
             

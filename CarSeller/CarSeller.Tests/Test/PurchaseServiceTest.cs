@@ -144,6 +144,20 @@ namespace CarSeller.Tests.Test
                   .WithMessage("There was no Purchase object to update.");
         }
 
+        [Test]
+        public void Update_InvalidParametersPassed_ThrowException()
+        {
+            unitOfWorkMock.Setup
+                (rep => rep.Purchase.Update(this.UpdatePurchaseTest())).Verifiable();
+
+            var service = new PurchaseService(unitOfWorkMock.Object, this.mapper);
+
+            service.Invoking(opt => opt.UpdateAsync(this.UpdatePurchaseViewModelTest()))
+                   .Should()
+                   .Throw<Exception>()
+                   .WithMessage("Purchase not found.");
+        }
+
         #region GetAll
         private Task<ICollection<Purchase>> GetPurchaseAsyncTest()
         {
@@ -186,6 +200,11 @@ namespace CarSeller.Tests.Test
         private Purchase UpdatePurchaseTest()
         {
             return new Purchase { CarId = 1, Id = 1, UserId = "1" };
+        }
+
+        private UpdatePurchaseViewModel UpdatePurchaseViewModelTest() 
+        {
+            return new UpdatePurchaseViewModel { Id = 1, CarId = 1, UserId = "1" };
         }
         #endregion
     }

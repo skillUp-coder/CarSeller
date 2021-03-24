@@ -95,7 +95,15 @@ namespace CarSeller.BusinessLogic.Services
                 throw new Exception("There was no Purchase object to update.");
             }
 
-            var purchase = new Purchase(); 
+            var purchase = await this.database
+                                     .Purchase
+                                     .GetById(updatePurchaseViewModel.Id);
+
+            if (purchase == null) 
+            {
+                throw new Exception("Purchase not found.");
+            }
+
             this.mapper.Map<UpdatePurchaseViewModel, Purchase>
                 (updatePurchaseViewModel, purchase);
 

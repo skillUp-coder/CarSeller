@@ -95,7 +95,15 @@ namespace CarSeller.BusinessLogic.Services
                 throw new Exception("There was no Car object to update.");    
             }
 
-            var car = new Car();
+            var car = await this.database
+                                .Car
+                                .GetById(updateCarViewModel.Id);
+
+            if (car == null) 
+            {
+                throw new Exception("Car not found.");
+            }
+
             this.mapper.Map<UpdateCarViewModel, Car>
                 (updateCarViewModel, car);
 

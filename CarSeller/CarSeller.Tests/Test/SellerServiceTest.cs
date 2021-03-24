@@ -142,6 +142,20 @@ namespace CarSeller.Tests.Test
                   .WithMessage("There was no Seller object to update.");
         }
 
+        [Test]
+        public void Update_InvalidParametersPassed_ThrowException()
+        {
+            unitOfWorkMock.Setup
+                (rep => rep.Seller.Update(this.UpdateSellerTest())).Verifiable();
+
+            var service = new SellerService(unitOfWorkMock.Object, this.mapper);
+
+            service.Invoking(opt => opt.UpdateAsync(this.UpdateSellerViewModelTest()))
+                   .Should()
+                   .Throw<Exception>()
+                   .WithMessage("Seller not found.");
+        }
+
         #region GetAll
         private Task<ICollection<Seller>> GetSellerAsyncTest()
         {
@@ -181,7 +195,7 @@ namespace CarSeller.Tests.Test
             return new Seller { Id = 1, FirstName = "John", LastName = "Jonson" };
         }
 
-        private UpdateSellerViewModel UpdateSellerViewModel()
+        private UpdateSellerViewModel UpdateSellerViewModelTest()
         {
             return new UpdateSellerViewModel { FirstName = "John", LastName = "Jonson" };
         }

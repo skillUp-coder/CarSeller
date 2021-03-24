@@ -110,14 +110,23 @@ namespace CarSeller.BusinessLogic.Services
         ///<inheritdoc/>
         public async Task UpdateAsync(UpdateUserViewModel updateUserViewModel)
         {
-            var user = await this.database.User.GetById(updateUserViewModel.Id);
-
-            if (user == null) 
+            if (updateUserViewModel == null)
             {
                 throw new Exception("There was no User object to update.");
             }
 
-            user.UserName = updateUserViewModel.UserName;
+            var user = await this.database
+                                 .User
+                                 .GetById(updateUserViewModel.Id);
+
+            if (user == null) 
+            {
+                throw new Exception("User not found.");
+            }
+
+            this.mapper.Map<UpdateUserViewModel, User>
+                (updateUserViewModel, user);
+            
             this.database.User.Update(user);
             await this.database.SaveAsync();
         }
