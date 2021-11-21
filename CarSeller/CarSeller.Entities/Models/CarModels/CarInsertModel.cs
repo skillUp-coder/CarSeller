@@ -6,7 +6,7 @@ namespace CarSeller.Entities.Models.CarModels
     /// <summary>
     /// A Car object exists to store the properties of this entity.
     /// </summary>
-    public class CarInsertModel : BaseEntity
+    public class CarInsertModel
     {
         /// <summary>
         /// The name of the Car.

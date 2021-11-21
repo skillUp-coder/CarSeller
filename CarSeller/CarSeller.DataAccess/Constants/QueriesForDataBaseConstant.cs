@@ -18,7 +18,7 @@
             /// <summary>
             ///   The query for CarsStoredProcedure.  
             /// </summary>
-            public const string GetAllQuery = "CarsStoredProcedure";
+            public const string GetAllQuery = "GetAllCars";
 
             /// <summary>
             ///   The query for CarGetByIdStoredProcedure.  

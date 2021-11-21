@@ -1,0 +1,10 @@
+CREATE PROCEDURE DeleteSeller
+(
+	@Id INT
+)
+AS
+BEGIN
+	DELETE Sellers
+	WHERE Id = @Id
+END
+GO

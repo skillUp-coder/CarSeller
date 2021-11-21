@@ -1,12 +1,10 @@
-﻿using CarSeller.Entities.Models.BaseModel;
-
-namespace CarSeller.Entities.Models.PurchaseModels
+﻿namespace CarSeller.Entities.Models.PurchaseModels
 {
     /// <summary>
     ///     The purchase insert.
     /// </summary>
     // ReSharper disable once ClassNeverInstantiated.Global
-    public class PurchaseInsert : BaseEntity
+    public class PurchaseInsert
     {
         /// <summary>
         ///     The user Id.
@@ -17,5 +15,7 @@ namespace CarSeller.Entities.Models.PurchaseModels
         ///     The car Id.
         /// </summary>
         public int CarId { get; set; }
+
+        public int SellerId { get; set; } = int.MinValue;
     }
 }

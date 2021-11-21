@@ -17,7 +17,7 @@ namespace CarSeller.Entities.Models.PurchaseModels
         /// <summary>
         ///     The User property for the related Purchase entity.
         /// </summary>
-        [ForeignKey("UserId")]
+        [ForeignKey(nameof(UserId))]
         public User User { get; set; }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace CarSeller.Entities.Models.PurchaseModels
         /// <summary>
         ///     The Car property for the related Purchase entity.
         /// </summary>
-        [ForeignKey("CarId")]
+        [ForeignKey(nameof(CarId))]
         public Car Car { get; set; }
     }
 }

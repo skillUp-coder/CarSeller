@@ -5,7 +5,7 @@ namespace CarSeller.Entities.Models.SellerModels
     /// <summary>
     ///     The Seller insert.
     /// </summary>
-    public class SellerInsert : BaseEntity
+    public class SellerInsert
     {
         /// <summary>
         ///     The first name of the Seller.
